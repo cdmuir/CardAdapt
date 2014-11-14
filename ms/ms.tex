@@ -14,6 +14,15 @@
 \usepackage{amsmath}
 \usepackage{natbib}
 
+\usepackage{color}
+
+%
+% Commenting
+%
+
+\newcommand{\cdm}[1]{{ \color{magenta} [{\bf{CDM:}} {\em#1}]}} % Chris' comments are in magenta.
+\newcommand{\ala}[1]{{ \color{blue} [{\bf{CDM:}} {\em#1}]}} % Amy's comments are in blue.
+
 %
 % Title and authors
 %
@@ -34,10 +43,14 @@
 \section*{Introduction}
 
 % What's the big picture (this is TOO big):
-It is taken for granted that genes are the foundation of evolution. If we get to the genetic basis of adaptive evolution, then we have understood the process at its deepest level. I believe this view is misguided. Genetic change is, to the best of our knowledge, the basis of evolution, but this does not imply that by understanding genetic variation we can predict phenotypic evolution. Rather, variation and constraint on phenotypic evolution are often determined by what goes on outside. Organisms must survive and reproduce in the real world of physical laws and interactions with other organisms. Physiology, the study of organismal function, tells us about the variation and constraint on ways in which organisms can meet these challenges. ...
+% It is taken for granted that genes are the foundation of evolution. If we get to the genetic basis of adaptive evolution, then we have understood the process at its deepest level. I believe this view is misguided. Genetic change is, to the best of our knowledge, the basis of evolution, but this does not imply that by understanding genetic variation we can predict phenotypic evolution. Rather, variation and constraint on phenotypic evolution are often determined by what goes on outside. Organisms must survive and reproduce in the real world of physical laws and interactions with other organisms. Physiology, the study of organismal function, tells us about the variation and constraint on ways in which organisms can meet these challenges. ...
 
-% this paper. good start!
-Local adaptation is one of the most ubiquitous observations in evolutionary ecology. In particular, adaptation to the local abiotic environment is generally thought to be the major cause of natural selection. Physiology, the study of organismal function, connects fitness to the abiotic environment, yet we actually know little about the physiological basis of adaptation to different environments within a species. To address this question, we looked at physiological variation across a broad latitudual gradient within \textit{Mimulus cardinalis}...
+Local adaptation is one of the most ubiquitous observations in nature: organisms perform well in their natal environment, but poorly outside it. Local adaptation is most often examined within species where selection in different environments leads to ecologically relevant trait divergence between populations. Despite local adaptation leading to population divergence, many traits are conserved within species. \cdm{this is not quite right. What I really want to say is that some traits divergence genetically, others are plastic, but plasticity is conserved because...? why? no spatial variation in selection for plasticity?}. Can we predict which types of traits are likely to be different between populations and which are likely to be constant? A long-standing hypothesis is that the grain of environmental variation determines whether organisms respond through population genetic differentiation or phenotypic plasticity \citep{}. \cdm{What I want to get to is whether plasticity is conserved. The problem is, just because there is selection for plasticity, this doesn't need to imply that the reaction norm is actually the same across populations. But perhaps we can oversimplify here?}. 
+
+When the environment is fine grained
+
+
+, Despite this common, and long-standing pattern, only certain traits In particular, adaptation to the local abiotic environment is generally thought to be the major cause of natural selection. Physiology, the study of organismal function, connects fitness to the abiotic environment, yet we actually know little about the physiological basis of adaptation to different environments within a species. To address this question, we looked at physiological variation across a broad latitudual gradient within \textit{Mimulus cardinalis}...
 
 1. `intrinsic' physiological variation
 2. variation in stress response
@@ -53,7 +66,7 @@ Local adaptation is one of the most ubiquitous observations in evolutionary ecol
 
 \subsection*{Population Selection}
 
-I chose 16 populations from throughout the range of \textit{M. cardinalis} (Table 1) that have been previously studied. Seeds were collected in the field [Amy - explain seed collection].
+I chose 16 populations from throughout the range of \textit{M. cardinalis} (Table 1) that have been previously studied. Seeds were collected in the field \cdm{Amy, can you explain seed collection methods?}.
 
 \begin{table}[htbp]
    \centering
@@ -64,12 +77,12 @@ I chose 16 populations from throughout the range of \textit{M. cardinalis} (Tabl
       \midrule
 	Hauser Creek						& South Margin		& yes	& yes	& 32.65822	& -116.53235	& 892 \\
 	Cottonwood Creek					& South Margin		& yes	& no		& 32.80122	& -116.50194	& 1206 \\
-	Sweetwater River / Cuyamaca Rancho	& South Margin		& yes	& yes	& 32.89928	& -116.5849	& 1223 \\
+	Sweetwater River					& South Margin		& yes	& yes	& 32.89928	& -116.5849	& 1223 \\
 	Grade Road - to Palomar Mountain SP	& South Margin		& no		& no		& 33.31392	& -116.87129	& 1500 \\
 	Whitewater Canyon					& Transverse		& yes	& yes	& 33.99329	& -116.66267	& 696 \\
 	Mill Creek							& Transverse		& yes	& no		& 34.07808	& -116.87558	& 1992 \\
 	West Fork Mojave River				& Transverse		& yes	& no		& 34.28425	& -117.37539	& 1087 \\
-	North Fork Middle Tule				&				& yes	&		& 36.20081	& -118.65092	& 1284 \\
+	North Fork Middle Tule				& South Sierras		& yes	& yes?	& 36.20081	& -118.65092	& 1284 \\
 	Paradise Creek						& South Sierras		& yes	& yes	& 36.51776	& -118.75877	& 887 \\
 	Redwood Creek					& South Sierras		& yes	& yes	& 36.69096	& -118.90961	& 1683.72 \\
 	Wawona							& Central Sierras	& yes	& yes	& 37.539		& -119.654	& 1208 \\
@@ -132,10 +145,28 @@ Growth rate: leaf expansion rate AND stem elongation rate
 
 	% approaches: direct correlation, bedazzle?
 
+\section*{Results}
+
+% ANOVA table for LLL growth rate (need to label tables)
+\begin{table*}[htbp]
+\usefont{T1}{phv}{m}{n}
+\fontsize{10}{12}
+\selectfont
+\textbf{caption} \\ \\
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+
+\input{Tables/Table_lllGrowthAnova.txt}
+
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table*}
+
+
 \end{document}
 
-Vegetative: leaf symmetry or other leaf shape parameters that probably reflect developmental constraint but not affect function \\
-Floral: Size, shape, herkogamy. Decide with Megan \\
 
 	\subsection{Structure}
 

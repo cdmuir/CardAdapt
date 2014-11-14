@@ -17,6 +17,7 @@
 	library(MASS)
 	library(car)
 	library(pbkrtest)
+	library(lmerTest)
 	
 #
 ##	Set working directory
@@ -24,6 +25,12 @@
 
 	setwd("~/Google Drive/CardLocalAdaptation")
 
+#
+##	Source custom functions
+#
+
+	source("Analysis/functions.R")
+	
 #
 ##	Population Environmental data
 #
@@ -48,25 +55,32 @@
 	Anova(fit1, type = 2)
 
 	# approach 2: mixed model with family	
-	fit1 <- lmer(lll_AbsGrowth ~ Population * TempTrt * WaterTrt + (1|Family), data = data)
-	
-	# 3-way interaction
-	fit2 <- update(fit1, . ~ . - Population:TempTrt:WaterTrt)
-	KRmodcomp(fit1, fit2) # n.s.
+	mm <- lmer(lll_AbsGrowth ~ Population * TempTrt * WaterTrt + (1|Family),
+		data = data)
+	fit1 <- step(mm) #includes pop, temp, h2o, population x water
+	# fit1 <- step(fit1, ddf = "Kenward-Roger") # same result using Satterthwaite ddf
 
-	# Population x Treatment interactions
-	fit3 <- update(fit2, . ~ . - Population:TempTrt)
-	fit4 <- update(fit2, . ~ . - Population:WaterTrt)
-	KRmodcomp(fit2, fit3) # n.s.
-	KRmodcomp(fit2, fit4) # marginally significant. keep.
+	# Dyanamic table of mm output for ms.tex
+	fit1$anova.table
+	exportTable(file = "ms/Tables/Table_lllGrowthAnova.txt", data = data.frame(rnorm(5), rnorm(5)), colnames = c("Test1", "Test2"), rownames = LETTERS[1:5])
+
+
+	# modify code to print anova tables in latex
+	mapply(function(X, Y)
+	{
+		tmp <- anova(X, fit1a)
+		p <- tmp[, "Pr(>F)"][2]
+		oom <- ceiling(-log10(p)) # order of magnitude
+		p <- if(p > 0.001){round(p, 2)}else{paste(round(p * 10 ^ oom, 2), 
+			sprintf("$\\times10^{-%s}$", oom))}
+		cat(sprintf('%s & %s & %s & %s & %s & %s \\\\', Y, tmp$Df[2], 
+			round(tmp[, "Sum of Sq"][2], 3), round(tmp[, "Sum of Sq"][2] / tmp$Df[2], 3), 
+			round(tmp$F[2], 2), p), file = table2)
+	}, listFita, predVar)
+		
 	
-	# Main effects
-	fit5 <- update(fit4, . ~ . - Population)
-	fit6 <- update(fit4, . ~ . - TempTrt)
-	fit7 <- update(fit4, . ~ . - WaterTrt)
-	KRmodcomp(fit4, fit5) # n.s.
-	KRmodcomp(fit4, fit6) # marginally significant. keep.
-	KRmodcomp(fit4, fit7) # marginally significant. keep.
+	# Plot latitudinal variation
+	
 
 	# Height Growth rate
 	# Using Absolute growth rates for now as this seems most sensible. Need to test that this correlates with final biomass size.
