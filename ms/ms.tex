@@ -13,7 +13,6 @@
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{natbib}
-
 \usepackage{color}
 
 %
@@ -21,7 +20,7 @@
 %
 
 \newcommand{\cdm}[1]{{ \color{magenta} [{\bf{CDM:}} {\em#1}]}} % Chris' comments are in magenta.
-\newcommand{\ala}[1]{{ \color{blue} [{\bf{CDM:}} {\em#1}]}} % Amy's comments are in blue.
+\newcommand{\ala}[1]{{ \color{blue} [{\bf{ALA:}} {\em#1}]}} % Amy's comments are in blue.
 
 %
 % Title and authors
@@ -111,7 +110,7 @@ We simulated typical growing season (June and July) air temperatures at the two 
 \subsubsection*{Water}
 
 			Wet: daily/constant irrigation with cooled water
-			Dry: start at week \#, gradually decrease watering frequency/level (see Nancy Emery's protocols)
+			Dry: start at week \#, gradually decrease watering frequency/level
 
 			Are there any data from California about soil water content through the season?
 
@@ -123,20 +122,24 @@ We simulated typical growing season (June and July) air temperatures at the two 
 \subsection*{Traits}
 
 \subsubsection*{Structure}
+
+leaf traits, biomass allometry
+
 \subsubsection*{Function}
+
+photosynthesis
+
 \subsubsection*{Performance}
 
 Growth rate: leaf expansion rate AND stem elongation rate
-
-\subsubsection*{Floral}
+Biomass (show correlation between growth rate and biomass)
 
 \subsection*{Intrinsic variation}
-	% population intercept?
-\subsection*{Variation in stress response} % was high temp really stressful?
-	% growth rate
-	% photosynthetic
-	% trait plasticity
-	% variation in mortality (do I trust having multiple data points from growth measurements?)
+
+\cdm{which traits: growth rate, biomass, biomass allometry, leaf traits, photosynthesis?, mortality?}
+We tested for Population, Treatment, and Population $\times$ Treatment interactions using mixed model ANOVA with Family included as a random factor. Models were fit by restricted maximum likelihood using lmer from the R package lme4 version 1.0-5 \citep{Bates_etal_2013}. Significant fixed effect terms were selected using a step-wise backward elimination procedure implemented with the step function in the R package lmerTest version 2.0-11 \citep{Kuznetsova_etal_2014}. Denominator degrees of freedom for $F$-tests were estimated using Satterthwaite's approximation. Significant Population effect indicate intrinsic trait differences; significant Population $\times$ Treatment effects indicate population differences in plasticity.
+
+	% 
 
 \subsection*{Environmental correlates}
 	% latitude
@@ -181,6 +184,35 @@ Growth rate: leaf expansion rate AND stem elongation rate
 \end{center}
 \end{table*}
 
+\subsection*{Latitude versus growth rate}
+
+\begin{figure*}
+\centerline{\includegraphics[width=1\textwidth]{Figures/Figure_LLL_Lat.pdf}}
+\label{fig:Fig1}
+\usefont{T1}{phv}{m}{n}
+\fontsize{10}{12}
+\selectfont
+\textbf{Figure \#} 
+\end{figure*}
+
+\begin{figure*}
+\centerline{\includegraphics[width=1\textwidth]{Figures/Figure_Height_Lat.pdf}}
+\label{fig:Fig1}
+\usefont{T1}{phv}{m}{n}
+\fontsize{10}{12}
+\selectfont
+\textbf{Figure \#} 
+\end{figure*}
+
+%--------------------------------------------------
+% References
+%--------------------------------------------------
+
+\setlength{\bibsep}{6pt}
+\bigskip
+
+\bibliography{refs}
+\bibliographystyle{evolution}
 
 \end{document}
 
