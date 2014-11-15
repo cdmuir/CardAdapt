@@ -1,6 +1,8 @@
- & Test1 & Test2 \\ \midrule
-A & -1.721326 & -1.574214 \\
-B & -1.202749 & -2.086499 \\
-C & -0.9308041 & -1.759118 \\
-D & -0.5588249 & -0.7353942 \\
-E & -0.05969893 & 2.154182 \\
+ & SS & MS & df1 & df2 & \em{F} & $P$ \\ \midrule
+Population & 33.7 & 2.2 & 15 & 113 & 6.3 & 1.41 $\times10^{-9}$ \\
+Temperature & 118.4 & 118.4 & 1 & 567.5 & 338.2 & 1.37 $\times10^{-59}$ \\
+Water & 3.8 & 3.8 & 1 & 567.7 & 10.9 & 1.02 $\times10^{-3}$ \\
+Population $\times$ Temperature & 4.3 & 0.3 & 15 & 553.3 & 0.8 & 0.68 \\
+Population $\times$ Water & 9 & 0.6 & 15 & 567.5 & 1.7 & 0.05 \\
+Temperature $\times$ Water & 0.1 & 0.1 & 1 & 552.8 & 0.2 & 0.68 \\
+Population $\times$ Temperature $\times$ Water & 4.8 & 0.3 & 15 & 538 & 0.9 & 0.57 \\

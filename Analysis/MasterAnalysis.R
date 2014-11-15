@@ -58,53 +58,73 @@
 	mm <- lmer(lll_AbsGrowth ~ Population * TempTrt * WaterTrt + (1|Family),
 		data = data)
 	fit1 <- step(mm) #includes pop, temp, h2o, population x water
-	# fit1 <- step(fit1, ddf = "Kenward-Roger") # same result using Satterthwaite ddf
+	# fit1 <- step(mm, ddf = "Kenward-Roger") # same result using Satterthwaite ddf
 
 	# Dyanamic table of mm output for ms.tex
-	fit1$anova.table
-	exportTable(file = "ms/Tables/Table_lllGrowthAnova.txt", data = data.frame(rnorm(5), rnorm(5)), colnames = c("Test1", "Test2"), rownames = LETTERS[1:5])
-
-
-	# modify code to print anova tables in latex
-	mapply(function(X, Y)
-	{
-		tmp <- anova(X, fit1a)
-		p <- tmp[, "Pr(>F)"][2]
-		oom <- ceiling(-log10(p)) # order of magnitude
-		p <- if(p > 0.001){round(p, 2)}else{paste(round(p * 10 ^ oom, 2), 
-			sprintf("$\\times10^{-%s}$", oom))}
-		cat(sprintf('%s & %s & %s & %s & %s & %s \\\\', Y, tmp$Df[2], 
-			round(tmp[, "Sum of Sq"][2], 3), round(tmp[, "Sum of Sq"][2] / tmp$Df[2], 3), 
-			round(tmp$F[2], 2), p), file = table2)
-	}, listFita, predVar)
-		
+	tab <- fit1$anova.table[c("Population", "TempTrt", "WaterTrt", "Population:TempTrt",
+		"Population:WaterTrt", "TempTrt:WaterTrt", "Population:TempTrt:WaterTrt"), ]
 	
+	# Modify P-values for scientific notation
+	p <- -expm1(pf(tab$F, tab$NumDF, tab$DenDF, log = T))
+	oom <- ceiling(-log10(p)) # order of magnitude
+	p <- mapply(function(X1, X2) if(X1 > 0.01){round(X1, 2)} else {
+		paste(round(X1 * 10 ^ X2, 2), sprintf("$\\times10^{-%s}$", X2))}, p, oom)
+	
+	dat <- data.frame(SS = round(tab[, "Sum Sq"], 1), MS = round(tab[, "Mean Sq"], 1),
+		df1 = tab[, "NumDF"], df2 = round(tab[, "DenDF"], 1), 
+		F = round(tab[, "F.value"], 1), P = p,
+		stringsAsFactors = F)
+	colnames <- c("SS", "MS", "df1", "df2", "\\em{F}", "$P$")
+	rownames <- c("Population", "Temperature", "Water", 
+		"Population $\\times$ Temperature", "Population $\\times$ Water", 
+		"Temperature $\\times$ Water", 
+		"Population $\\times$ Temperature $\\times$ Water")
+	exportTable(file = "ms/Tables/Table_lllGrowthAnova.txt", data = dat, 
+		colnames = colnames, rownames = rownames)
+			
 	# Plot latitudinal variation
 	
+	#### NEED TO DO ####
 
 	# Height Growth rate
 	# Using Absolute growth rates for now as this seems most sensible. Need to test that this correlates with final biomass size.
 
-		
+	# approach 1: stepAIC, no Family effect
 	fit1 <- stepAIC(lm(height_AbsGrowth ~ Population * TempTrt * WaterTrt, data = data))
-	Anova(fit1, type = 3)
-	### Deciding between MANOVA or Multi-response MCMCglmm
-	
-	# MANOVA [how do I account for family?]
-	fit <- manova(cbind(b0_lll, b1_lll, b2_lll) ~ TempTrt * WaterTrt * Population + 
-		Error(Family), data[!is.na(data$b0_lll), ])
-	summary(fit)
-	
-	fit <- manova(cbind(b0_lll, b1_lll, b2_lll) ~ Population * TempTrt * WaterTrt,
-		data = data[!is.na(data$b0_lll), ])
-	Anova(fit, type = 2)
+	Anova(fit1, type = 2)
 
-	# Multiresponse model using MCMCglmm [uncertain about prior]
-	prior1 <- list(R = list(V = diag(3), nu = 1), G = list(G1 = list(V = diag(2), nu = 2))) 
+	# approach 2: mixed model with family	
+	mm <- lmer(height_AbsGrowth ~ Population * TempTrt * WaterTrt + (1|Family),
+		data = data)
+	fit1 <- step(mm, reduce.random = F) #includes pop, temp, h2o, temp x water
+	# fit1 <- step(mm, ddf = "Kenward-Roger", reduce.random = F) # same result using Satterthwaite ddf
 
-	mm1 <- MCMCglmm(cbind(b0_lll, b1_lll, b2_lll) ~ TempTrt * WaterTrt, 
-		random = ~ us(1 + TempTrt):Family, 
-		rcov = ~ cor(trait):units, data = data, family = rep("gaussian", 3), prior = prior1)
+	# Dyanamic table of mm output for ms.tex
+	tab <- fit1$anova.table[c("Population", "TempTrt", "WaterTrt", "Population:TempTrt",
+		"Population:WaterTrt", "TempTrt:WaterTrt", "Population:TempTrt:WaterTrt"), ]
+	
+	# Modify P-values for scientific notation
+	p <- -expm1(pf(tab$F, tab$NumDF, tab$DenDF, log = T))
+	oom <- ceiling(-log10(p)) # order of magnitude
+	p <- mapply(function(X1, X2) if(X1 > 0.01){round(X1, 2)} else {
+		paste(round(X1 * 10 ^ X2, 2), sprintf("$\\times10^{-%s}$", X2))}, p, oom)
+	
+	dat <- data.frame(SS = round(tab[, "Sum Sq"], 1), MS = round(tab[, "Mean Sq"], 1),
+		df1 = tab[, "NumDF"], df2 = round(tab[, "DenDF"], 1), 
+		F = round(tab[, "F.value"], 1), P = p,
+		stringsAsFactors = F)
+	colnames <- c("SS", "MS", "df1", "df2", "\\em{F}", "$P$")
+	rownames <- c("Population", "Temperature", "Water", 
+		"Population $\\times$ Temperature", "Population $\\times$ Water", 
+		"Temperature $\\times$ Water", 
+		"Population $\\times$ Temperature $\\times$ Water")
+	exportTable(file = "ms/Tables/Table_heightGrowthAnova.txt", data = dat, 
+		colnames = colnames, rownames = rownames)
+
+
+
+
+
 
 #
 # DFA/PCA
