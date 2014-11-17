@@ -9,20 +9,17 @@ library(MASS)
 #	Preparing datasheet for LLL analysis
 #
 
-	data <- read.csv("MasterDatasheet_in.csv")
-	cols2keep <- c("Block", "Col", "Row", "Population", "Family", "Transplant", "TempTrt",
+	data <- read.csv("MasterDatasheet_in.csv", nrows = 768)
+	cols2keep <- c("indiv", "Block", "Col", "Row", "Population", "Family", "TempTrt",
 		"WaterTrt", "LLL_0512", "LLL_0515", "LLL_0520", "LLL_0523", "LLL_0526", "LLL_0529",
 		"LLL_0602", "LLL_0605", "LLL_0609", "LLL_0612")
 	data$Row <- as.character(data$Row)
 	data$Population[data$Population == "Sweetwater River"] <- "Cuyamaca Rancho"
 	data$Population <- factor(as.character(data$Population))
-	data <- data[1:768, cols2keep]
 	data$indiv <- gl(768, 1)
+	data <- data[data$UseForLLLGrowth, cols2keep]
 	data$TempTrt <- factor(as.character(data$TempTrt))
 	data$WaterTrt <- factor(as.character(data$WaterTrt))
-
-	# Get rid of transplants
-	data <- subset(data, data$Transplant == "N")
 
 	# Remove all < 1 mm, call NA
 	data$LLL_0512 <- as.numeric(gsub("< 1", "NA", data$LLL_0512))
@@ -42,20 +39,19 @@ library(MASS)
 	
 	# Get rid of NAs
 	lll.data <- lll.data[!is.na(lll.data$LLL), ]
-	
-	# Remove those with less than 5 datapoints (removes 18 observations)
-	# Remove those with less than 4 datapoints (removes 6 observations)
-	lll.data <- lll.data[!(lll.data$indiv %in% which(table(lll.data$indiv) < 4)), ]
-	
+		
 	# Refactor indiv
 	lll.data$indiv <- as.factor(as.character(lll.data$indiv))
 
 	#
 	# Empirical Bayes Approach: get coefficients for every plant
 	#
-	
+
 	mm <- lmer(log(LLL) ~ poly(DayN, 2, raw = T) + (poly(DayN, 2, raw = T)|indiv),
 		data = lll.data)
+	# Logistic not a very good fit. Something else worth trying?
+	# mm <- nlmer(log(LLL) ~ SSlogis(DayN, Asym, xmid, scal) ~ Asym|indiv,
+		# data = lll.data, start = c(Asym = 5, xmid = 15, scal = 10))
 	
 	# TEMP: check for outliers
 	plot(mm) # two, just min and max. check these data points:
@@ -85,19 +81,16 @@ library(MASS)
 #	Preparing datasheet for Height analysis
 #
 
-	data2 <- read.csv("MasterDatasheet_in.csv")
-	cols2keep <- c("Population", "Family", "Transplant", "TempTrt", "WaterTrt",
+	data2 <- read.csv("MasterDatasheet_in.csv", nrows = 768)
+	cols2keep <- c("indiv", "Population", "Family", "Transplant", "TempTrt", "WaterTrt",
 		"Height_0529", "Height_0602", "Height_0605", "Height_0609", "Height_0612", 
 		"Height_0616", "Height_0620")
 	data2$Population[data2$Population == "Sweetwater River"] <- "Cuyamaca Rancho"
 	data2$Population <- factor(as.character(data2$Population))
-	data2 <- data2[1:768, cols2keep]
 	data2$indiv <- gl(768, 1)
+	data2 <- data2[data2$UseForHeightGrowth, cols2keep]
 	data2$TempTrt <- factor(as.character(data2$TempTrt))
 	data2$WaterTrt <- factor(as.character(data2$WaterTrt))
-
-	# Get rid of transplants
-	data2 <- subset(data2, data2$Transplant == "N")
 
 	# Melt data.frame
 	height.data <- melt(data2)
@@ -108,7 +101,7 @@ library(MASS)
 	# Get rid of NAs
 	height.data <- height.data[!is.na(height.data$height), ]
 	
-	# Remove those with less than 3 datapoints
+	# Remove those with less than 3 datapoints (get rid of this)
 	height.data <- height.data[!(height.data$indiv %in% 
 		which(table(height.data$indiv) < 3)), ]
 	
@@ -128,7 +121,7 @@ library(MASS)
 	which.max(resid(mm))
 	
 	# Extract coefficients and add to master data list
-	Y <- t(unlist(fixef(mm)) + t(ranef(mm)$indiv))[match(data$indiv, 
+	Y <- t(unlist(fixef(mm)) + t(ranef(mm)$indiv))[match(data2$indiv, 
 		rownames(ranef(mm)$indiv)), ]
 	colnames(Y) <- c("b0_height", "b1_height", "b2_height")
 	data2 <- cbind(data2, Y)
@@ -170,8 +163,8 @@ library(MASS)
 					data$b2_lll * ifelse(data$TempTrt == "Cool", 31 ^ 2, 24 ^ 2))
 	data$lll_AbsGrowth <- (data$lll_end - data$lll_start) / 
 		ifelse(data$TempTrt == "Cool", 31, 24)
-	# data$lll_RelGrowth <- (log(data$lll_end) - log(data$lll_start)) / 
-		# ifelse(data$TempTrt == "Cool", 31, 24)
+	data$lll_RelGrowth <- (log(data$lll_end) - log(data$lll_start)) / 
+		ifelse(data$TempTrt == "Cool", 31, 24)
 
 	# Model-based height growth
 	# Cool: Day 17 - 39
@@ -183,8 +176,8 @@ library(MASS)
 		data$b2_height * ifelse(data$TempTrt == "Cool", 39 ^ 2, 31 ^ 2)) - 1
 	data$height_AbsGrowth <- (data$height_end - data$height_start) / 
 		ifelse(data$TempTrt == "Cool", 22, 14)
-	# data$height_RelGrowth <- (log(data$height_end) - log(data$height_start)) / 
-		# ifelse(data$TempTrt == "Cool", 22, 14)
+	data$height_RelGrowth <- (log(data$height_end) - log(data$height_start)) / 
+		ifelse(data$TempTrt == "Cool", 22, 14)
 
 #
 #	Add photosynthetic data
@@ -218,6 +211,44 @@ library(MASS)
 		data = data[data$Photo > 0 & !is.na(data$Photo), ]))
 	data$resPhoto <- log(data$Photo) - predict(fit, 
 		new = data[, c("Cond", "TempTrt", "WaterTrt")])	
+
+#
+#	Add additional columns from MasterDatasheet_in
+#
+
+	tmp <- read.csv("MasterDatasheet_in.csv", nrows = 768)
+	tmp$Row <- as.character(tmp$Row)
+	tmp$Population[tmp$Population == "Sweetwater River"] <- "Cuyamaca Rancho"
+	tmp$Population <- factor(as.character(tmp$Population))
+	tmp$indiv <- gl(768, 1)
+	tmp$TempTrt <- factor(as.character(tmp$TempTrt))
+	tmp$WaterTrt <- factor(as.character(tmp$WaterTrt))
+
+	tmp <- subset(tmp, tmp$UseForLLLGrowth)
+	# Should be true if tmp and data are in same order
+	all(tmp$indiv == data$indiv)
+
+	tmp$mass <- with(tmp, LeavesDW_g + ShootsDW_g + RootsDW_g)
+	plot(data$lll_AbsGrowth, tmp$mass, col = data$TempTrt, log = "y")
+	plot(data$lll_RelGrowth, tmp$mass, col = data$TempTrt, log = "y")
+
+	plot(data$height_AbsGrowth, tmp$mass, col = data$TempTrt, log = "y")
+	plot(data$height_RelGrowth, tmp$mass, col = data$TempTrt, log = "y")
+
+
+	tmp <- subset(tmp, nchar(as.character(tmp$HarvestDate)) == 6 & !is.na(tmp$mass))
+	tmp$HarvestDate <- dmy(paste(as.character(tmp$HarvestDate), "-2014", sep = ""))
+	tmp$HarvestDate <- (as.numeric(tmp$HarvestDate) - 1399852800) / 86400
+	
+	with(tmp, plot(HarvestDate, mass, log = "y", col = TempTrt))
+	mm <- lmer(log(mass) ~ HarvestDate * TempTrt * WaterTrt + Population * TempTrt * WaterTrt + (1|Family), data = tmp)
+	mm1 <- step(mm)
+	fit <- stepAIC(lm(log(mass) ~ HarvestDate * TempTrt * WaterTrt + Population * TempTrt * WaterTrt, data = tmp))
+	Anova(fit, type = 2)
+	plot(predict(fit), log(tmp$mass), col = tmp$UseForBiomass)
+	text(predict(fit)[tmp$UseForBiomass == "CHECK"], log(tmp$mass)[tmp$UseForBiomass == "CHECK"], labels = tmp$Order[tmp$UseForBiomass == "CHECK"], pos = 2)
+	
+	plot(predict(fit), log(tmp$mass), col = tmp$UseForBiomass)
 
 #
 #	Export for Master Analysis
