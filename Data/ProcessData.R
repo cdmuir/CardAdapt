@@ -11,8 +11,8 @@ library(MASS)
 
 	data <- read.csv("MasterDatasheet_in.csv", nrows = 768)
 	cols2keep <- c("indiv", "Block", "Col", "Row", "Population", "Family", "TempTrt",
-		"WaterTrt", "LLL_0512", "LLL_0515", "LLL_0520", "LLL_0523", "LLL_0526", "LLL_0529",
-		"LLL_0602", "LLL_0605", "LLL_0609", "LLL_0612")
+		"WaterTrt", "LLL_0512", "LLL_0515", "LLL_0520", "LLL_0523", "LLL_0526", 
+		"LLL_0529", "LLL_0602", "LLL_0605", "LLL_0609", "LLL_0612")
 	data$Row <- as.character(data$Row)
 	data$Population[data$Population == "Sweetwater River"] <- "Cuyamaca Rancho"
 	data$Population <- factor(as.character(data$Population))
@@ -54,10 +54,8 @@ library(MASS)
 		# data = lll.data, start = c(Asym = 5, xmid = 15, scal = 10))
 	
 	# TEMP: check for outliers
-	plot(mm) # two, just min and max. check these data points:
-	which.min(resid(mm))
-	which.max(resid(mm))
-	
+	plot(mm) # no outliers, but residuals are odd.
+
 	# Extract coefficients and add to master data list
 	Y <- t(unlist(fixef(mm)) + t(ranef(mm)$indiv))[match(data$indiv, 
 		rownames(ranef(mm)$indiv)), ]
@@ -66,6 +64,8 @@ library(MASS)
 		
 	# For visual representation, plot LLL vs DayN with curves
 	pdf("LLL by individual.pdf", 4, 4)
+	r2 <- numeric(nlevels(lll.data$indiv))
+	names(r2) <- levels(lll.data$indiv)
 	par(mar = c(5, 5, 1, 1))
 	for (i in levels(lll.data$indiv))
 	{
@@ -74,6 +74,10 @@ library(MASS)
 		with(subset(lll.data, lll.data$indiv == i), points(DayN, log(LLL), pch = 19))
 		with(subset(lll.data, lll.data$indiv == i), points(DayN, 
 			predict(mm)[lll.data$indiv == i], type = "l", col = "blue"))
+		mtext(text = paste("indiv:", i))
+		r2[i] <- with(subset(lll.data, lll.data$indiv == i), cor(log(LLL), 
+			predict(mm)[lll.data$indiv == i]))
+		mtext(text = bquote(r^2 == .(r2[i])), line = -1)
 	}
 	dev.off()
 
@@ -116,10 +120,6 @@ library(MASS)
 	mm <- lmer(log(height + 1) ~ poly(DayN, 2, raw = T) + (poly(DayN, 2, raw = T)|indiv),
 		data = height.data)
 	
-	# TEMP: check for outliers
-	plot(mm) # two, just min and max. check these data points:
-	which.max(resid(mm))
-	
 	# Extract coefficients and add to master data list
 	Y <- t(unlist(fixef(mm)) + t(ranef(mm)$indiv))[match(data2$indiv, 
 		rownames(ranef(mm)$indiv)), ]
@@ -127,6 +127,8 @@ library(MASS)
 	data2 <- cbind(data2, Y)
 
 	pdf("height by individual.pdf", 4, 4)
+	r2 <- numeric(nlevels(height.data$indiv))
+	names(r2) <- levels(height.data $indiv)
 	par(mar = c(5, 5, 1, 1))
 	for (i in levels(height.data$indiv))
 	{
@@ -136,6 +138,10 @@ library(MASS)
 			pch = 19))
 		with(subset(height.data, height.data$indiv == i), points(DayN, 
 			predict(mm)[height.data$indiv == i], type = "l", col = "blue"))
+		mtext(text = paste("indiv:", i))
+		r2[i] <- with(subset(height.data, height.data $indiv == i), cor(log(height + 1), 
+			predict(mm)[height.data$indiv == i]))
+		mtext(text = bquote(r^2 == .(r2[i])), line = -1)
 	}
 	dev.off()
 
