@@ -4,7 +4,7 @@ library(lme4)
 library(reshape2)
 library(lubridate)
 library(MASS)
-
+	
 #
 #	Preparing datasheet for LLL analysis
 #
@@ -234,28 +234,24 @@ library(MASS)
 	# Should be true if tmp and data are in same order
 	all(tmp$indiv == data$indiv)
 
-	tmp$mass <- with(tmp, LeavesDW_g + ShootsDW_g + RootsDW_g)
-	plot(data$lll_AbsGrowth, tmp$mass, col = data$TempTrt, log = "y")
-	plot(data$lll_RelGrowth, tmp$mass, col = data$TempTrt, log = "y")
-
-	plot(data$height_AbsGrowth, tmp$mass, col = data$TempTrt, log = "y")
-	plot(data$height_RelGrowth, tmp$mass, col = data$TempTrt, log = "y")
-
-
-	tmp <- subset(tmp, nchar(as.character(tmp$HarvestDate)) == 6 & !is.na(tmp$mass))
-	tmp$HarvestDate <- dmy(paste(as.character(tmp$HarvestDate), "-2014", sep = ""))
-	tmp$HarvestDate <- (as.numeric(tmp$HarvestDate) - 1399852800) / 86400
+	# add biomass and flowers at harvest as well as harvest date [STILL NEEDS QC]
+	data$LeavesDW_g <- ifelse(tmp$UseForBiomass, tmp$LeavesDW_g, NA)
+	data$ShootsDW_g <- ifelse(tmp$UseForBiomass, tmp$ShootsDW_g, NA)
+	data$RootsDW_g <- ifelse(tmp$UseForBiomass, tmp$RootsDW_g, NA)
+	data$Biomass <- with(data, LeavesDW_g + ShootsDW_g + RootsDW_g)
+	data$NFlwr <- ifelse(tmp$UseForBiomass, tmp$NFlwr, NA)
+	data$NBud <- ifelse(tmp$UseForBiomass, tmp$Nbud, NA)# change column name to NBud in datasheet
+	data$HarvestDate <- ifelse(nchar(as.character(tmp$HarvestDate)) == 6, 
+		(as.numeric(dmy(paste(as.character(tmp$HarvestDate), "-2014", sep = ""))) - 
+		1399852800) / 86400, NA)
 	
-	with(tmp, plot(HarvestDate, mass, log = "y", col = TempTrt))
-	mm <- lmer(log(mass) ~ HarvestDate * TempTrt * WaterTrt + Population * TempTrt * WaterTrt + (1|Family), data = tmp)
-	mm1 <- step(mm)
-	fit <- stepAIC(lm(log(mass) ~ HarvestDate * TempTrt * WaterTrt + Population * TempTrt * WaterTrt, data = tmp))
-	Anova(fit, type = 2)
-	plot(predict(fit), log(tmp$mass), col = tmp$UseForBiomass)
-	text(predict(fit)[tmp$UseForBiomass == "CHECK"], log(tmp$mass)[tmp$UseForBiomass == "CHECK"], labels = tmp$Order[tmp$UseForBiomass == "CHECK"], pos = 2)
-	
-	plot(predict(fit), log(tmp$mass), col = tmp$UseForBiomass)
+	# add germination date
+	data$MinGermDay <- tmp$MinGermDay
+	data$MaxGermDay <- tmp$MaxGermDay
 
+	# add Mortality
+	data$DiedFromStress <- tmp$DiedFromStress
+	
 #
 #	Export for Master Analysis
 #
