@@ -18,6 +18,7 @@
 	library(car)
 	library(pbkrtest)
 	library(lmerTest)
+	library(survival)
 	
 #
 ##	Set working directory
@@ -43,7 +44,122 @@
 #
 
 	data <- read.csv("Data/MasterDatasheet_out.csv")
+
+#
+##	Difference in germiantion timing (yes) and intitial size(?)?
+#
+
+	# Create Surv object
+	germ <- with(subset(data, !is.na(data$MinGermDay)), Surv(MinGermDay, MaxGermDay,	
+		type = "interval2"))
+		
+	fit1 <- survreg(germ ~ Population * WaterTrt * TempTrt, 
+		data = subset(data, !is.na(data$MinGermDay)))
+	Anova(fit1, type = 2)
+	with(subset(data, !is.na(data$MinGermDay)), plot(predict(fit1), Biomass, log = "y", col = TempTrt))
+	with(subset(data, !is.na(data$MinGermDay)), plot(predict(fit1), LLL_0512, log = "y"))	
+	data$low <- ifelse(is.na(data$LLL_0512), -Inf, log(data$LLL_0512))
+	data$high <- ifelse(is.na(data$LLL_0512), log(0.24), log(data$LLL_0512))
+	mm1 <- MCMCglmm(cbind(low, high) ~ Population * WaterTrt * TempTrt, 
+		random = ~ Family, data = data, family = "cengaussian", nitt = 1.1e5, thin = 1e2,
+		burnin = 1e4)
+	mm2 <- MCMCglmm(cbind(low, high) ~ Population + WaterTrt + TempTrt + 
+		Population:WaterTrt + Population:TempTrt + WaterTrt:TempTrt, 
+		random = ~ Family, data = data, family = "cengaussian", nitt = 1.1e5, thin = 1e2,
+		burnin = 1e4)
+	mm2$DIC - mm1$DIC # drop 3-way interaction
 	
+	# Test for WaterTrt:TempTrt
+	mm3 <- MCMCglmm(cbind(low, high) ~ Population + WaterTrt + TempTrt + 
+		Population:WaterTrt + Population:TempTrt, 
+		random = ~ Family, data = data, family = "cengaussian", nitt = 1.1e5, thin = 1e2,
+		burnin = 1e4)
+	mm3$DIC - mm2$DIC # WaterTrt:TempTrt n.s.
+
+	# Test for Population:TempTrt
+	mm4 <- MCMCglmm(cbind(low, high) ~ Population + WaterTrt + TempTrt + 
+		Population:WaterTrt + WaterTrt:TempTrt, 
+		random = ~ Family, data = data, family = "cengaussian", nitt = 1.1e5, thin = 1e2,
+		burnin = 1e4)
+	mm4$DIC - mm2$DIC # Population:TempTrt n.s.
+
+	# Test for Population:WaterTrt
+	mm5 <- MCMCglmm(cbind(low, high) ~ Population + WaterTrt + TempTrt + 
+		Population:TempTrt + WaterTrt:TempTrt, 
+		random = ~ Family, data = data, family = "cengaussian", nitt = 1.1e5, thin = 1e2,
+		burnin = 1e4)
+	mm5$DIC - mm2$DIC # Population:WaterTrt n.s.
+
+	##### Drop Population:TempTrt and retest (keep mm4)
+	# Test for WaterTrt:TempTrt
+	mm6 <- MCMCglmm(cbind(low, high) ~ Population + WaterTrt + TempTrt + 
+		Population:WaterTrt, 
+		random = ~ Family, data = data, family = "cengaussian", nitt = 1.1e5, thin = 1e2,
+		burnin = 1e4)
+	mm6$DIC - mm4$DIC # n.s.
+	
+	# Test for Population:WaterTrt
+	mm7 <- MCMCglmm(cbind(low, high) ~ Population + WaterTrt + TempTrt + 
+		WaterTrt:TempTrt, 
+		random = ~ Family, data = data, family = "cengaussian", nitt = 1.1e5, thin = 1e2,
+		burnin = 1e4)
+	mm7$DIC - mm4$DIC # n.s.
+
+	##### Drop Population:WaterTrt and retest (keep mm7)
+	# Test for WaterTrt:TempTrt
+	mm8 <- MCMCglmm(cbind(low, high) ~ Population + WaterTrt + TempTrt, 
+		random = ~ Family, data = data, family = "cengaussian", nitt = 1.1e5, thin = 1e2,
+		burnin = 1e4)
+	mm8$DIC - mm7$DIC # n.s.
+
+	##### Drop WaterTrt:TempTrt and retest (keep mm8)
+	# Test for TempTrt
+	mm9 <- MCMCglmm(cbind(low, high) ~ Population + WaterTrt, 
+		random = ~ Family, data = data, family = "cengaussian", nitt = 1.1e5, thin = 1e2,
+		burnin = 1e4)
+	mm9$DIC - mm8$DIC # n.s.
+
+	# Test for WaterTrt
+	mm10 <- MCMCglmm(cbind(low, high) ~ Population + TempTrt, 
+		random = ~ Family, data = data, family = "cengaussian", nitt = 1.1e5, thin = 1e2,
+		burnin = 1e4)
+	mm10$DIC - mm8$DIC # n.s.
+
+	# Test for Population
+	mm11 <- MCMCglmm(cbind(low, high) ~ WaterTrt + TempTrt, 
+		random = ~ Family, data = data, family = "cengaussian", nitt = 1.1e5, thin = 1e2,
+		burnin = 1e4)
+	mm11$DIC - mm8$DIC # n.s.
+
+	##### Drop TempTrt and retest (keep mm9)
+	# Test for WaterTrt
+	mm12 <- MCMCglmm(cbind(low, high) ~ Population, 
+		random = ~ Family, data = data, family = "cengaussian", nitt = 1.1e5, thin = 1e2,
+		burnin = 1e4)
+	mm12$DIC - mm9$DIC # n.s.
+
+	# Test for Population
+	mm13 <- MCMCglmm(cbind(low, high) ~ WaterTrt, 
+		random = ~ Family, data = data, family = "cengaussian", nitt = 1.1e5, thin = 1e2,
+		burnin = 1e4)
+	mm13$DIC - mm9$DIC # n.s.
+
+	##### Drop WaterTrt and retest (keep mm12)
+	# Test for Population
+	mm14 <- MCMCglmm(cbind(low, high) ~ 1, 
+		random = ~ Family, data = data, family = "cengaussian", nitt = 1.1e5, thin = 1e2,
+		burnin = 1e4)
+	mm14$DIC - mm12$DIC # n.s.
+
+	#mm14 is best (almost lowest DIC)
+
+
+	# Test for WaterTrt
+	mm7 <- MCMCglmm(cbind(low, high) ~ Population + TempTrt + 
+		Population:WaterTrt:TempTrt, random = ~ Family, data = data, 
+		family = "cengaussian", nitt = 1.1e5, thin = 1e2, burnin = 1e4)
+	mm7$DIC - mm1$DIC # Population:WaterTrt n.s.
+
 ### JUST USING GROWTH NOW UNTIL OTHER DATA ARE READY
 ### Analysis 1: Variation in 'intrinsic' traits (significant main effect of Population)
 ### Analysis 2: Variation in plasticity (significant Treatment x Population interaction)
@@ -115,6 +231,10 @@
 			
 	# Plasticity: difference in least-square coefficients ('dbetas') and 95% CIs
 	dbetas <- difflsmeans(fit1)
+	x <- sapply(popenv$Site, function(X) sprintf("Population:WaterTrt  %s Dry- %s Wet", X, X))
+	x <- sapply(x, grep, x = rownames(dbetas$diffs.lsmeans.table))
+	plot(popenv$Lat, dbetas$diffs.lsmeans.table[x, "Estimate"])
+	plot(popenv$prec_7, dbetas$diffs.lsmeans.table[x, "Estimate"])
 	
 	# Height Growth rate
 
