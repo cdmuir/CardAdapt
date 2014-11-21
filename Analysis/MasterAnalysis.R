@@ -46,20 +46,23 @@
 	data <- read.csv("Data/MasterDatasheet_out.csv")
 
 #
-##	Difference in germiantion timing (yes) and intitial size(?)?
+##	Difference in germiantion timing (yes) and intitial size (no?)?
 #
 
+	##### Germination
 	# Create Surv object
 	germ <- with(subset(data, !is.na(data$MinGermDay)), Surv(MinGermDay, MaxGermDay,	
 		type = "interval2"))
-		
-	fit1 <- survreg(germ ~ Population * WaterTrt * TempTrt, 
-		data = subset(data, !is.na(data$MinGermDay)))
-	Anova(fit1, type = 2)
-	with(subset(data, !is.na(data$MinGermDay)), plot(predict(fit1), Biomass, log = "y", col = TempTrt))
-	with(subset(data, !is.na(data$MinGermDay)), plot(predict(fit1), LLL_0512, log = "y"))	
+
+	fit1 <- survreg(germ ~ Population + frailty(Family), 
+		data = subset(data, !is.na(data$MinGermDay)), dist = "gaussian")
+	plot(popenv$Lat, c(coef(fit1)[1], coef(fit1)[1] + coef(fit1)[2:16]))
+	anova(fit1) # significant family and population effects
+
+	##### Initial size (LLL on May 12)
 	data$low <- ifelse(is.na(data$LLL_0512), -Inf, log(data$LLL_0512))
 	data$high <- ifelse(is.na(data$LLL_0512), log(0.24), log(data$LLL_0512))
+	set.seed(1121014)
 	mm1 <- MCMCglmm(cbind(low, high) ~ Population * WaterTrt * TempTrt, 
 		random = ~ Family, data = data, family = "cengaussian", nitt = 1.1e5, thin = 1e2,
 		burnin = 1e4)
@@ -151,15 +154,17 @@
 		burnin = 1e4)
 	mm14$DIC - mm12$DIC # n.s.
 
+	mm15 <- MCMCglmm(cbind(low, high) ~ 1, data = data, family = "cengaussian", 
+		nitt = 1.1e5, thin = 1e2, burnin = 1e4)
+	mm15$DIC - mm14$DIC # n.s.
+
 	#mm14 is best (almost lowest DIC)
-
-
-	# Test for WaterTrt
-	mm7 <- MCMCglmm(cbind(low, high) ~ Population + TempTrt + 
-		Population:WaterTrt:TempTrt, random = ~ Family, data = data, 
-		family = "cengaussian", nitt = 1.1e5, thin = 1e2, burnin = 1e4)
-	mm7$DIC - mm1$DIC # Population:WaterTrt n.s.
-
+	# InitSizeModels <- list(mm1, mm2, mm3, mm4, mm5, mm6, mm7, mm8, mm9, mm10, mm11,
+		# mm12, mm13, mm14, mm15)
+	# save(InitSizeModels, file = "Analysis/InitSizeModels.RData")
+	load(file = "Analysis/InitSizeModels.RData")
+	# Make supp table of results?
+	
 ### JUST USING GROWTH NOW UNTIL OTHER DATA ARE READY
 ### Analysis 1: Variation in 'intrinsic' traits (significant main effect of Population)
 ### Analysis 2: Variation in plasticity (significant Treatment x Population interaction)
@@ -170,7 +175,7 @@
 	# Mixed model ANOVA with family as random factor fit using step down procedure
 	mm <- lmer(lll_AbsGrowth ~ Population * TempTrt * WaterTrt + (1|Family),
 		data = data)
-	fit1 <- step(mm) #includes pop, temp, h2o, population x water
+	fit1 <- step(mm, reduce.random = F) #includes pop, temp, h2o, population x water
 	# fit1 <- step(mm, ddf = "Kenward-Roger") # same result using Satterthwaite ddf
 
 	# Dyanamic table of mm output for ms.tex
@@ -208,9 +213,10 @@
 	x <- grep("Population  [a-zA-Z]+", rownames(betas$lsmeans.table))
 	pdf("ms/Figures/Figure_LLL_Lat.pdf", 5, 5)
 	par(mar = c(5, 5, 1, 1))
-	plot(popenv$Lat, betas$lsmeans.table$Estimate[x], xlim = c(30, 45), ylim = c(1.5, 3.1),
-		xlab = "Latitude of Origin", ylab = expression(paste("Leaf elongation rate (", 
-		mm~day^{-1}, ")")), las = 1, cex.lab = 1.5, type = "n", axes = F, frame.plot = T)
+	plot(popenv$Lat, betas$lsmeans.table$Estimate[x], xlim = c(30, 45), 
+		ylim = c(1.5, 3.1), xlab = "Latitude of Origin", 
+		ylab = expression(paste("Leaf elongation rate (", mm~day^{-1}, ")")), 
+		las = 1, cex.lab = 1.5, type = "n", axes = F, frame.plot = T)
 	arrows(popenv$Lat, betas$lsmeans.table[x, "Lower CI"], popenv$Lat, 
 		betas$lsmeans.table[x, "Upper CI"], angle = 90, length = 0.05, code = 3)
 	points(popenv$Lat, betas$lsmeans.table$Estimate[x], col = "white", bg = "black",
@@ -224,14 +230,15 @@
 	points(range(popenv$Lat), predict(fit, new = data.frame(Lat = range(popenv$Lat))),
 		type = "l", lwd = 2)
 	
-	text(grconvertX(0.95, "npc"), grconvertY(0.95, "npc"), 
-		labels = bquote(italic(P) == .(round(summary(fit)[[4]][2, 4], 3))), adj = c(1, 1))
+	text(grconvertX(0.95, "npc"), grconvertY(0.95, "npc"), adj = c(1, 1),
+		labels = bquote(italic(P) == .(round(summary(fit)[[4]][2, 4], 3))))
 	
 	dev.off()
 			
 	# Plasticity: difference in least-square coefficients ('dbetas') and 95% CIs
 	dbetas <- difflsmeans(fit1)
-	x <- sapply(popenv$Site, function(X) sprintf("Population:WaterTrt  %s Dry- %s Wet", X, X))
+	x <- sapply(popenv$Site, function(X) sprintf("Population:WaterTrt  %s Dry- %s Wet", 
+		X, X))
 	x <- sapply(x, grep, x = rownames(dbetas$diffs.lsmeans.table))
 	plot(popenv$Lat, dbetas$diffs.lsmeans.table[x, "Estimate"])
 	plot(popenv$prec_7, dbetas$diffs.lsmeans.table[x, "Estimate"])
@@ -281,8 +288,8 @@
 	par(mar = c(5, 5, 1, 1))
 	plot(popenv$Lat, betas$lsmeans.table$Estimate[x], xlim = c(30, 45), 
 		ylim = c(0.75, 1.65), xlab = "Latitude of Origin", 
-		ylab = expression(paste("Stem elongation rate (", mm~day^{-1}, ")")), cex.lab = 1.5,
-		type = "n", axes = F, frame.plot = T)
+		ylab = expression(paste("Stem elongation rate (", mm~day^{-1}, ")")), 
+		cex.lab = 1.5, type = "n", axes = F, frame.plot = T)
 	arrows(popenv$Lat, betas$lsmeans.table[x, "Lower CI"], popenv$Lat, 
 		betas$lsmeans.table[x, "Upper CI"], angle = 90, length = 0.05, code = 3)
 	points(popenv$Lat, betas$lsmeans.table$Estimate[x], col = "white", bg = "black",
@@ -296,8 +303,8 @@
 	points(range(popenv$Lat), predict(fit, new = data.frame(Lat = range(popenv$Lat))),
 		type = "l", lwd = 2)
 	
-	text(grconvertX(0.95, "npc"), grconvertY(0.95, "npc"), 
-		labels = bquote(italic(P) == .(round(summary(fit)[[4]][2, 4], 3))), adj = c(1, 1))
+	text(grconvertX(0.95, "npc"), grconvertY(0.95, "npc"), adj = c(1, 1),
+		labels = bquote(italic(P) == .(round(summary(fit)[[4]][2, 4], 3))),)
 	
 	dev.off()
 			
