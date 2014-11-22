@@ -57,9 +57,34 @@
 	# lognormal produced best fit to data
 	fit1 <- survreg(germ ~ Population + frailty(Family, sparse = F), 
 		data = subset(data, !is.na(data$MinGermDay)), dist = "lognormal")
-		
-	plot(popenv$Lat, c(coef(fit1)[1], coef(fit1)[1] + coef(fit1)[2:16]))
 	anova(fit1) # significant family and population effects
+	
+	# Figure of germination time by latitude
+	png("ms/Figures/Figure_DoG_Lat.png", 5, 5, units = "in", res = 1e3)
+	par(mar = c(5, 5, 1, 1))
+	plot(popenv$Lat, c(coef(fit1)[1], coef(fit1)[1] + coef(fit1)[2:16]), xlim = c(30, 45), 
+		ylim = c(1.65, 2.65), xlab = "Latitude of Origin", 
+		ylab = "Day of Germination [log scale]", 
+		cex.lab = 1.5, type = "n", axes = F, frame.plot = T)
+	lowCI <- c(confint(fit1)[1, 1], coef(fit1)[1] + confint(fit1)[2:16, 1])
+	uppCI <- c(confint(fit1)[1, 2], coef(fit1)[1] + confint(fit1)[2:16, 2])
+	arrows(popenv$Lat, lowCI, popenv$Lat, uppCI, length = 0.05, angle = 90, code = 3)
+	points(popenv$Lat, c(coef(fit1)[1], coef(fit1)[1] + coef(fit1)[2:16]), col = "white",
+		bg = "black", pch = 21, cex = 1.5)
+	
+	axis(1, at = seq(30, 45, 5), labels = expression(30*degree, 35*degree, 40*degree,
+		45*degree), lwd = 0, lwd.ticks = 1)	
+	axis(2, lwd = 0, lwd.ticks = 1, las = 1, at = log(seq(6, 14, 2)),
+		labels = seq(6, 14, 2))	
+	
+	fit <- lm(c(coef(fit1)[1], coef(fit1)[1] + coef(fit1)[2:16]) ~ Lat, data = popenv)
+	points(range(popenv$Lat), predict(fit, new = data.frame(Lat = range(popenv$Lat))),
+		type = "l", lwd = 2)
+	
+	text(grconvertX(0.05, "npc"), grconvertY(0.95, "npc"), adj = c(0, 1),
+		labels = bquote(italic(P) == .(round(summary(fit)[[4]][2, 4], 3))),)
+	
+	dev.off()
 
 	##### Initial size (LLL on May 12)
 	data$low <- ifelse(is.na(data$LLL_0512), -Inf, log(data$LLL_0512))

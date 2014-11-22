@@ -10,10 +10,14 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{topcapt}
+\usepackage[labelfont =  {sf, bf}, textfont = sf, format = plain]{caption}
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{natbib}
 \usepackage{color}
+
+% Make helvetica the default sans-serif font
+\renewcommand\sfdefault{phv}
 
 %
 % Commenting
@@ -36,6 +40,8 @@
 
 \begin{document}
 \maketitle
+\listoffigures
+\listoftables
 
 \section*{Abstract}
 
@@ -151,58 +157,67 @@ We tested for Population, Treatment, and Population $\times$ Treatment interacti
 \section*{Results}
 
 % ANOVA table for LLL growth rate (need to label tables)
-\begin{table*}[htbp]
-\usefont{T1}{phv}{m}{n}
-\fontsize{10}{12}
-\selectfont
-\textbf{ANOVA table, Longest leaf length growth} \\ \\
-\begin{center}
-\begin{tabular}{lcccccc}
-\toprule
+\begin{table}[htbp]
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[ANOVA table, leaf expansion rate]{CAPTION}
+	\begin{center}
+	\begin{tabular}{lcccccc}
+	\toprule
 
-\input{Tables/Table_lllGrowthAnova.txt}
+	\input{Tables/Table_lllGrowthAnova.txt}
 
-\bottomrule
-\end{tabular}
-\end{center}
-\end{table*}
+	\bottomrule
+	\end{tabular}
+	\end{center}
+\end{table}
 
 % ANOVA table for height growth rate (need to label tables)
-\begin{table*}[htbp]
-\usefont{T1}{phv}{m}{n}
-\fontsize{10}{12}
-\selectfont
-\textbf{ANOVA table, height growth} \\ \\
-\begin{center}
-\begin{tabular}{lcccccc}
-\toprule
+\begin{table}[htbp]
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[ANOVA table, stem expansion rate]{CAPTION}
+	\begin{center}
+	\begin{tabular}{lcccccc}
+	\toprule
 
-\input{Tables/Table_heightGrowthAnova.txt}
+	\input{Tables/Table_heightGrowthAnova.txt}
 
-\bottomrule
-\end{tabular}
-\end{center}
-\end{table*}
+	\bottomrule
+	\end{tabular}
+	\end{center}
+\end{table}
 
 \subsection*{Latitude versus growth rate}
 
-\begin{figure*}
-\centerline{\includegraphics[width=1\textwidth]{Figures/Figure_LLL_Lat.pdf}}
-\label{fig:Fig1}
-\usefont{T1}{phv}{m}{n}
-\fontsize{10}{12}
-\selectfont
-\textbf{Figure \#} 
-\end{figure*}
+\begin{figure}[h!]
+	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Figure_DoG_Lat.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Southern populations germinate sooner.]{CAPTION}
+	\label{fig:Fig_DoG}
+\end{figure}
 
-\begin{figure*}
-\centerline{\includegraphics[width=1\textwidth]{Figures/Figure_Height_Lat.pdf}}
-\label{fig:Fig1}
-\usefont{T1}{phv}{m}{n}
-\fontsize{10}{12}
-\selectfont
-\textbf{Figure \#} 
-\end{figure*}
+\begin{figure}[h!]
+	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Figure_LLL_Lat.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Southern populations grow faster (leaf expansion rate).]{CAPTION}
+	\label{fig:Fig_LLL}
+\end{figure}
+
+\begin{figure}
+	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Figure_Height_Lat.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Southern populations grow faster (stem elongation rate).]{CAPTION}
+	\label{fig:Fig_height}
+\end{figure}
 
 %--------------------------------------------------
 % References
