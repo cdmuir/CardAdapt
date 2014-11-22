@@ -1,8 +1,9 @@
  & SS & MS & df1 & df2 & \em{F} & $P$ \\ \midrule
-Population & 13.3 & 0.9 & 15 & 111.6 & 5.6 & 2.22 $\times10^{-8}$ \\
-Temperature & 66.9 & 66.9 & 1 & 569.5 & 415 & 1.06 $\times10^{-69}$ \\
-Water & 2.8 & 2.8 & 1 & 571.4 & 17 & 4.3 $\times10^{-5}$ \\
-Population $\times$ Temperature & 3 & 0.2 & 15 & 554.1 & 1.3 & 0.18 \\
-Population $\times$ Water & 2.6 & 0.2 & 15 & 541.9 & 1.1 & 0.37 \\
-Temperature $\times$ Water & 2.7 & 2.7 & 1 & 567.8 & 16.9 & 4.52 $\times10^{-5}$ \\
-Population $\times$ Temperature $\times$ Water & 1.7 & 0.1 & 15 & 522.8 & 0.7 & 0.78 \\
+Day of Germination & 6.2 & 6.2 & 1 & 656.2 & 20.9 & 5.9 $\times10^{-6}$ \\
+Population & 10 & 0.7 & 15 & 109.9 & 4.3 & 3.69 $\times10^{-6}$ \\
+Temperature & 70.3 & 70.3 & 1 & 568 & 445.3 & 2.05 $\times10^{-73}$ \\
+Water & 2.9 & 2.9 & 1 & 567.7 & 17.8 & 2.92 $\times10^{-5}$ \\
+Population $\times$ Temperature & 2.7 & 0.2 & 15 & 552.7 & 1.2 & 0.25 \\
+Population $\times$ Water & 2.6 & 0.2 & 15 & 539.8 & 1.1 & 0.33 \\
+Temperature $\times$ Water & 2.3 & 2.3 & 1 & 565.2 & 14.7 & 1.37 $\times10^{-4}$ \\
+Population $\times$ Temperature $\times$ Water & 1.5 & 0.1 & 15 & 521.4 & 0.6 & 0.86 \\

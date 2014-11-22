@@ -240,7 +240,7 @@ library(MASS)
 	data$RootsDW_g <- ifelse(tmp$UseForBiomass, tmp$RootsDW_g, NA)
 	data$Biomass <- with(data, LeavesDW_g + ShootsDW_g + RootsDW_g)
 	data$NFlwr <- ifelse(tmp$UseForBiomass, tmp$NFlwr, NA)
-	data$NBud <- ifelse(tmp$UseForBiomass, tmp$Nbud, NA)# change column name to NBud in datasheet
+	data$NBud <- ifelse(tmp$UseForBiomass, tmp$NBud, NA)
 	data$HarvestDate <- ifelse(nchar(as.character(tmp$HarvestDate)) == 6, 
 		(as.numeric(dmy(paste(as.character(tmp$HarvestDate), "-2014", sep = ""))) - 
 		1399852800) / 86400, NA)
@@ -248,6 +248,7 @@ library(MASS)
 	# add germination date
 	data$MinGermDay <- tmp$MinGermDay
 	data$MaxGermDay <- tmp$MaxGermDay
+	data$AvgGermDay <- (tmp$MinGermDay + tmp$MaxGermDay) / 2
 
 	# add Mortality
 	data$DiedFromStress <- tmp$DiedFromStress

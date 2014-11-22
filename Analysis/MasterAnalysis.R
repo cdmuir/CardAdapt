@@ -54,8 +54,10 @@
 	germ <- with(subset(data, !is.na(data$MinGermDay)), Surv(MinGermDay, MaxGermDay,	
 		type = "interval2"))
 
-	fit1 <- survreg(germ ~ Population + frailty(Family), 
-		data = subset(data, !is.na(data$MinGermDay)), dist = "gaussian")
+	# lognormal produced best fit to data
+	fit1 <- survreg(germ ~ Population + frailty(Family, sparse = F), 
+		data = subset(data, !is.na(data$MinGermDay)), dist = "lognormal")
+		
 	plot(popenv$Lat, c(coef(fit1)[1], coef(fit1)[1] + coef(fit1)[2:16]))
 	anova(fit1) # significant family and population effects
 
@@ -173,14 +175,15 @@
 	# Using Absolute growth rates for now as this seems most sensible. Need to test that this correlates with final biomass size.
 	
 	# Mixed model ANOVA with family as random factor fit using step down procedure
-	mm <- lmer(lll_AbsGrowth ~ Population * TempTrt * WaterTrt + (1|Family),
+	mm <- lmer(lll_AbsGrowth ~ AvgGermDay + Population * TempTrt * WaterTrt + (1|Family),
 		data = data)
 	fit1 <- step(mm, reduce.random = F) #includes pop, temp, h2o, population x water
-	# fit1 <- step(mm, ddf = "Kenward-Roger") # same result using Satterthwaite ddf
+	# fit1 <- step(mm, ddf = "Kenward-Roger", reduce.random = F) # same result using Satterthwaite ddf
 
 	# Dyanamic table of mm output for ms.tex
-	tab <- fit1$anova.table[c("Population", "TempTrt", "WaterTrt", "Population:TempTrt",
-		"Population:WaterTrt", "TempTrt:WaterTrt", "Population:TempTrt:WaterTrt"), ]
+	tab <- fit1$anova.table[c("AvgGermDay", "Population", "TempTrt", "WaterTrt", 
+		"Population:TempTrt", "Population:WaterTrt", "TempTrt:WaterTrt", 
+		"Population:TempTrt:WaterTrt"), ]
 	
 	# Modify P-values for scientific notation
 	p <- -expm1(pf(tab$F, tab$NumDF, tab$DenDF, log = T))
@@ -193,19 +196,19 @@
 		F = round(tab[, "F.value"], 1), P = p,
 		stringsAsFactors = F)
 	colnames <- c("SS", "MS", "df1", "df2", "\\em{F}", "$P$")
-	rownames <- c("Population", "Temperature", "Water", 
+	rownames <- c("Day of Germination", "Population", "Temperature", "Water", 
 		"Population $\\times$ Temperature", "Population $\\times$ Water", 
 		"Temperature $\\times$ Water", 
 		"Population $\\times$ Temperature $\\times$ Water")
 	exportTable(file = "ms/Tables/Table_lllGrowthAnova.txt", data = dat, 
 		colnames = colnames, rownames = rownames)
 			
-	# Plot latitudinal variation in Intercept and Population:WaterTrt
+	# Plot latitudinal variation in Intercept
 	
 	# best fit model based on stepdown elimination procedure
-	fit1 <- lmer(lll_AbsGrowth ~ Population + TempTrt + WaterTrt + Population:WaterTrt +
-		(1|Family), data = data)
-	
+	fit1 <- lmer(lll_AbsGrowth ~ AvgGermDay + Population + TempTrt + WaterTrt +
+		Population:WaterTrt + (1|Family), data = data)
+		
 	# Intercept: least-square coefficients ('betas') and 95% CIs
 	betas <- lsmeans(fit1)
 	
@@ -235,25 +238,18 @@
 	
 	dev.off()
 			
-	# Plasticity: difference in least-square coefficients ('dbetas') and 95% CIs
-	dbetas <- difflsmeans(fit1)
-	x <- sapply(popenv$Site, function(X) sprintf("Population:WaterTrt  %s Dry- %s Wet", 
-		X, X))
-	x <- sapply(x, grep, x = rownames(dbetas$diffs.lsmeans.table))
-	plot(popenv$Lat, dbetas$diffs.lsmeans.table[x, "Estimate"])
-	plot(popenv$prec_7, dbetas$diffs.lsmeans.table[x, "Estimate"])
-	
 	# Height Growth rate
 
 	# Mixed model ANOVA with family as random factor fit using step down procedure
-	mm <- lmer(height_AbsGrowth ~ Population * TempTrt * WaterTrt + (1|Family),
-		data = data)
+	mm <- lmer(height_AbsGrowth ~ AvgGermDay + Population * TempTrt * WaterTrt + 
+		(1|Family), data = data)
 	fit1 <- step(mm, reduce.random = F) #includes pop, temp, h2o, temp x water
-	# fit1 <- step(mm, ddf = "Kenward-Roger", reduce.random = F) # same result using Satterthwaite ddf
+	# fit2 <- step(mm, ddf = "Kenward-Roger", reduce.random = F) # same result using Satterthwaite ddf
 
 	# Dyanamic table of mm output for ms.tex
-	tab <- fit1$anova.table[c("Population", "TempTrt", "WaterTrt", "Population:TempTrt",
-		"Population:WaterTrt", "TempTrt:WaterTrt", "Population:TempTrt:WaterTrt"), ]
+	tab <- fit1$anova.table[c("AvgGermDay", "Population", "TempTrt", "WaterTrt",
+		"Population:TempTrt", "Population:WaterTrt", "TempTrt:WaterTrt", 
+		"Population:TempTrt:WaterTrt"), ]
 	
 	# Modify P-values for scientific notation
 	p <- -expm1(pf(tab$F, tab$NumDF, tab$DenDF, log = T))
@@ -266,7 +262,7 @@
 		F = round(tab[, "F.value"], 1), P = p,
 		stringsAsFactors = F)
 	colnames <- c("SS", "MS", "df1", "df2", "\\em{F}", "$P$")
-	rownames <- c("Population", "Temperature", "Water", 
+	rownames <- c("Day of Germination", "Population", "Temperature", "Water", 
 		"Population $\\times$ Temperature", "Population $\\times$ Water", 
 		"Temperature $\\times$ Water", 
 		"Population $\\times$ Temperature $\\times$ Water")
@@ -276,9 +272,9 @@
 	# Plot latitudinal variation in Intercept and Population:WaterTrt
 	
 	# best fit model based on stepdown elimination procedure
-	fit1 <- lmer(height_AbsGrowth ~ Population + TempTrt + WaterTrt + TempTrt:WaterTrt +
-		(1|Family), data = data)
-	
+	fit1 <- lmer(height_AbsGrowth ~ AvgGermDay + Population + TempTrt + WaterTrt + 
+		TempTrt:WaterTrt + (1|Family), data = data)
+
 	# Intercept: least-square coefficients ('betas') and 95% CIs
 	betas <- lsmeans(fit1)
 	
