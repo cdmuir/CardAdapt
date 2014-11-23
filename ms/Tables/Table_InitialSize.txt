@@ -1,0 +1,16 @@
+Model & Random & DIC \\ \midrule
+Population + Water + Temperature + Population:Water + Population:Temperature + Water:Temperature + Population:Water:Temperature & Family & 1638 \\
+Population + Water + Temperature + Population:Water + Population:Temperature + Water:Temperature & Family & 1605.2 \\
+Population + Water + Temperature + Population:Water + Population:Temperature & Family & 1603.4 \\
+Population + Water + Temperature + Population:Water + Water:Temperature & Family & 1577.5 \\
+Population + Water + Temperature + Population:Temperature + Water:Temperature & Family & 1579.9 \\
+Population + Water + Temperature + Population:Water & Family & 1577.3 \\
+Population + Water + Temperature + Water:Temperature & Family & 1550.5 \\
+Population + Water + Temperature & Family & 1549.3 \\
+Population + Water & Family & 1541.7 \\
+Population + Temperature & Family & 1546.8 \\
+Water + Temperature & Family & 1551.1 \\
+Population & Family & 1541.9 \\
+Water & Family & 1543.9 \\
+- & Family & 1541.7 \\
+- & - & 1538.3 \\

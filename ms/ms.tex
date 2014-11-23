@@ -15,6 +15,7 @@
 \usepackage{amsmath}
 \usepackage{natbib}
 \usepackage{color}
+\usepackage{array}
 
 % Make helvetica the default sans-serif font
 \renewcommand\sfdefault{phv}
@@ -228,6 +229,27 @@ We tested for Population, Treatment, and Population $\times$ Treatment interacti
 
 \bibliography{refs}
 \bibliographystyle{evolution}
+
+%--------------------------------------------------
+% Supplementary Information
+%--------------------------------------------------
+
+% DIC table for initial size (LLL on 5/12)
+\begin{table}[htbp]
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[ANOVA table, leaf expansion rate]{CAPTION}
+	\begin{center}
+	\begin{tabular}{>{\everypar{\hangindent1cm}{}\raggedright}p{6cm}lc}
+	\toprule
+
+	\input{Tables/Table_InitialSize.txt}
+
+	\bottomrule
+	\end{tabular}
+	\end{center}
+\end{table}
 
 \end{document}
 

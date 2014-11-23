@@ -192,6 +192,24 @@
 	load(file = "Analysis/InitSizeModels.RData")
 	# Make supp table of results?
 	
+	rownames <- c("Population + Water + Temperature + Population:Water + Population:Temperature + Water:Temperature + Population:Water:Temperature",
+	"Population + Water + Temperature + Population:Water + Population:Temperature + Water:Temperature",
+	"Population + Water + Temperature + Population:Water + Population:Temperature",
+	"Population + Water + Temperature + Population:Water + Water:Temperature",
+	"Population + Water + Temperature + Population:Temperature + Water:Temperature",
+	"Population + Water + Temperature + Population:Water",
+	"Population + Water + Temperature + Water:Temperature",
+	"Population + Water + Temperature", "Population + Water",
+	"Population + Temperature", "Water + Temperature", "Population", "Water", "-", "-")
+
+	colnames <- c("Random", "DIC")
+	dat <- data.frame(Random = c(rep("Family", 14), "-"), 
+		DIC = round(sapply(InitSizeModels, function(X) X$DIC), 1),
+		stringsAsFactors = F)
+
+	exportTable(file = "ms/Tables/Table_InitialSize.txt", data = dat, 
+		colnames = colnames, rownames = rownames, h1 = "Model")
+
 ### JUST USING GROWTH NOW UNTIL OTHER DATA ARE READY
 ### Analysis 1: Variation in 'intrinsic' traits (significant main effect of Population)
 ### Analysis 2: Variation in plasticity (significant Treatment x Population interaction)
