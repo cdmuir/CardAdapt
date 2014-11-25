@@ -253,13 +253,24 @@ library(MASS)
 	# add Mortality
 	data$DiedFromStress <- tmp$DiedFromStress
 	
+	# add Leaf traits and compute new ones
+	data$LeafCollectionDate <- rep(NA, nrow(data))
+	x <- grep("[0-9][0-9]-[a-zA-Z]+", as.character(tmp$LeafCollectionDate))
+	data$LeafCollectionDate[x] <- 
+		(as.numeric(dmy(paste(as.character(tmp$LeafCollectionDate[x]), "-2014", sep = "")))
+		- 1399852800) / 86400
+	data$UppTrichomeDens <- tmp$UppTrichomeNo / tmp$Length_mm # No per mm
+	data$LowTrichomeDens <- tmp$LowTrichomeNo / tmp$Length_mm # No per mm
+	data$LeafArea_cm2 <- tmp$LeafArea_cm2
+	data$LMA <- 1e4 * tmp$LeafDW_g / tmp$LeafArea_cm2 # in g per m^2
+	data$LDMC <- tmp$LeafDW_g / tmp$LeafFW_g
+
 #
 #	Export for Master Analysis
 #
 
 	data <- data[which(!(is.na(data$lll_AbsGrowth) | is.na(data$height_AbsGrowth))), ]
 	write.csv(data, "MasterDatasheet_out.csv")
-
 	
 ### stuff to move possibly	
 	#
