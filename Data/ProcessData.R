@@ -21,6 +21,10 @@ library(MASS)
 	data$TempTrt <- factor(as.character(data$TempTrt))
 	data$WaterTrt <- factor(as.character(data$WaterTrt))
 
+  # Write MasterDatasheet_in.csv for ms directory with just identifying info (no trait data)
+  write.csv(data[, c("indiv", "Block", "Col", "Row", "Population", "Family", "TempTrt", 
+  	"WaterTrt")], file = "../ms/Data/MasterDatasheet_in.csv", row.names = F)
+
 	# Remove all < 1 mm, call NA
 	data$LLL_0512 <- as.numeric(gsub("< 1", "NA", data$LLL_0512))
 	data$LLL_0515 <- as.numeric(gsub("< 1", "NA", data$LLL_0515))
@@ -33,51 +37,54 @@ library(MASS)
 #
 
 	# Melt data.frame
-	lll.data <- melt(data, value.name = "LLL")
-	lll.data$Day <- mdy(paste(substr(lll.data$variable, 5, 8), "2014", sep = ""))
-	lll.data$DayN <- (as.numeric(lll.data$Day) - 1399852800) / 86400
+	LERdata <- melt(data, value.name = "LLL")
+	LERdata$Day <- mdy(paste(substr(LERdata$variable, 5, 8), "2014", sep = ""))
+	LERdata$DayN <- (as.numeric(LERdata$Day) - 1399852800) / 86400
 	
 	# Get rid of NAs
-	lll.data <- lll.data[!is.na(lll.data$LLL), ]
+	LERdata <- LERdata[!is.na(LERdata$LLL), ]
 		
 	# Refactor indiv
-	lll.data$indiv <- as.factor(as.character(lll.data$indiv))
+	LERdata$indiv <- as.factor(as.character(LERdata$indiv))
+
+  # Export version for paper
+  write.csv(LERdata, file = "~/Google Drive/CardLocalAdaptation/ms/Data/LERdata.csv")
 
 	#
 	# Empirical Bayes Approach: get coefficients for every plant
 	#
 
-	mm <- lmer(log(LLL) ~ poly(DayN, 2, raw = T) + (poly(DayN, 2, raw = T)|indiv),
-		data = lll.data)
+	mmLER <- lmer(log(LLL) ~ poly(DayN, 2, raw = T) + (poly(DayN, 2, raw = T)|indiv),
+		data = LERdata)
 	# Logistic not a very good fit. Something else worth trying?
 	# mm <- nlmer(log(LLL) ~ SSlogis(DayN, Asym, xmid, scal) ~ Asym|indiv,
-		# data = lll.data, start = c(Asym = 5, xmid = 15, scal = 10))
+		# data = LERdata, start = c(Asym = 5, xmid = 15, scal = 10))
 	
 	# TEMP: check for outliers
-	plot(mm) # no outliers, but residuals are odd.
+	plot(mmLER) # no outliers, but residuals are odd.
 
 	# Extract coefficients and add to master data list
-	Y <- t(unlist(fixef(mm)) + t(ranef(mm)$indiv))[match(data$indiv, 
-		rownames(ranef(mm)$indiv)), ]
-	colnames(Y) <- c("b0_lll", "b1_lll", "b2_lll")
+	Y <- t(unlist(fixef(mmLER)) + t(ranef(mmLER)$indiv))[match(data$indiv, 
+		rownames(ranef(mmLER)$indiv)), ]
+	colnames(Y) <- c("b0_LER", "b1_LER", "b2_LER")
 	data <- cbind(data, Y)
 		
 	# For visual representation, plot LLL vs DayN with curves
 	pdf("LLL by individual.pdf", 4, 4)
-	r2 <- numeric(nlevels(lll.data$indiv))
-	names(r2) <- levels(lll.data$indiv)
+	r2 <- numeric(nlevels(LERdata$indiv))
+	names(r2) <- levels(LERdata$indiv)
 	par(mar = c(5, 5, 1, 1))
-	for (i in levels(lll.data$indiv))
+	for (i in levels(LERdata$indiv))
 	{
 		plot(0, 0, xlim = c(0, 31), ylim = c(0, 5), type = "n", las = 1,
 			xlab = "Day", ylab = "log(LLL)", cex.lab = 1.5)
-		with(subset(lll.data, lll.data$indiv == i), points(DayN, log(LLL), pch = 19))
-		with(subset(lll.data, lll.data$indiv == i), points(DayN, 
-			predict(mm)[lll.data$indiv == i], type = "l", col = "blue"))
+		with(subset(LERdata, LERdata$indiv == i), points(DayN, log(LLL), pch = 19))
+		with(subset(LERdata, LERdata$indiv == i), points(DayN, 
+			predict(mm)[LERdata$indiv == i], type = "l", col = "blue"))
 		mtext(text = paste("indiv:", i))
-		r2[i] <- with(subset(lll.data, lll.data$indiv == i), cor(log(LLL), 
-			predict(mm)[lll.data$indiv == i]))
-		mtext(text = bquote(r^2 == .(r2[i])), line = -1)
+		r2[i] <- with(subset(LERdata, LERdata$indiv == i), cor(log(LLL), 
+			predict(mm)[LERdata$indiv == i]))
+		mtext(text = bquote(r^2 == .(round(r2[i], 2))), line = -1)
 	}
 	dev.off()
 
@@ -97,56 +104,58 @@ library(MASS)
 	data2$WaterTrt <- factor(as.character(data2$WaterTrt))
 
 	# Melt data.frame
-	height.data <- melt(data2)
-	colnames(height.data)[colnames(height.data) == "value"]  <- "height"
-	height.data$Day <- mdy(paste(substr(height.data$variable, 8, 11), "2014", sep = ""))
-	height.data$DayN <- (as.numeric(height.data$Day) - 1399852800) / 86400
+	SERdata <- melt(data2)
+	colnames(SERdata)[colnames(SERdata) == "value"]  <- "height"
+	SERdata$Day <- mdy(paste(substr(SERdata$variable, 8, 11), "2014", sep = ""))
+	SERdata$DayN <- (as.numeric(SERdata$Day) - 1399852800) / 86400
 	
 	# Get rid of NAs
-	height.data <- height.data[!is.na(height.data$height), ]
+	SERdata <- SERdata[!is.na(SERdata$height), ]
 	
 	# Remove those with less than 3 datapoints (get rid of this)
-	height.data <- height.data[!(height.data$indiv %in% 
-		which(table(height.data$indiv) < 3)), ]
+	SERdata <- SERdata[!(SERdata$indiv %in% 
+		which(table(SERdata$indiv) < 3)), ]
 	
 	# Refactor indiv
-	height.data$indiv <- as.factor(as.character(height.data$indiv))
+	SERdata$indiv <- as.factor(as.character(SERdata$indiv))
 
-	
-	#
+  # Export version for paper
+  write.csv(SERdata, file = "~/Google Drive/CardLocalAdaptation/ms/Data/SERdata.csv")	
+
+  #
 	# Empirical Bayes Approach: get coefficients for every plant
 	#
 
-	mm <- lmer(log(height + 1) ~ poly(DayN, 2, raw = T) + (poly(DayN, 2, raw = T)|indiv),
-		data = height.data)
+	mmSER <- lmer(log(height + 1) ~ poly(DayN, 2, raw = T) + (poly(DayN, 2, raw = T)|indiv),
+		data = SERdata)
 	
 	# Extract coefficients and add to master data list
-	Y <- t(unlist(fixef(mm)) + t(ranef(mm)$indiv))[match(data2$indiv, 
-		rownames(ranef(mm)$indiv)), ]
-	colnames(Y) <- c("b0_height", "b1_height", "b2_height")
+	Y <- t(unlist(fixef(mmSER)) + t(ranef(mmSER)$indiv))[match(data2$indiv, 
+		rownames(ranef(mmSER)$indiv)), ]
+	colnames(Y) <- c("b0_SER", "b1_SER", "b2_SER")
 	data2 <- cbind(data2, Y)
 
 	pdf("height by individual.pdf", 4, 4)
-	r2 <- numeric(nlevels(height.data$indiv))
-	names(r2) <- levels(height.data $indiv)
+	r2 <- numeric(nlevels(SERdata$indiv))
+	names(r2) <- levels(SERdata $indiv)
 	par(mar = c(5, 5, 1, 1))
-	for (i in levels(height.data$indiv))
+	for (i in levels(SERdata$indiv))
 	{
 		plot(0, 0, xlim = c(17, 39), ylim = c(0, 4), type = "n", las = 1,
 			xlab = "Day", ylab = "height", cex.lab = 1.5)
-		with(subset(height.data, height.data$indiv == i), points(DayN, log(height + 1),
+		with(subset(SERdata, SERdata$indiv == i), points(DayN, log(height + 1),
 			pch = 19))
-		with(subset(height.data, height.data$indiv == i), points(DayN, 
-			predict(mm)[height.data$indiv == i], type = "l", col = "blue"))
+		with(subset(SERdata, SERdata$indiv == i), points(DayN, 
+			predict(mmSER)[SERdata$indiv == i], type = "l", col = "blue"))
 		mtext(text = paste("indiv:", i))
-		r2[i] <- with(subset(height.data, height.data $indiv == i), cor(log(height + 1), 
-			predict(mm)[height.data$indiv == i]))
+		r2[i] <- with(subset(SERdata, SERdata $indiv == i), cor(log(height + 1), 
+			predict(mmSER)[SERdata$indiv == i]))
 		mtext(text = bquote(r^2 == .(r2[i])), line = -1)
 	}
 	dev.off()
 
 	#
-	#	Combine lll and height data, output as MasterDatasheet_out.csv
+	#	Combine LER and SER data, output as MasterDatasheet_out.csv
 	#
 
 	data$Height_0529 <- data2$Height_0529[match(data$indiv, data2$indiv)]
@@ -156,34 +165,34 @@ library(MASS)
 	data$Height_0612 <- data2$Height_0612[match(data$indiv, data2$indiv)]
 	data$Height_0616 <- data2$Height_0616[match(data$indiv, data2$indiv)]
 	data$Height_0620 <- data2$Height_0620[match(data$indiv, data2$indiv)]
-	data$b0_height <- data2$b0_height[match(data$indiv, data2$indiv)]
-	data$b1_height <- data2$b1_height[match(data$indiv, data2$indiv)]
-	data$b2_height <- data2$b2_height[match(data$indiv, data2$indiv)]
+	data$b0_SER <- data2$b0_SER[match(data$indiv, data2$indiv)]
+	data$b1_SER <- data2$b1_SER[match(data$indiv, data2$indiv)]
+	data$b2_SER <- data2$b2_SER[match(data$indiv, data2$indiv)]
 
-	# Model-based lll growth
+	# Model-based LER growth
 	# Cool: Day 0 - 31
 	# Hot: Day 0 - 24
-	data$lll_start <- exp(data$b0_lll)
-	data$lll_end <- exp(data$b0_lll + 
-					data$b1_lll * ifelse(data$TempTrt == "Cool", 31, 24) + 
-					data$b2_lll * ifelse(data$TempTrt == "Cool", 31 ^ 2, 24 ^ 2))
-	data$lll_AbsGrowth <- (data$lll_end - data$lll_start) / 
+	data$LERstart <- exp(data$b0_LER)
+	data$LERend <- exp(data$b0_LER + 
+					data$b1_LER * ifelse(data$TempTrt == "Cool", 31, 24) + 
+					data$b2_LER * ifelse(data$TempTrt == "Cool", 31 ^ 2, 24 ^ 2))
+	data$LER_AbsGrowth <- (data$LERend - data$LERstart) / 
 		ifelse(data$TempTrt == "Cool", 31, 24)
-	data$lll_RelGrowth <- (log(data$lll_end) - log(data$lll_start)) / 
+	data$LER_RelGrowth <- (log(data$LERend) - log(data$LERstart)) / 
 		ifelse(data$TempTrt == "Cool", 31, 24)
 
 	# Model-based height growth
 	# Cool: Day 17 - 39
 	# Hot: Day 17 - 31
-	data$height_start <- exp(data$b0_height + data$b1_height * 17 + 
-		data$b2_height * 17 ^ 2) - 1
-	data$height_end <- exp(data$b0_height + 
-		data$b1_height * ifelse(data$TempTrt == "Cool", 39, 31) + 
-		data$b2_height * ifelse(data$TempTrt == "Cool", 39 ^ 2, 31 ^ 2)) - 1
-	data$height_AbsGrowth <- (data$height_end - data$height_start) / 
+	data$SERstart <- exp(data$b0_SER + data$b1_SER * 17 + 
+		data$b2_SER * 17 ^ 2) - 1
+	data$SERend <- exp(data$b0_SER + 
+		data$b1_SER * ifelse(data$TempTrt == "Cool", 39, 31) + 
+		data$b2_SER * ifelse(data$TempTrt == "Cool", 39 ^ 2, 31 ^ 2)) - 1
+	data$SER_AbsGrowth <- (data$SERend - data$SERstart) / 
 		ifelse(data$TempTrt == "Cool", 22, 14)
-	data$height_RelGrowth <- (log(data$height_end) - log(data$height_start)) / 
-		ifelse(data$TempTrt == "Cool", 22, 14)
+	# data$SER_RelGrowth <- (log(data$SERend) - log(data$SERstart)) / 
+		# ifelse(data$TempTrt == "Cool", 22, 14)
 
 #
 #	Add photosynthetic data
@@ -253,24 +262,47 @@ library(MASS)
 	# add Mortality
 	data$DiedFromStress <- tmp$DiedFromStress
 	
-	# add Leaf traits and compute new ones
-	data$LeafCollectionDate <- rep(NA, nrow(data))
-	x <- grep("[0-9][0-9]-[a-zA-Z]+", as.character(tmp$LeafCollectionDate))
-	data$LeafCollectionDate[x] <- 
-		(as.numeric(dmy(paste(as.character(tmp$LeafCollectionDate[x]), "-2014", sep = "")))
-		- 1399852800) / 86400
-	data$UppTrichomeDens <- tmp$UppTrichomeNo / tmp$Length_mm # No per mm
-	data$LowTrichomeDens <- tmp$LowTrichomeNo / tmp$Length_mm # No per mm
-	data$LeafArea_cm2 <- tmp$LeafArea_cm2
-	data$LMA <- 1e4 * tmp$LeafDW_g / tmp$LeafArea_cm2 # in g per m^2
-	data$LDMC <- tmp$LeafDW_g / tmp$LeafFW_g
+	# add Leaf traits and compute new ones (MOST NOT INCLUDED FOR NOW)
+	# data$LeafCollectionDate <- rep(NA, nrow(data))
+	# x <- grep("[0-9][0-9]-[a-zA-Z]+", as.character(tmp$LeafCollectionDate))
+	# data$LeafCollectionDate[x] <- 
+	#	(as.numeric(dmy(paste(as.character(tmp$LeafCollectionDate[x]), "-2014", sep = "")))
+	#	- 1399852800) / 86400
+	# data$UppTrichomeDens <- tmp$UppTrichomeNo / tmp$Length_mm # No per mm
+	# data$LowTrichomeDens <- tmp$LowTrichomeNo / tmp$Length_mm # No per mm
+	# data$LeafArea_cm2 <- tmp$LeafArea_cm2
+	# data$LMA <- 1e4 * tmp$LeafDW_g / tmp$LeafArea_cm2 # in g per m^2
+	# data$LDMC <- tmp$LeafDW_g / tmp$LeafFW_g
 
 #
 #	Export for Master Analysis
 #
 
-	data <- data[which(!(is.na(data$lll_AbsGrowth) | is.na(data$height_AbsGrowth))), ]
+	data <- data[which(!(is.na(data$LER_AbsGrowth) | is.na(data$SER_AbsGrowth))), ]
+
+	# Add population ID to standardize across datasets
+	data$PopID <- factor(character(nrow(data)), levels = c("CTC", "CUR", "DPC", "GRP", "HAU", 
+		"LIJ", "MIL", "MYU", "NMT", "PRD", "RBW", "RCC", "RWD", "WFM", "WNA", "WWC"))
+	data$PopID[data$Population == "Cottonwood Creek"] <- "CTC"
+	data$PopID[data$Population == "Cuyamaca Rancho"] <- "CUR"
+	data$PopID[data$Population == "Deep Creek"] <- "DPC"
+	data$PopID[data$Population == "Grade Road Palomar"] <- "GRP"
+	data$PopID[data$Population == "Hauser Creek"] <- "HAU"
+	data$PopID[data$Population == "Little Jameson"] <- "LIJ"
+	data$PopID[data$Population == "Mill Creek"] <- "MIL"
+	data$PopID[data$Population == "Middle Yuba"] <- "MYU"
+	data$PopID[data$Population == "North Fork Middle Tule"] <- "NMT"
+	data$PopID[data$Population == "Paradise Creek"] <- "PRD"
+	data$PopID[data$Population == "Rainbow Pool"] <- "RBW"
+	data$PopID[data$Population == "Rock Creek"] <- "RCC"
+	data$PopID[data$Population == "Redwood Creek"] <- "RWD"
+	data$PopID[data$Population == "West Fork Mojave River"] <- "WFM"
+	data$PopID[data$Population == "Wawona"] <- "WNA"
+	data$PopID[data$Population == "Whitewater Canyon"] <- "WWC"
 	write.csv(data, "MasterDatasheet_out.csv")
+
+	# Save version for paper
+	write.csv(data, "../ms/Data/MasterDatasheet_out.csv")
 	
 ### stuff to move possibly	
 	#
@@ -362,18 +394,18 @@ library(MASS)
 	#	Latitude versus b0, b1, b2
 	#
 	
-	fit.b0 <- lmer(b0_height ~ -1 + Population + TempTrt * WaterTrt + (1|Family), 
-		data = subset(data, !is.na(data$b2_height)))
-	fit.b1 <- lmer(b1_height ~ -1 + Population + TempTrt * WaterTrt + (1|Family), 
-		data = subset(data, !is.na(data$b1_height)))
-	fit.b2 <- lmer(b2_height ~ -1 + Population + TempTrt * WaterTrt + (1|Family), 
-		data = subset(data, !is.na(data$b2_height)))
+	fit.b0 <- lmer(b0_SER ~ -1 + Population + TempTrt * WaterTrt + (1|Family), 
+		data = subset(data, !is.na(data$b2_SER)))
+	fit.b1 <- lmer(b1_SER ~ -1 + Population + TempTrt * WaterTrt + (1|Family), 
+		data = subset(data, !is.na(data$b1_SER)))
+	fit.b2 <- lmer(b2_SER ~ -1 + Population + TempTrt * WaterTrt + (1|Family), 
+		data = subset(data, !is.na(data$b2_SER)))
 	
-	popenv$height_b0 <- fixef(fit.b0)[1:16][match(popenv$Site, 
+	popenv$SER_b0 <- fixef(fit.b0)[1:16][match(popenv$Site, 
 		substr(names(fixef(fit.b0)[1:16]), 11, nchar(names(fixef(fit.b0)[1:16]))))]
-	popenv$height_b1 <- fixef(fit.b1)[1:16][match(popenv$Site, 
+	popenv$SER_b1 <- fixef(fit.b1)[1:16][match(popenv$Site, 
 		substr(names(fixef(fit.b1)[1:16]), 11, nchar(names(fixef(fit.b1)[1:16]))))]
-	popenv$height_b2 <- fixef(fit.b2)[1:16][match(popenv$Site, 
+	popenv$SER_b2 <- fixef(fit.b2)[1:16][match(popenv$Site, 
 		substr(names(fixef(fit.b2)[1:16]), 11, nchar(names(fixef(fit.b2)[1:16]))))]
 	
 	
@@ -399,12 +431,12 @@ library(MASS)
 	pdf("lll+height by individual.pdf", 4, 4)
 	par(mar = c(5, 5, 1, 1))
 	
-	height.data$reheight <- rescale(log(lll.data$LLL), log(height.data$height + 1))
-	for (i in intersect(lll.data$indiv, height.data$indiv))
+	SERdata$reheight <- rescale(log(LERdata$LLL), log(SERdata$height + 1))
+	for (i in intersect(LERdata$indiv, SERdata$indiv))
 	{
-		with(subset(lll.data, lll.data$indiv == i), plot(DayN, log(LLL), pch = 19,
+		with(subset(LERdata, LERdata$indiv == i), plot(DayN, log(LLL), pch = 19,
 			col = "blue", xlim = c(0, 39), ylim = c(0, 5), las = 1, main = i))
-		with(subset(height.data, height.data$indiv == i), points(DayN, log(height + 1),
+		with(subset(SERdata, SERdata$indiv == i), points(DayN, log(height + 1),
 			pch = 19, col = "red", xlim = c(0, 39), ylim = c(0, 5), las = 1))
 	}
 	dev.off()
