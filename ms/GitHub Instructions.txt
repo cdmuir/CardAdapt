@@ -1,0 +1,6 @@
+# Instructions for pushing to GitHub
+git add [FILES]
+git commit "[MESSAGE]"
+git push -u origin master
+
+# Instructions for pulling from GitHub

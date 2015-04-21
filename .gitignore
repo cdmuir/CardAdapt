@@ -1,6 +1,11 @@
 # Ignore everything except what is in ms folder
 Data/*
 Analysis/*
+demography hobo data/*
+Extraneous/*
+Field Data 2014/*
+GBS/*
+Methods/*
 
 # GIS files
 *.asc
