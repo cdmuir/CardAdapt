@@ -1,3 +1,7 @@
+# Ignore everything except what is in ms folder
+Data/*
+Analysis/*
+
 # GIS files
 *.asc
 *.prj
