@@ -1,4 +1,53 @@
-\documentclass[11pt, oneside]{article}
+\documentclass[11pt, oneside]{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
 
 %
 % Packages
@@ -6,7 +55,7 @@
 
 \usepackage{geometry}
 \geometry{letterpaper}
-\usepackage[parfill]{parskip}    			% Activate to begin paragraphs with an empty line rather than an indent
+\usepackage[parfill]{parskip}      		% Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{topcapt}
@@ -21,12 +70,72 @@
 % Make helvetica the default sans-serif font
 \renewcommand\sfdefault{phv}
 
+% Package command for citing R packages
+\newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}} 
+
 %
 % Commenting
 %
 
 \newcommand{\cdm}[1]{{ \color{magenta} [{\bf{CDM:}} {\em#1}]}} % Chris' comments are in magenta.
 \newcommand{\ala}[1]{{ \color{blue} [{\bf{ALA:}} {\em#1}]}} % Amy's comments are in blue.
+
+%
+% Where to find files
+%
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+  \hlcom{# The path to the ms directory may need to be changed for different users}
+  \hlcom{# Manuscript files}
+  \hlstd{pathMS} \hlkwb{<-} \hlstr{"~/Google Drive/CardLocalAdaptation/ms"}
+
+  \hlcom{# Data files for paper}
+  \hlstd{pathDat} \hlkwb{<-} \hlkwd{paste}\hlstd{(pathMS,} \hlstr{"/Data"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{)}
+
+  \hlcom{# Figures for paper}
+  \hlstd{pathFig} \hlkwb{<-} \hlkwd{paste}\hlstd{(pathMS,} \hlstr{"/Figures"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{)}
+
+  \hlcom{# Tables for paper}
+  \hlstd{pathTab} \hlkwb{<-} \hlkwd{paste}\hlstd{(pathMS,} \hlstr{"/Tables"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{)}
+
+  \hlcom{# Small function to make statistical significance asterisks}
+  \hlstd{sigStar} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{pvalue}\hlstd{)}
+  \hlstd{\{}
+    \hlkwa{if} \hlstd{(pvalue} \hlopt{>=} \hlnum{0.05}\hlstd{)} \hlkwd{return}\hlstd{(}\hlstr{""}\hlstd{)}
+    \hlkwa{if} \hlstd{(pvalue} \hlopt{<} \hlnum{0.05} \hlopt{&} \hlstd{pvalue} \hlopt{>=} \hlnum{0.01}\hlstd{)} \hlkwd{return}\hlstd{(}\hlstr{"*"}\hlstd{)}
+    \hlkwa{if} \hlstd{(pvalue} \hlopt{<} \hlnum{0.01} \hlopt{&} \hlstd{pvalue} \hlopt{>=} \hlnum{0.001}\hlstd{)} \hlkwd{return}\hlstd{(}\hlstr{"**"}\hlstd{)}
+    \hlkwa{if} \hlstd{(pvalue} \hlopt{<} \hlnum{0.001}\hlstd{)} \hlkwd{return}\hlstd{(}\hlstr{"***"}\hlstd{)}
+  \hlstd{\}}
+
+  \hlcom{# Color palette}
+  \hlcom{# Primary color:}
+
+   \hlstd{primShade0} \hlkwb{<-} \hlkwd{rgb}\hlstd{(}\hlnum{1}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{0.286}\hlstd{)}
+   \hlstd{primShade1} \hlkwb{<-} \hlkwd{rgb}\hlstd{(}\hlnum{1}\hlstd{,} \hlnum{0.643}\hlstd{,} \hlnum{0.745}\hlstd{)}
+   \hlstd{primShade2} \hlkwb{<-} \hlkwd{rgb}\hlstd{(}\hlnum{1}\hlstd{,} \hlnum{0.439}\hlstd{,} \hlnum{0.6}\hlstd{)}
+   \hlstd{primShade3} \hlkwb{<-} \hlkwd{rgb}\hlstd{(}\hlnum{0.765}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{0.22}\hlstd{)}
+   \hlstd{primShade4} \hlkwb{<-} \hlkwd{rgb}\hlstd{(}\hlnum{0.588}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{0.169}\hlstd{)}
+
+  \hlcom{# Secondary color (1):}
+
+  \hlstd{sec1shade0} \hlkwb{<-} \hlkwd{rgb}\hlstd{(}\hlnum{0.008}\hlstd{,} \hlnum{0.957}\hlstd{,} \hlnum{1}\hlstd{)}
+  \hlstd{sec1shade1} \hlkwb{<-} \hlkwd{rgb}\hlstd{(}\hlnum{0.643}\hlstd{,} \hlnum{0.984}\hlstd{,} \hlnum{1}\hlstd{)}
+  \hlstd{sec1shade2} \hlkwb{<-} \hlkwd{rgb}\hlstd{(}\hlnum{0.443}\hlstd{,} \hlnum{0.976}\hlstd{,} \hlnum{1}\hlstd{)}
+  \hlstd{sec1shade3} \hlkwb{<-} \hlkwd{rgb}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0.49}\hlstd{,} \hlnum{0.514}\hlstd{)}
+  \hlstd{sec1shade4} \hlkwb{<-} \hlkwd{rgb}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0.376}\hlstd{,} \hlnum{0.396}\hlstd{)}
+
+  \hlcom{# Secondary color (2):}
+
+  \hlstd{sec2shade0} \hlkwb{<-} \hlkwd{rgb}\hlstd{(}\hlnum{0.988}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{0}\hlstd{)}
+  \hlstd{sec2shade1} \hlkwb{<-} \hlkwd{rgb}\hlstd{(}\hlnum{0.996}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{0.643}\hlstd{)}
+  \hlstd{sec2shade2} \hlkwb{<-} \hlkwd{rgb}\hlstd{(}\hlnum{0.992}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{0.439}\hlstd{)}
+  \hlstd{sec2shade3} \hlkwb{<-} \hlkwd{rgb}\hlstd{(}\hlnum{0.835}\hlstd{,} \hlnum{0.847}\hlstd{,} \hlnum{0}\hlstd{)}
+  \hlstd{sec2shade4} \hlkwb{<-} \hlkwd{rgb}\hlstd{(}\hlnum{0.643}\hlstd{,} \hlnum{0.651}\hlstd{,} \hlnum{0}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 %
 % Title and authors
@@ -39,7 +148,7 @@
 %
 % Start document
 %
-
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
 \maketitle
 \listoffigures
@@ -47,119 +156,635 @@
 
 \section*{Abstract}
 
+% write/analyze
+% proposal for summer
+  % local fitness set concave
+  % range-wide fitness set convex
+  % interaction between shape of fitness set and gene flow?
+% evo-phys proposal
+
 \section*{Introduction}
 
-% What's the big picture (this is TOO big):
-% It is taken for granted that genes are the foundation of evolution. If we get to the genetic basis of adaptive evolution, then we have understood the process at its deepest level. I believe this view is misguided. Genetic change is, to the best of our knowledge, the basis of evolution, but this does not imply that by understanding genetic variation we can predict phenotypic evolution. Rather, variation and constraint on phenotypic evolution are often determined by what goes on outside. Organisms must survive and reproduce in the real world of physical laws and interactions with other organisms. Physiology, the study of organismal function, tells us about the variation and constraint on ways in which organisms can meet these challenges. ...
+Local adaptation is one of the most ubiquitous observations in nature: organisms perform well in their natal environment, but poorly outside it. Local adaptation within species most often involves genetic differences in ecologically relevant traits caused by selection to different environments, leading to predictable trait-environment correlations that persist in a common garden. Although local adaptation is well-supported by data from reciprocal transplant experiments, trait-environment associations, and ecological genetics/genomics, predicting which traits respond to selection exceeds our understanding. In particular, the role of physiological traits is poorly understood, even though physiology explains adaptation to the abiotic environment, which we need to understand as a baseline for anticipating how organisms will respond to climate change. A related problem is identifying the exact selective agents, such as abiotic factors like soil water availability or biotic interactions [etc.]... Here, we simultaneously investigate which traits and causal selective agents explain range-wide patterns of local physiological adaptation to climate in \textit{Mimulus}, a model genus for local adaptation studies.
 
-Local adaptation is one of the most ubiquitous observations in nature: organisms perform well in their natal environment, but poorly outside it. Local adaptation is most often examined within species where selection in different environments leads to ecologically relevant trait divergence between populations. Despite local adaptation leading to population divergence, many traits are conserved within species. \cdm{this is not quite right. What I really want to say is that some traits divergence genetically, others are plastic, but plasticity is conserved because...? why? no spatial variation in selection for plasticity?}. Can we predict which types of traits are likely to be different between populations and which are likely to be constant? A long-standing hypothesis is that the grain of environmental variation determines whether organisms respond through population genetic differentiation or phenotypic plasticity \citep{}. \cdm{What I want to get to is whether plasticity is conserved. The problem is, just because there is selection for plasticity, this doesn't need to imply that the reaction norm is actually the same across populations. But perhaps we can oversimplify here?}. 
+% niche-tracking versus niche-shifting
+One surprising pattern is that populations adapt to different environments by adjusting their life history to stay within the same fundamental physiological niche rather than have the niche itself evolve. For example, mosquitoes adjust diapause length with latitude rather than evolve altered ...\cdm{what other examples could we include here?} This suggests that in many situations it is evolutionarily easier to change life history rather than fundamental physiological tolerance.
 
-When the environment is fine grained
+% Selective agents
+We also know little about the selective agents, such as climatic factors or biotic interactions, that are most important in driving adaptive divergence. In certain situations, such as pollinator shifts and edaphic adaptation, it is straightforward to identify putative selective agents and test predicted mechanisms. However, it is more challenging for cases in which traits vary with less specific factors like mean annual precipitation or latitude. For example, body size clines (larger size at higher latitude) have evolved repeatedly on three contients in \textit{Drosophila subobscura}, strongly indicating selection. But which one or more of the many climatic factors that covary with latitude actually controls selection on body size? Selection might be even more complex for species that live over multiple seasons, meaning that environmental variation rather than the average environment may be a selective agent.
 
+% Motivate using Mimulus
+Linking physiological traits to potentially complex patterns of local adaptation requires integrating multiple lines of evidence from comparative, experimental, genomic studies under both lab and field conditions. Many classic and contemporary studies of local adaptation have been conducted using species from genus \textit{Mimulus} because of its natural history, easy propogation, and genetic/genomic resources. ... Conspicuous absence of phys mechanism
 
-, Despite this common, and long-standing pattern, only certain traits In particular, adaptation to the local abiotic environment is generally thought to be the major cause of natural selection. Physiology, the study of organismal function, connects fitness to the abiotic environment, yet we actually know little about the physiological basis of adaptation to different environments within a species. To address this question, we looked at physiological variation across a broad latitudual gradient within \textit{Mimulus cardinalis}...
-
+% Final paragraph
 1. `intrinsic' physiological variation
 2. variation in stress response
 3. what ecological factors explain divergence (i.e. putative selective agents underlying local adaptation)
 
- % one paragraph general review of physiology, environment, and local adaptation
-
- % one paragraph review of physiology, environment, and local adaptation in Mimulus
-
- % one paragraph wrapping up, motivating this study
+Conclude that observations are best explained by stabilizing selection on the fundamental niche, but spatially varying divergent selection on coordinated life history and physiological traits.
 
 \section*{Methods}
 
 \subsection*{Population Selection}
 
-I chose 16 populations from throughout the range of \textit{M. cardinalis} (Table 1) that have been previously studied. Seeds were collected in the field \cdm{Amy, can you explain seed collection methods?}.
+We used 16 populations from throughout the range of \textit{M. cardinalis} (Table 1). Seeds were collected in the field \cdm{Amy, can you explain seed collection methods?}.
 
-\begin{table}[htbp]
+
+
+\begin{table}[ht]
    \centering
-   \topcaption{Table 1: 16 Focal populations}
+   \topcaption{16 Focal populations}
    \begin{tabular}{@{} lllllll @{}}
       \toprule
-      Name    & Region & Demo? & Pop gen? & Lat & Lon & Alt \\
+  Name& Region  & Demo?& Pop gen?& Latitude  & Longtiude  & Elevation (mas) \\
       \midrule
-	Hauser Creek						& South Margin		& yes	& yes	& 32.65822	& -116.53235	& 892 \\
-	Cottonwood Creek					& South Margin		& yes	& no		& 32.80122	& -116.50194	& 1206 \\
-	Sweetwater River					& South Margin		& yes	& yes	& 32.89928	& -116.5849	& 1223 \\
-	Grade Road - to Palomar Mountain SP	& South Margin		& no		& no		& 33.31392	& -116.87129	& 1500 \\
-	Whitewater Canyon					& Transverse		& yes	& yes	& 33.99329	& -116.66267	& 696 \\
-	Mill Creek							& Transverse		& yes	& no		& 34.07808	& -116.87558	& 1992 \\
-	West Fork Mojave River				& Transverse		& yes	& no		& 34.28425	& -117.37539	& 1087 \\
-	North Fork Middle Tule				& South Sierras		& yes	& yes?	& 36.20081	& -118.65092	& 1284 \\
-	Paradise Creek						& South Sierras		& yes	& yes	& 36.51776	& -118.75877	& 887 \\
-	Redwood Creek					& South Sierras		& yes	& yes	& 36.69096	& -118.90961	& 1683.72 \\
-	Wawona							& Central Sierras	& yes	& yes	& 37.539		& -119.654	& 1208 \\
-	Rainbow Pool (RP)					& Central Sierras	& yes	& no		& 37.8188		& -120.00743	& 862.2792 \\
-	Middle Yuba (Oregon Creek)			& North Sierras		& yes	& yes	& 39.39442	& -121.08302	& 425.196 \\
-	Little Jameson						& North Sierras		& yes	& yes	& 39.74298	& -120.70401	& 1592 \\
-	Deep Creek						& North Coast		& yes	& yes	& 41.66546	& -123.11341	& 694 \\
-	Rock Creek (North Fork Umpqua)		& North Margin		& yes	& yes	& 43.37375	& -122.9575	& 311.2008 \\
+	HAU & South Margin		& yes	& yes	& 	& 
+    	&    \\
+	CTC	& South Margin		& yes	& no	&  & 
+    	&    \\
+	CUR	& South Margin		& yes	& yes &  & 
+    	&    \\
+	GRP & South Margin		& no	& no	&  &
+    	&    \\
+	WWC &	Transverse		  & yes	& yes	&  & 
+    	&    \\
+	MIL	& Transverse	  	& yes	& no	&  & 
+    	&    \\
+	WFM	& Transverse	  	& yes	& no	&  & 
+    	&    \\
+	NMT	& South Sierras		& yes	& yes?&  & 
+    	&    \\
+	PRD	& South Sierras		& yes	& yes	&  & 
+    	&    \\
+	RWD	& South Sierras		& yes	& yes	&  & 
+    	&    \\
+	WNA	& Central Sierras	& yes	& yes	&  & 
+    	&    \\
+	RBW	& Central Sierras	& yes	& no	&  & 
+    	&    \\
+	MYU	& North Sierras		& yes	& yes	&  & 
+    	&    \\
+	LIJ	& North Sierras		& yes	& yes	&  & 
+    	&    \\
+	DPC	& North Coast	  	& yes	& yes	&  & 
+    	&    \\
+	RCC	& North Margin		& yes	& yes	&  & 
+    	&    \\
 	\bottomrule
    \end{tabular}
 \end{table}
 
 \subsection*{Plant propagation}
 
-% Spring 2014 cohort
 On 14 April, 2014, 3-5 seeds per family were sown directly on sand (Quikrete Play Sand, Georgia, USA) watered to field capacity in RLC4 Ray Leach cone-tainers placed in RL98 98-well trays (Stuewe \& Sons, Inc., Oregon, USA). We used pure sand both to facilitate root-washing and because \textit{M. cardinalis} typically grows in sandy, riparian soils (A. Angert, pers. obs.). Two jumbo-sized cotton balls at the bottom of cone-tainers prevented sand from washing out. Cone-tainers were continuously bottom-watered during germination by placing them in medium-sized flow trays (FLOWTMD, Stuewe \& Sons, Inc., Oregon, USA) filled part way with water, placed on benches in greenhouses at the University British Columbia campus in Vancouver, Canada (49\degree 15' N, 123\degree 15' W). Misters thoroughly wetted the top of the sand every two hours during the day. Most seeds germinated between 1 and 2 weeks, but we allowed 3 weeks before transferring seedlings to growth chambers. Germination was recorded daily from one to two weeks after sowing, and every few days thereafter. On 5 May (21 days after sowing), seedlings were transferred to one of two MODEL Growth Chambers (Conviron, Manitoba, Canada). We thinned seedlings to one plant per cone-tainer, leaving the center-most, largest plant. 702 of 768 (91.4\%) had plants that could be used in the experiment. We allowed one week at constant, non stressful conditions (day: 20\celsius, night: 16\celsius) for plants to acclimate to growth chambers before starting treatments. The initial size of seedlings, measured as the length of the first true leaves, did not differ between populations, families, or treatments (Table S\#).
 
+\paragraph*{Monitoring environment}
+
+  	Cross check with Poorter paper \\
+		Light (PAR sensors), temp/humidity (HOBOs), soil moisture
+    
 \subsection*{Treatments}
 
-To do this, I will use 4 watering treatments on two populations on two soils. The watering treatments are: constant water, constant level/decreasing frequency, decreasing level/constant frequency, no water. I will monitor soil water potential in pots with no plants. Basically, I'm just trying to figure out whether one or another method is easier or more effective, and if I see any obvious response from plants in term of growth.
+We used 2 watering treatments on two populations on two soils. The watering treatments are: well-watered, drought.
 
 \subsubsection*{Temperature}
 
-We simulated typical growing season (June and July) air temperatures at the two most thermally divergent focal sites in our study, Whitewater Canyon (High Temp) and Little Jameson (Low Temp). We downloaded daily interpolated mean, minimum, and maximum air temperature from 13 years (2000-2012) at both sites from ClimateWNA (CITE). Daily temperatures from ClimateWNA are usually highly correlated with the air temperature recorded from data loggers in the field at these sites (A. Angert, unpub. data). Hence, the ClimateWNA temperature profiles are likely to similar to actual thermal regimes experienced by \textit{M. cardinalis} in nature. To create realistic temperature regimes, we calculated the mean temperature trend from June to July using LOESS \citep{Cleveland_etal_1992}. The residuals were highly autocorrelated at both sites (warmer than average days are typically followed by more warm days) and there was strong correlation ($r = 0.65$) between sites (warm days in WWC were also warm in LIJ). The `VARselect' function in the vars package for R \citep{Pfaff_2008} indicated that a lag two Vector Autoregression (VAR(2)) model best captured the within-site autocorrelation as well as between-site correlation in residuals. We fit and simulated from the VAR(2) using the package dse \citep{Gilbert_2006?} in R. Simulated data closely resembled the autocorrelation and between-site correlation of the actual data. From simulated mean temperature, we next selected minimum and maximum daily temperatures. Mean, min, and max temperature were highly correlated at both sites. We chose min and max temperatures using site-specific fitted linear models between mean, max, and min temperature, with additional variation given by normally-distributed random deviates with variance equal to the residual variance of the linear models. For each day, the nighttime (22:00 - 6:00) chamber temperature was set to the simulated minimum temperature. During the middle of the day, chamber temperature was set to the simulated maximum temperature, with a variable period of transition between min and max so that the average temperature was equal the simulated mean temperature.
+We simulated typical growing season (June and July) air temperatures at the two most thermally divergent focal sites in our study, Whitewater Canyon (High Temp) and Little Jameson (Low Temp). We downloaded daily interpolated mean, minimum, and maximum air temperature from 13 years (2000-2012) at both sites from ClimateWNA \citep{Wang_etal_2012}. Daily temperatures from ClimateWNA are usually highly correlated with the air temperature recorded from data loggers in the field at these sites (A. Angert, unpub. data). Hence, the ClimateWNA temperature profiles are likely to similar to actual thermal regimes experienced by \textit{M. cardinalis} in nature. To create realistic temperature regimes, we calculated the mean temperature trend from June to July using LOESS \citep{Cleveland_etal_1992}. The residuals were highly autocorrelated at both sites (warmer than average days are typically followed by more warm days) and there was strong correlation ($r = 0.65$) between sites (warm days in WWC were also warm in LIJ). The `VARselect' function in the \pkg{vars} package for R \citep{Pfaff_2008} indicated that a lag two Vector Autoregression (VAR(2)) model best captured the within-site autocorrelation as well as between-site correlation in residuals. We fit and simulated from the VAR(2) using the package \pkg{dse} \citep{Gilbert_2014} in R. Simulated data closely resembled the autocorrelation and between-site correlation of the actual data. From simulated mean temperature, we next selected minimum and maximum daily temperatures. Mean, min, and max temperature were highly correlated at both sites. We chose min and max temperatures using site-specific fitted linear models between mean, max, and min temperature, with additional variation given by normally-distributed random deviates with variance equal to the residual variance of the linear models. For each day, the nighttime (22:00 - 6:00) chamber temperature was set to the simulated minimum temperature. During the middle of the day, chamber temperature was set to the simulated maximum temperature, with a variable period of transition between min and max so that the average temperature was equal the simulated mean temperature.
 
 \subsubsection*{Water}
 
 			Wet: daily/constant irrigation with cooled water
 			Dry: start at week \#, gradually decrease watering frequency/level
 
-			Are there any data from California about soil water content through the season?
-
-\subsection*{Monitoring environment}
-
-		Cross check with Poorter paper \\
-		Light (PAR sensors), temp/humidity (HOBOs), soil moisture
-
-\subsection*{Traits}
-
-\subsubsection*{Structure}
-
-leaf traits, biomass allometry
-
-\subsubsection*{Function}
-
-photosynthesis
-
-\subsubsection*{Performance}
-
-Growth rate: leaf expansion rate AND stem elongation rate
-Biomass (show correlation between growth rate and biomass)
-
-\cdm{Not sure where this goes} We tested for population variation in germination rate, measured as Days to Germination, using a lognormal survival model fit using the survreg function in the R package survival version 2.37-7 \citep{Therneau_2014}. The model was fit with Population as a fixed effect and Family as random effect using a $\Gamma$ frailty function. The signifcance of the Population effect was determined using analysis of deviance.
+			\cdm{Are there any data from California about soil water content through the season?}
 
 
-\subsection*{Intrinsic variation}
+\subsubsection*{Growth and photosynthesis}
 
-\cdm{which traits: growth rate, biomass, biomass allometry, leaf traits, photosynthesis?, mortality?}
-We tested for Population, Treatment, and Population $\times$ Treatment interactions using mixed model ANOVA with Family included as a random factor. Models were fit by restricted maximum likelihood using lmer from the R package lme4 version 1.0-5 \citep{Bates_etal_2013}. Significant fixed effect terms were selected using a step-wise backward elimination procedure implemented with the step function in the R package lmerTest version 2.0-11 \citep{Kuznetsova_etal_2014}. Denominator degrees of freedom for $F$-tests were estimated using Satterthwaite's approximation. Significant Population effect indicate intrinsic trait differences; significant Population $\times$ Treatment effects indicate population differences in plasticity. For growth rate, we also accounted for differences in germination rate by including day of germination as a factor.
+\begin{table}[ht]
+   \centering
+   \topcaption{Traits}
+   \begin{tabular}{@{} ll @{}}
+      \toprule
+  Trait & Units \\
+      \midrule
+  Day of germination  & day \\
+  Leaf expansion rate  &  mm day$^{-1}$  \\
+  Shoot elongation rate  &  mm or cm day$^{-1}$  \\
+  Harvest dry mass &  g  \\
+  Photosynthetic rate &  $\mu$mol CO$_2$ m$^{-2}$ s$^{-1}$\\
+  Mortality &  Probability?  \\
+	    \bottomrule
+   \end{tabular}
+\end{table}
 
-	% 
+\paragraph{Day of germination} We tested for population variation in germination rate, measured as Days to Germination, using a lognormal survival model fit using the survreg function in the R package \pkg{survival} version 2.38 \citep{Therneau_2015}. The model was fit with Population as a fixed effect and Family as random effect using a $\Gamma$ frailty function. The signifcance of the Population effect was determined using analysis of deviance.
 
-\subsection*{Environmental correlates}
-	% latitude
-	% temperature (mean annual, July/june)
-	% stream characterisitics - what data does Amy have from surveys?
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+  \hlkwd{library}\hlstd{(survival)}
+  \hlstd{pathMS} \hlkwb{<-} \hlstr{"~/Google Drive/CardLocalAdaptation/ms"}
+  \hlstd{pathDat} \hlkwb{<-} \hlkwd{paste}\hlstd{(pathMS,} \hlstr{"/Data"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{)}
 
-	% approaches: direct correlation, bedazzle?
+  \hlstd{master} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(}\hlkwd{paste}\hlstd{(pathDat,} \hlstr{"/MasterDatasheet_out.csv"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{),}
+    \hlkwc{row.names} \hlstd{=} \hlnum{1}\hlstd{)}
+
+  \hlcom{# Create Surv object}
+        \hlstd{germ} \hlkwb{<-} \hlkwd{with}\hlstd{(}\hlkwd{subset}\hlstd{(master,} \hlopt{!}\hlkwd{is.na}\hlstd{(master}\hlopt{$}\hlstd{MinGermDay)),} \hlkwd{Surv}\hlstd{(MinGermDay, MaxGermDay,}
+                \hlkwc{type} \hlstd{=} \hlstr{"interval2"}\hlstd{))}
+
+        \hlcom{# lognormal produced best fit to data}
+        \hlstd{fitGerm} \hlkwb{<-} \hlkwd{survreg}\hlstd{(germ} \hlopt{~} \hlstd{PopID} \hlopt{+} \hlkwd{frailty}\hlstd{(Family,} \hlkwc{sparse} \hlstd{= F),}
+                \hlkwc{data} \hlstd{=} \hlkwd{subset}\hlstd{(master,} \hlopt{!}\hlkwd{is.na}\hlstd{(master}\hlopt{$}\hlstd{MinGermDay)),} \hlkwc{dist} \hlstd{=} \hlstr{"lognormal"}\hlstd{)}
+        \hlkwd{suppressWarnings}\hlstd{(}\hlkwd{anova}\hlstd{(fitGerm))} \hlcom{# significant family and population effects}
+\end{alltt}
+\begin{verbatim}
+##                                   Df Deviance Resid. Df    -2*LL
+## NULL                              NA       NA  700.0000 2796.417
+## PopID                        15.0000 151.9495  685.0000 2644.468
+## frailty(Family, sparse = F) 106.9738 254.7233  578.0262 2389.745
+##                                 Pr(>Chi)
+## NULL                                  NA
+## PopID                       9.887489e-25
+## frailty(Family, sparse = F) 4.530519e-14
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\paragraph{Growth rate: leaf expansion and shoot elongation}
+
+We censused longest leaf length $>1$ mm on 10 days (twice per week) between 12 May and 12 June (28 to 59 days after sowing). We ceased measuring leaf length once it appeared to asymptote and growth shifted to shoot elongation.  We also censused plant height on 7 days (twice per week) between 29 May and 20 June (45 to 67 days after sowing). Both leaf expansion and shoot elongation were modeled as a second-order polynomials of time with individual coefficients (separate for leaf and shoot growth) using empirical Bayes' estimates from linear mixed-effects models fit using the R package \pkg{lme4} version 1.1-7 \citep{Bates_etal_2014}.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+  \hlkwd{library}\hlstd{(lme4)}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: Matrix\\\#\# Loading required package: Rcpp}}\begin{alltt}
+  \hlkwd{library}\hlstd{(lmerTest)}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# \\\#\# Attaching package: 'lmerTest'\\\#\# \\\#\# The following object is masked from 'package:lme4':\\\#\# \\\#\#\ \ \ \  lmer\\\#\# \\\#\# The following object is masked from 'package:stats':\\\#\# \\\#\#\ \ \ \  step}}\begin{alltt}
+  \hlcom{# New (blank) datasheet on which to add data}
+  \hlstd{newdata} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(}\hlkwd{paste}\hlstd{(pathDat,} \hlstr{"/MasterDatasheet_in.csv"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{))}
+
+  \hlcom{# Read in LER data}
+  \hlstd{LERdata} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(}\hlkwd{paste}\hlstd{(pathDat,} \hlstr{"/LERdata.csv"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{))}
+
+  \hlcom{#}
+        \hlcom{# Empirical Bayes Approach: get coefficients for every plant}
+        \hlcom{#}
+
+        \hlcom{# suppressWarnings(mmLER <- lmer(log(LLL) ~ poly(DayN, 2, raw = T) + }
+    \hlcom{# (poly(DayN, 2, raw = T)|indiv), data = LERdata))}
+  \hlcom{# save(mmLER, file = paste(pathDat, "/mmLER.RData", sep = ""))}
+  \hlkwd{load}\hlstd{(}\hlkwc{file} \hlstd{=} \hlkwd{paste}\hlstd{(pathDat,} \hlstr{"/mmLER.RData"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{))}
+
+  \hlcom{# Extract coefficients and add to datasheet}
+        \hlstd{Y} \hlkwb{<-} \hlkwd{t}\hlstd{(}\hlkwd{unlist}\hlstd{(}\hlkwd{fixef}\hlstd{(mmLER))} \hlopt{+} \hlkwd{t}\hlstd{(}\hlkwd{ranef}\hlstd{(mmLER)}\hlopt{$}\hlstd{indiv))[}\hlkwd{match}\hlstd{(newdata}\hlopt{$}\hlstd{indiv,}
+                \hlkwd{rownames}\hlstd{(}\hlkwd{ranef}\hlstd{(mmLER)}\hlopt{$}\hlstd{indiv)), ]}
+        \hlkwd{colnames}\hlstd{(Y)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"b0_LER"}\hlstd{,} \hlstr{"b1_LER"}\hlstd{,} \hlstr{"b2_LER"}\hlstd{)}
+  \hlstd{newdata} \hlkwb{<-} \hlkwd{cbind}\hlstd{(newdata, Y)}
+
+  \hlcom{# Model-based LER}
+        \hlcom{# Timeframe for Cool treatment: Day 0 - 31}
+        \hlcom{# Timeframe for Hot treatment: Day 0 - 24}
+        \hlstd{newdata}\hlopt{$}\hlstd{LERstart} \hlkwb{<-} \hlkwd{exp}\hlstd{(newdata}\hlopt{$}\hlstd{b0_LER)}
+        \hlstd{newdata}\hlopt{$}\hlstd{LERend} \hlkwb{<-} \hlkwd{exp}\hlstd{(newdata}\hlopt{$}\hlstd{b0_LER} \hlopt{+}
+                                        \hlstd{newdata}\hlopt{$}\hlstd{b1_LER} \hlopt{*} \hlkwd{ifelse}\hlstd{(newdata}\hlopt{$}\hlstd{TempTrt} \hlopt{==} \hlstr{"Cool"}\hlstd{,} \hlnum{31}\hlstd{,} \hlnum{24}\hlstd{)} \hlopt{+}
+                                        \hlstd{newdata}\hlopt{$}\hlstd{b2_LER} \hlopt{*} \hlkwd{ifelse}\hlstd{(newdata}\hlopt{$}\hlstd{TempTrt} \hlopt{==} \hlstr{"Cool"}\hlstd{,} \hlnum{31} \hlopt{^} \hlnum{2}\hlstd{,} \hlnum{24} \hlopt{^} \hlnum{2}\hlstd{))}
+        \hlstd{newdata}\hlopt{$}\hlstd{LER_AbsGrowth} \hlkwb{<-} \hlstd{(newdata}\hlopt{$}\hlstd{LERend} \hlopt{-} \hlstd{newdata}\hlopt{$}\hlstd{LERstart)} \hlopt{/}
+                \hlkwd{ifelse}\hlstd{(newdata}\hlopt{$}\hlstd{TempTrt} \hlopt{==} \hlstr{"Cool"}\hlstd{,} \hlnum{31}\hlstd{,} \hlnum{24}\hlstd{)}
+
+  \hlcom{# Mixed model ANOVA with family as random factor fit using step down procedure}
+        \hlstd{mm} \hlkwb{<-} \hlkwd{lmer}\hlstd{(LER_AbsGrowth} \hlopt{~} \hlstd{AvgGermDay} \hlopt{+} \hlstd{PopID} \hlopt{*} \hlstd{TempTrt} \hlopt{*} \hlstd{WaterTrt} \hlopt{+} \hlstd{(}\hlnum{1}\hlopt{|}\hlstd{Family),}
+                \hlkwc{data} \hlstd{= master)}
+        \hlstd{fitLER} \hlkwb{<-} \hlkwd{step}\hlstd{(mm,} \hlkwc{reduce.random} \hlstd{= F)} \hlcom{# includes pop, temp, h2o, population x water}
+        \hlcom{# fitLER <- step(mm, ddf = "Kenward-Roger", reduce.random = F) # same result using Satterthwaite ddf}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+  \hlcom{# Read in SER data}
+  \hlstd{SERdata} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(}\hlkwd{paste}\hlstd{(pathDat,} \hlstr{"/SERdata.csv"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{))}
+
+  \hlcom{#}
+  \hlcom{# Empirical Bayes Approach: get coefficients for every plant}
+        \hlcom{#}
+
+        \hlcom{# suppressWarnings(mmSER <- lmer(log(height + 1) ~ poly(DayN, 2, raw = T) + }
+    \hlcom{# (poly(DayN, 2, raw = T)|indiv), data = SERdata))}
+  \hlcom{# save(mmSER, file = paste(pathDat, "/mmSER.RData", sep = ""))}
+  \hlkwd{load}\hlstd{(}\hlkwc{file} \hlstd{=} \hlkwd{paste}\hlstd{(pathDat,} \hlstr{"/mmSER.RData"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{))}
+
+  \hlcom{# Extract coefficients and add to datasheet}
+  \hlstd{Y} \hlkwb{<-} \hlkwd{t}\hlstd{(}\hlkwd{unlist}\hlstd{(}\hlkwd{fixef}\hlstd{(mmSER))} \hlopt{+} \hlkwd{t}\hlstd{(}\hlkwd{ranef}\hlstd{(mmSER)}\hlopt{$}\hlstd{indiv))[}\hlkwd{match}\hlstd{(newdata}\hlopt{$}\hlstd{indiv,}
+                \hlkwd{rownames}\hlstd{(}\hlkwd{ranef}\hlstd{(mmSER)}\hlopt{$}\hlstd{indiv)), ]}
+        \hlkwd{colnames}\hlstd{(Y)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"b0_SER"}\hlstd{,} \hlstr{"b1_SER"}\hlstd{,} \hlstr{"b2_SER"}\hlstd{)}
+  \hlstd{newdata} \hlkwb{<-} \hlkwd{cbind}\hlstd{(newdata, Y)}
+
+  \hlcom{# Model-based SER}
+        \hlcom{# Timeframe for Cool treatment: Day 0 - 31}
+        \hlcom{# Timeframe for Hot treatment: Day 0 - 24}
+        \hlstd{newdata}\hlopt{$}\hlstd{SERstart} \hlkwb{<-} \hlkwd{exp}\hlstd{(newdata}\hlopt{$}\hlstd{b0_SER)}
+        \hlstd{newdata}\hlopt{$}\hlstd{SERend} \hlkwb{<-} \hlkwd{exp}\hlstd{(newdata}\hlopt{$}\hlstd{b0_SER} \hlopt{+}
+                                        \hlstd{newdata}\hlopt{$}\hlstd{b1_SER} \hlopt{*} \hlkwd{ifelse}\hlstd{(newdata}\hlopt{$}\hlstd{TempTrt} \hlopt{==} \hlstr{"Cool"}\hlstd{,} \hlnum{31}\hlstd{,} \hlnum{24}\hlstd{)} \hlopt{+}
+                                        \hlstd{newdata}\hlopt{$}\hlstd{b2_SER} \hlopt{*} \hlkwd{ifelse}\hlstd{(newdata}\hlopt{$}\hlstd{TempTrt} \hlopt{==} \hlstr{"Cool"}\hlstd{,} \hlnum{31} \hlopt{^} \hlnum{2}\hlstd{,} \hlnum{24} \hlopt{^} \hlnum{2}\hlstd{))}
+        \hlstd{newdata}\hlopt{$}\hlstd{SER_AbsGrowth} \hlkwb{<-} \hlstd{(newdata}\hlopt{$}\hlstd{SERend} \hlopt{-} \hlstd{newdata}\hlopt{$}\hlstd{SERstart)} \hlopt{/}
+                \hlkwd{ifelse}\hlstd{(newdata}\hlopt{$}\hlstd{TempTrt} \hlopt{==} \hlstr{"Cool"}\hlstd{,} \hlnum{31}\hlstd{,} \hlnum{24}\hlstd{)}
+
+  \hlstd{mm} \hlkwb{<-} \hlkwd{lmer}\hlstd{(SER_AbsGrowth} \hlopt{~} \hlstd{AvgGermDay} \hlopt{+} \hlstd{PopID} \hlopt{*} \hlstd{TempTrt} \hlopt{*} \hlstd{WaterTrt} \hlopt{+}
+                \hlstd{(}\hlnum{1}\hlopt{|}\hlstd{Family),} \hlkwc{data} \hlstd{= master)}
+        \hlstd{fitSER} \hlkwb{<-} \hlkwd{step}\hlstd{(mm,} \hlkwc{reduce.random} \hlstd{= F)} \hlcom{#includes pop, temp, h2o, temp x water}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\paragraph{Photosynthesis}
+During the week of 10 to 16 June (57 to 63 days after sowing), we measured daytime photosynthetic rate and stomatal conductance on a subset of 329 plants evenly spread between treatments and families within populations. The youngest, fully-expanded leaf acclimated for 3 minutes to reach steady state in a 6 cm$^2$ chamber of a LI-COR 6400XT Portable Photosynthesis System (LI-COR Biosciences, Lincoln, Nebraska). All measurements were made at ambient light (400 $\mu$mol m$^{-2}$ s$^{-1}$), temperature, and moderate relative humidity. During this period, we suspended normal day-to-day temperature fluctuations and set daytime temperatures to its average for that period (Cool: 26.5$\degree$; Hot: 36.1$\degree$ \cdm{get exact temps used}) so that all plants within a temperature treatment were measured under the same conditions.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+  \hlcom{# Photosynthetic rate}
+  \hlstd{mm} \hlkwb{<-} \hlkwd{lmer}\hlstd{(Photo} \hlopt{~} \hlstd{PopID} \hlopt{*} \hlstd{TempTrt} \hlopt{*} \hlstd{WaterTrt} \hlopt{+} \hlstd{(}\hlnum{1}\hlopt{|}\hlstd{Family),}
+    \hlkwc{data} \hlstd{=} \hlkwd{subset}\hlstd{(master,} \hlopt{!}\hlkwd{is.na}\hlstd{(master}\hlopt{$}\hlstd{Photo)))}
+  \hlstd{fitPhoto} \hlkwb{<-} \hlkwd{step}\hlstd{(mm,} \hlkwc{reduce.random} \hlstd{= F)}
+
+  \hlcom{# Intrinsic photosynthetic rate}
+  \hlcom{# = residuals of Conductance - Photosynthesis regression}
+  \hlcom{# Removed one outlier (may change if data are rearranged!)}
+        \hlstd{mm} \hlkwb{<-} \hlkwd{lmer}\hlstd{(resPhoto} \hlopt{~} \hlstd{PopID} \hlopt{*} \hlstd{TempTrt} \hlopt{*} \hlstd{WaterTrt} \hlopt{+} \hlstd{(}\hlnum{1}\hlopt{|}\hlstd{Family),}
+    \hlkwc{data} \hlstd{=} \hlkwd{subset}\hlstd{(master,} \hlopt{!}\hlkwd{is.na}\hlstd{(master}\hlopt{$}\hlstd{Photo))[}\hlopt{-}\hlnum{52}\hlstd{, ])}
+        \hlstd{fitIntrnPhoto} \hlkwb{<-} \hlkwd{step}\hlstd{(mm,} \hlkwc{reduce.random} \hlstd{= F)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\paragraph{Mortality}
+We assayed mortality during twice-weekly growth measurements. We could not get GLMM with Family effects to converge, so we used GLM with a quasibinomial error structure and assessed signifiance using Type 2 Analysis of Deviance with the R package \pkg{car}. 
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+  \hlkwd{library}\hlstd{(car)}
+
+  \hlstd{fitMort} \hlkwb{<-} \hlkwd{glm}\hlstd{(DiedFromStress} \hlopt{~} \hlstd{PopID} \hlopt{*} \hlstd{TempTrt} \hlopt{*} \hlstd{WaterTrt,}
+    \hlkwc{data} \hlstd{=} \hlkwd{subset}\hlstd{(master,} \hlopt{!}\hlkwd{is.na}\hlstd{(master}\hlopt{$}\hlstd{DiedFromStress)),} \hlkwc{family} \hlstd{=} \hlstr{"quasibinomial"}\hlstd{)}
+
+  \hlkwd{Anova}\hlstd{(fitMort,} \hlkwc{type} \hlstd{=} \hlnum{2}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## Analysis of Deviance Table (Type II tests)
+## 
+## Response: DiedFromStress
+##                        LR Chisq Df Pr(>Chisq)    
+## PopID                    38.169 15  0.0008519 ***
+## TempTrt                 247.763  1  < 2.2e-16 ***
+## WaterTrt                 79.508  1  < 2.2e-16 ***
+## PopID:TempTrt            26.188 15  0.0360962 *  
+## PopID:WaterTrt           11.547 15  0.7129658    
+## TempTrt:WaterTrt         48.543  1  3.231e-12 ***
+## PopID:TempTrt:WaterTrt    8.685 15  0.8934160    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+\paragraph{Biomass (show correlation between growth rate and biomass?)}
+
+
+\subsection*{Intrinsic variation and plasticity}
+
+\cdm{which traits: germination, growth rate, biomass, biomass allometry, leaf traits, photosynthesis?, mortality?}
+We tested for Population, Treatment, and Population $\times$ Treatment interactions using mixed model ANOVA with Family included as a random factor. Models were fit by restricted maximum likelihood using lmer from the R package \pkg{lme4} \citep{Bates_etal_2014}. Significant fixed effect terms were selected using a step-wise backward elimination procedure implemented with the step function in the R package \pkg{lmerTest} version 2.0-11 \citep{Kuznetsova_etal_2014}. Denominator degrees of freedom for $F$-tests were estimated using Satterthwaite's approximation. Significant Population effect indicate intrinsic trait differences; significant Population $\times$ Treatment effects indicate population differences in plasticity. For growth rate, we also accounted for differences in germination rate by including day of germination as a factor.
+
+\subsection*{Principal components of germination, growth, and photosynthesis}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+  \hlstd{popMeans} \hlkwb{<-} \hlkwd{data.frame}\hlstd{(}
+    \hlkwc{germ} \hlstd{=} \hlkwd{c}\hlstd{(}\hlkwd{coef}\hlstd{(fitGerm)[}\hlnum{1}\hlstd{],} \hlkwd{coef}\hlstd{(fitGerm)[}\hlnum{1}\hlstd{]} \hlopt{+} \hlkwd{coef}\hlstd{(fitGerm)[}\hlnum{2}\hlopt{:}\hlnum{16}\hlstd{]),}
+    \hlkwc{LER} \hlstd{= fitLER}\hlopt{$}\hlstd{lsmeans.table[}\hlnum{1}\hlopt{:}\hlnum{16}\hlstd{,} \hlstr{"Estimate"}\hlstd{],}
+    \hlkwc{SER} \hlstd{= fitSER}\hlopt{$}\hlstd{lsmeans.table[}\hlnum{1}\hlopt{:}\hlnum{16}\hlstd{,} \hlstr{"Estimate"}\hlstd{],}
+    \hlkwc{photo} \hlstd{= fitIntrnPhoto}\hlopt{$}\hlstd{lsmeans.table[}\hlnum{1}\hlopt{:}\hlnum{16}\hlstd{,} \hlstr{"Estimate"}\hlstd{])}
+
+  \hlstd{traitPC} \hlkwb{<-} \hlkwd{prcomp}\hlstd{(popMeans,} \hlkwc{center} \hlstd{= T,} \hlkwc{scale.} \hlstd{= T)}
+  \hlstd{focClim}\hlopt{$}\hlstd{PC1} \hlkwb{<-} \hlstd{traitPC}\hlopt{$}\hlstd{x[,} \hlstr{"PC1"}\hlstd{]}
+
+  \hlcom{# Percent variance explained by first principal component}
+  \hlstd{pve} \hlkwb{<-} \hlkwd{paste}\hlstd{(}\hlkwd{round}\hlstd{(}\hlnum{100} \hlopt{*} \hlstd{traitPC}\hlopt{$}\hlstd{sdev[}\hlnum{1}\hlstd{]} \hlopt{^} \hlnum{2} \hlopt{/} \hlkwd{sum}\hlstd{(traitPC}\hlopt{$}\hlstd{sdev} \hlopt{^} \hlnum{2}\hlstd{),} \hlnum{1}\hlstd{),} \hlstr{"%"}\hlstd{)}
+
+  \hlcom{# Plot latitude versus PC1}
+  \hlkwd{pdf}\hlstd{(}\hlkwd{paste}\hlstd{(pathFig,} \hlstr{"/Figure_PC1vLat.pdf"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{),} \hlnum{5}\hlstd{,} \hlnum{5}\hlstd{)}
+  \hlkwd{par}\hlstd{(}\hlkwc{mar} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{5}\hlstd{,} \hlnum{5}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{1}\hlstd{))}
+  \hlkwd{plot}\hlstd{(focClim}\hlopt{$}\hlstd{Lat, focClim}\hlopt{$}\hlstd{PC1,} \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{32}\hlstd{,} \hlnum{44}\hlstd{),} \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{4}\hlstd{,} \hlnum{4}\hlstd{),} \hlkwc{axes} \hlstd{= F,}
+    \hlkwc{frame.plot} \hlstd{= T,} \hlkwc{type} \hlstd{=} \hlstr{"n"}\hlstd{,} \hlkwc{xlab} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwc{ylab} \hlstd{=} \hlstr{""}\hlstd{)}
+  \hlkwd{title}\hlstd{(}\hlkwc{xlab} \hlstd{=} \hlstr{"Latitude"}\hlstd{,} \hlkwc{cex.lab} \hlstd{=} \hlnum{1.5}\hlstd{)}
+  \hlkwd{title}\hlstd{(}\hlkwc{ylab} \hlstd{=} \hlkwd{substitute}\hlstd{(}\hlkwd{plain}\hlstd{(Principal}\hlopt{~}\hlstd{Component}\hlopt{~}\hlnum{1}\hlstd{)}\hlopt{~}\hlkwd{group}\hlstd{(}\hlstr{"("}\hlstd{, x,} \hlstr{")"}\hlstd{),}
+    \hlkwd{list}\hlstd{(}\hlkwc{x} \hlstd{= pve)))}
+  \hlkwd{axis}\hlstd{(}\hlnum{1}\hlstd{,} \hlkwc{at} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlnum{32}\hlstd{,} \hlnum{44}\hlstd{,} \hlnum{4}\hlstd{),} \hlkwc{labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlkwd{expression}\hlstd{(}\hlnum{32}\hlopt{*}\hlstd{degree),} \hlkwd{expression}\hlstd{(}\hlnum{36}\hlopt{*}\hlstd{degree),}
+    \hlkwd{expression}\hlstd{(}\hlnum{40}\hlopt{*}\hlstd{degree),} \hlkwd{expression}\hlstd{(}\hlnum{44}\hlopt{*}\hlstd{degree)),} \hlkwc{lwd} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lwd.ticks} \hlstd{=} \hlnum{1}\hlstd{)}
+  \hlkwd{axis}\hlstd{(}\hlnum{2}\hlstd{,} \hlkwc{at} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlopt{-}\hlnum{4}\hlstd{,} \hlnum{4}\hlstd{,} \hlnum{2}\hlstd{),} \hlkwc{las} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lwd.ticks} \hlstd{=} \hlnum{1}\hlstd{)}
+  \hlstd{fitLat} \hlkwb{<-} \hlkwd{lm}\hlstd{(PC1} \hlopt{~} \hlstd{Latitude,} \hlkwc{data} \hlstd{= focClim)}
+
+  \hlcom{# polygon of confidence intervals}
+  \hlstd{x} \hlkwb{<-} \hlkwd{seq}\hlstd{(}\hlkwd{min}\hlstd{(focClim}\hlopt{$}\hlstd{Latitude),} \hlkwd{max}\hlstd{(focClim}\hlopt{$}\hlstd{Latitude),} \hlkwc{l} \hlstd{=} \hlnum{1e3}\hlstd{)}
+  \hlstd{u} \hlkwb{<-} \hlkwd{predict}\hlstd{(fitLat,} \hlkwc{new} \hlstd{=} \hlkwd{data.frame}\hlstd{(}\hlkwc{Latitude} \hlstd{= x))}
+  \hlstd{s} \hlkwb{<-} \hlkwd{sqrt}\hlstd{(}\hlkwd{sapply}\hlstd{(x,} \hlkwa{function}\hlstd{(}\hlkwc{X}\hlstd{)} \hlkwd{t}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{, X))} \hlopt{%*%} \hlkwd{vcov}\hlstd{(fitLat)} \hlopt{%*%} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{, X)))}
+  \hlstd{confInt} \hlkwb{<-} \hlkwd{data.frame}\hlstd{(}\hlkwc{lowerCI} \hlstd{=} \hlkwd{qnorm}\hlstd{(}\hlnum{0.025}\hlstd{, u, s),} \hlkwc{upperCI} \hlstd{=} \hlkwd{qnorm}\hlstd{(}\hlnum{0.975}\hlstd{, u, s))}
+  \hlkwd{polygon}\hlstd{(}\hlkwd{c}\hlstd{(x,} \hlkwd{rev}\hlstd{(x)),} \hlkwd{c}\hlstd{(confInt}\hlopt{$}\hlstd{lowerCI,} \hlkwd{rev}\hlstd{(confInt}\hlopt{$}\hlstd{upperCI)),}
+    \hlkwc{col} \hlstd{=} \hlstr{"grey80"}\hlstd{,} \hlkwc{border} \hlstd{=} \hlnum{NA}\hlstd{)}
+  \hlkwd{lines}\hlstd{(x, confInt}\hlopt{$}\hlstd{lowerCI,} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{)}
+  \hlkwd{lines}\hlstd{(x, confInt}\hlopt{$}\hlstd{upperCI,} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{)}
+  \hlkwd{lines}\hlstd{(}\hlkwd{range}\hlstd{(focClim}\hlopt{$}\hlstd{Lat),} \hlkwd{rev}\hlstd{(}\hlkwd{range}\hlstd{(}\hlkwd{predict}\hlstd{(fitLat))),} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{)}
+  \hlkwd{points}\hlstd{(focClim}\hlopt{$}\hlstd{Lat, focClim}\hlopt{$}\hlstd{PC1,} \hlkwc{pch} \hlstd{=} \hlnum{21}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"black"}\hlstd{,} \hlkwc{bg} \hlstd{= primShade0,} \hlkwc{cex} \hlstd{=} \hlnum{1.5}\hlstd{,}
+    \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{)}
+  \hlkwd{dev.off}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## pdf 
+##   2
+\end{verbatim}
+\begin{alltt}
+     \hlcom{# plot axes could be range maps with areas highlighted (x-axis) and short to tall plants (y-axis)}
+  \hlcom{#plot(focClim$Lat, traitPC$x[, "PC1"])}
+  \hlcom{#cor.test(focClim$Lat, traitPC$x[, "PC1"])}
+  \hlcom{#cor.test(popMeans[, 4], traitPC$x[, "PC1"])}
+  \hlcom{#plot(focClim$bio16_cva, traitPC$x[, "PC1"])}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+\subsection*{Selective agents and environmental correlates}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(VSURF)}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: randomForest\\\#\# randomForest 4.6-10\\\#\# Type rfNews() to see new features/changes/bug fixes.\\\#\# Loading required package: rpart\\\#\# Loading required package: doParallel\\\#\# Loading required package: foreach\\\#\# Loading required package: iterators\\\#\# Loading required package: parallel}}\begin{alltt}
+  \hlcom{# Load VSURF results of climatic variables associated with latitude at cardinalis occurence points}
+  \hlcom{# Note that occurences have been randomly thinned to account for variation in sampling effort}
+  \hlkwd{load}\hlstd{(}\hlkwd{paste}\hlstd{(pathDat,} \hlstr{"/clim2lat_fit_t1.RData"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{))} \hlcom{# fit_t1}
+  \hlstd{vsurfLat} \hlkwb{<-} \hlstd{fit_t1}
+
+  \hlcom{# Figure of variable importance for latitude}
+  \hlkwd{pdf}\hlstd{(}\hlkwd{paste}\hlstd{(pathFig,} \hlstr{"/Figure_clim2lat_imp.pdf"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{),} \hlnum{4}\hlstd{,} \hlnum{5}\hlstd{)}
+  \hlkwd{par}\hlstd{(}\hlkwc{mar} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{5}\hlstd{,} \hlnum{6}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{1}\hlstd{))}
+  \hlkwd{plot}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"n"}\hlstd{,} \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlkwd{ceiling}\hlstd{(vsurfLat}\hlopt{$}\hlstd{ord.imp}\hlopt{$}\hlstd{x)[}\hlnum{1}\hlstd{]),} \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}
+    \hlkwd{length}\hlstd{(vsurfLat}\hlopt{$}\hlstd{varselect.pred)),} \hlkwc{axes} \hlstd{= F,} \hlkwc{frame.plot} \hlstd{= T,} \hlkwc{xlab} \hlstd{=} \hlstr{"Importance"}\hlstd{,}
+    \hlkwc{ylab} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwc{cex.lab} \hlstd{=} \hlnum{1.5}\hlstd{)}
+  \hlkwa{for} \hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlkwd{length}\hlstd{(vsurfLat}\hlopt{$}\hlstd{varselect.pred))}
+  \hlstd{\{}
+     \hlkwd{lines}\hlstd{(}\hlkwc{x} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{1}\hlstd{,} \hlkwd{length}\hlstd{(vsurfLat}\hlopt{$}\hlstd{varselect.pred)),} \hlkwc{y} \hlstd{=} \hlkwd{c}\hlstd{(i, i),} \hlkwc{col} \hlstd{=} \hlstr{"grey"}\hlstd{)}
+  \hlstd{\}}
+  \hlkwd{points}\hlstd{(vsurfLat}\hlopt{$}\hlstd{ord.imp}\hlopt{$}\hlstd{x[}\hlnum{1}\hlopt{:}\hlkwd{length}\hlstd{(vsurfLat}\hlopt{$}\hlstd{varselect.pred)],}
+    \hlkwd{length}\hlstd{(vsurfLat}\hlopt{$}\hlstd{varselect.pred)}\hlopt{:}\hlnum{1}\hlstd{,} \hlkwc{pch} \hlstd{=} \hlnum{21}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"black"}\hlstd{,} \hlkwc{bg} \hlstd{=} \hlstr{"white"}\hlstd{,} \hlkwc{cex} \hlstd{=} \hlnum{1.5}\hlstd{)}
+        \hlkwd{mtext}\hlstd{(climVars[vsurfLat}\hlopt{$}\hlstd{varselect.pred],} \hlkwc{side} \hlstd{=} \hlnum{2}\hlstd{,}
+    \hlkwc{at} \hlstd{=} \hlkwd{length}\hlstd{(vsurfLat}\hlopt{$}\hlstd{varselect.pred)}\hlopt{:}\hlnum{1}\hlstd{,} \hlkwc{las} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{1}\hlstd{)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in as.graphicsAnnot(text): object 'climVars' not found}}\begin{alltt}
+        \hlkwd{axis}\hlstd{(}\hlnum{1}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lwd.ticks} \hlstd{=} \hlnum{1}\hlstd{)}
+        \hlkwd{dev.off}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## pdf 
+##   2
+\end{verbatim}
+\begin{alltt}
+  \hlcom{# Columns with climatic variables to test}
+  \hlkwd{load}\hlstd{(}\hlkwd{paste}\hlstd{(pathDat,} \hlstr{"/Exploratory_climate_variables.RData"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{))} \hlcom{#climVars}
+
+  \hlcom{# Variable selection using random forests (VSURF)}
+  \hlstd{linmod.PC1} \hlkwb{<-} \hlkwd{as.formula}\hlstd{(}\hlkwd{paste}\hlstd{(}\hlstr{"PC1 ~ "}\hlstd{,} \hlkwd{paste}\hlstd{(climVars,} \hlkwc{collapse} \hlstd{=} \hlstr{" + "}\hlstd{),} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{))}
+  \hlkwd{set.seed}\hlstd{(}\hlnum{69646}\hlstd{)}
+  \hlstd{vsurfPC1} \hlkwb{<-} \hlkwd{VSURF.parallel}\hlstd{(linmod.PC1,} \hlkwc{data} \hlstd{= focClim[,} \hlkwd{c}\hlstd{(}\hlstr{"PC1"}\hlstd{, climVars)],}
+    \hlkwc{ncores} \hlstd{=} \hlnum{3}\hlstd{)}
+\end{alltt}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in VSURF.parallel.formula(linmod.PC1, data = focClim[, c("{}PC1"{}, : VSURF with a formula-type call outputs selected variables\\\#\# which are indices of the input matrix based on the formula:\\\#\# you may reorder these to get indices of the original data}}\begin{alltt}
+  \hlcom{# Plot most important climatic predictor versus PC1}
+  \hlkwd{pdf}\hlstd{(}\hlkwd{paste}\hlstd{(pathFig,} \hlstr{"/Figure_bio16cva_v_Lat.pdf"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{),} \hlnum{5}\hlstd{,} \hlnum{5}\hlstd{)}
+  \hlkwd{par}\hlstd{(}\hlkwc{mar} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{5}\hlstd{,} \hlnum{5}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{1}\hlstd{))}
+  \hlkwd{plot}\hlstd{(focClim}\hlopt{$}\hlstd{bio16_cva, focClim}\hlopt{$}\hlstd{PC1,} \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0.25}\hlstd{,} \hlnum{0.55}\hlstd{),} \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{4}\hlstd{,} \hlnum{4}\hlstd{),} \hlkwc{axes} \hlstd{= F,}
+    \hlkwc{frame.plot} \hlstd{= T,} \hlkwc{type} \hlstd{=} \hlstr{"n"}\hlstd{,} \hlkwc{xlab} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwc{ylab} \hlstd{=} \hlstr{""}\hlstd{)}
+  \hlkwd{title}\hlstd{(}\hlkwc{xlab} \hlstd{=} \hlstr{"Precipitation of Wettest Quarter"}\hlstd{,} \hlkwc{cex.lab} \hlstd{=} \hlnum{1.5}\hlstd{)}
+  \hlkwd{title}\hlstd{(}\hlkwc{xlab} \hlstd{=} \hlstr{"(Coefficient of variation)"}\hlstd{,} \hlkwc{cex.lab} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{4}\hlstd{)}
+  \hlkwd{title}\hlstd{(}\hlkwc{ylab} \hlstd{=} \hlkwd{substitute}\hlstd{(}\hlkwd{plain}\hlstd{(Principal}\hlopt{~}\hlstd{Component}\hlopt{~}\hlnum{1}\hlstd{)}\hlopt{~}\hlkwd{group}\hlstd{(}\hlstr{"("}\hlstd{, x,} \hlstr{")"}\hlstd{),}
+    \hlkwd{list}\hlstd{(}\hlkwc{x} \hlstd{= pve)))}
+  \hlkwd{axis}\hlstd{(}\hlnum{1}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lwd.ticks} \hlstd{=} \hlnum{1}\hlstd{)}
+  \hlkwd{axis}\hlstd{(}\hlnum{2}\hlstd{,} \hlkwc{at} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlopt{-}\hlnum{4}\hlstd{,} \hlnum{4}\hlstd{,} \hlnum{2}\hlstd{),} \hlkwc{las} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lwd.ticks} \hlstd{=} \hlnum{1}\hlstd{)}
+  \hlstd{fitBio16cva} \hlkwb{<-} \hlkwd{lm}\hlstd{(PC1} \hlopt{~} \hlstd{bio16_cva,} \hlkwc{data} \hlstd{= focClim)}
+
+  \hlcom{# polygon of confidence intervals}
+  \hlstd{x} \hlkwb{<-} \hlkwd{seq}\hlstd{(}\hlkwd{min}\hlstd{(focClim}\hlopt{$}\hlstd{bio16_cva),} \hlkwd{max}\hlstd{(focClim}\hlopt{$}\hlstd{bio16_cva),} \hlkwc{l} \hlstd{=} \hlnum{1e3}\hlstd{)}
+  \hlstd{u} \hlkwb{<-} \hlkwd{predict}\hlstd{(fitBio16cva,} \hlkwc{new} \hlstd{=} \hlkwd{data.frame}\hlstd{(}\hlkwc{bio16_cva} \hlstd{= x))}
+  \hlstd{s} \hlkwb{<-} \hlkwd{sqrt}\hlstd{(}\hlkwd{sapply}\hlstd{(x,} \hlkwa{function}\hlstd{(}\hlkwc{X}\hlstd{)} \hlkwd{t}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{, X))} \hlopt{%*%} \hlkwd{vcov}\hlstd{(fitBio16cva)} \hlopt{%*%} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{, X)))}
+  \hlstd{confInt} \hlkwb{<-} \hlkwd{data.frame}\hlstd{(}\hlkwc{lowerCI} \hlstd{=} \hlkwd{qnorm}\hlstd{(}\hlnum{0.025}\hlstd{, u, s),} \hlkwc{upperCI} \hlstd{=} \hlkwd{qnorm}\hlstd{(}\hlnum{0.975}\hlstd{, u, s))}
+  \hlkwd{polygon}\hlstd{(}\hlkwd{c}\hlstd{(x,} \hlkwd{rev}\hlstd{(x)),} \hlkwd{c}\hlstd{(confInt}\hlopt{$}\hlstd{lowerCI,} \hlkwd{rev}\hlstd{(confInt}\hlopt{$}\hlstd{upperCI)),}
+    \hlkwc{col} \hlstd{=} \hlstr{"grey80"}\hlstd{,} \hlkwc{border} \hlstd{=} \hlnum{NA}\hlstd{)}
+  \hlkwd{lines}\hlstd{(x, confInt}\hlopt{$}\hlstd{lowerCI,} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{)}
+  \hlkwd{lines}\hlstd{(x, confInt}\hlopt{$}\hlstd{upperCI,} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{)}
+  \hlkwd{lines}\hlstd{(}\hlkwd{range}\hlstd{(focClim}\hlopt{$}\hlstd{bio16_cva),} \hlkwd{range}\hlstd{(}\hlkwd{predict}\hlstd{(fitBio16cva)),} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{)}
+  \hlkwd{points}\hlstd{(focClim}\hlopt{$}\hlstd{bio16_cva, focClim}\hlopt{$}\hlstd{PC1,} \hlkwc{pch} \hlstd{=} \hlnum{21}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"black"}\hlstd{,} \hlkwc{bg} \hlstd{= primShade0,}
+    \hlkwc{cex} \hlstd{=} \hlnum{1.5}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{)}
+  \hlkwd{dev.off}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## pdf 
+##   2
+\end{verbatim}
+\begin{alltt}
+  \hlcom{# Overlap between latitude predictors and phenotype predictors}
+  \hlstd{imp2} \hlkwb{<-} \hlstd{climVars[vsurfPC1}\hlopt{$}\hlstd{varselect.pred]}
+  \hlstd{nImpPC1} \hlkwb{<-} \hlkwd{length}\hlstd{(imp2)}
+
+  \hlstd{vsurfLat}\hlopt{$}\hlstd{varselect.pred}
+\end{alltt}
+\begin{verbatim}
+##  [1] 45 43 42 20 47 41 46 39 19 13
+\end{verbatim}
+\begin{alltt}
+  \hlstd{imp1} \hlkwb{<-} \hlstd{climVars[vsurfLat}\hlopt{$}\hlstd{varselect.pred]}
+  \hlstd{nImpLat} \hlkwb{<-} \hlkwd{length}\hlstd{(imp1)}
+
+  \hlcom{# Figure of variable importance for traits}
+        \hlkwd{pdf}\hlstd{(}\hlkwd{paste}\hlstd{(pathFig,} \hlstr{"/Figure_clim2pc1_imp.pdf"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{),} \hlnum{4}\hlstd{,} \hlnum{5}\hlstd{)}
+        \hlkwd{par}\hlstd{(}\hlkwc{mar} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{5}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{6}\hlstd{))}
+
+        \hlkwd{plot}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"n"}\hlstd{,} \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{30}\hlstd{),} \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{, nImpLat),}
+                \hlkwc{axes} \hlstd{= F,} \hlkwc{frame.plot} \hlstd{= T,} \hlkwc{xlab} \hlstd{=} \hlstr{"Importance"}\hlstd{,} \hlkwc{ylab} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwc{cex.lab} \hlstd{=} \hlnum{1.5}\hlstd{)}
+        \hlkwa{for} \hlstd{(i} \hlkwa{in} \hlstd{(nImpLat}\hlopt{:}\hlstd{(nImpLat} \hlopt{-} \hlstd{nImpPC1} \hlopt{+} \hlnum{1}\hlstd{)))} \hlkwd{lines}\hlstd{(}\hlkwc{x} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{100}\hlstd{,} \hlnum{100}\hlstd{),} \hlkwc{y} \hlstd{=} \hlkwd{c}\hlstd{(i, i),}
+                \hlkwc{col} \hlstd{=} \hlstr{"grey"}\hlstd{)}
+        \hlkwd{points}\hlstd{(}\hlnum{100} \hlopt{*} \hlstd{vsurfPC1}\hlopt{$}\hlstd{ord.imp}\hlopt{$}\hlstd{x[}\hlnum{1}\hlopt{:}\hlstd{nImpPC1], nImpLat}\hlopt{:}\hlstd{(nImpLat} \hlopt{-} \hlstd{nImpPC1} \hlopt{+} \hlnum{1}\hlstd{),} \hlkwc{pch} \hlstd{=} \hlnum{21}\hlstd{,}
+                \hlkwc{col} \hlstd{=} \hlstr{"black"}\hlstd{,} \hlkwc{bg} \hlstd{=} \hlstr{"white"}\hlstd{,} \hlkwc{cex} \hlstd{=} \hlnum{1.5}\hlstd{)}
+        \hlkwd{mtext}\hlstd{(climVars[vsurfPC1}\hlopt{$}\hlstd{varselect.pred],} \hlkwc{side} \hlstd{=} \hlnum{4}\hlstd{,} \hlkwc{las} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{1}\hlstd{,}
+    \hlkwc{at} \hlstd{= nImpLat}\hlopt{:}\hlstd{(nImpLat} \hlopt{-} \hlstd{nImpPC1} \hlopt{+} \hlnum{1}\hlstd{),}
+                \hlkwc{font} \hlstd{=} \hlkwd{ifelse}\hlstd{(vsurfPC1}\hlopt{$}\hlstd{varselect.pred} \hlopt{%in%} \hlstd{vsurfLat}\hlopt{$}\hlstd{varselect.pred,}     \hlnum{2}\hlstd{,} \hlnum{1}\hlstd{))}
+        \hlkwd{axis}\hlstd{(}\hlnum{1}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lwd.ticks} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{labels} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{3}\hlstd{,} \hlnum{0.5}\hlstd{),} \hlkwc{at} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{30}\hlstd{,} \hlnum{5}\hlstd{))}
+  \hlkwd{dev.off}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## pdf 
+##   2
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+(this also goes into the goal of trying to figure out ecological selective agent driving trait variation). Why does latitude predict trait variation, often better than any of the climatic variables that vary with latitude? Some hypotheses:
+\begin{itemize}
+  \item{H1: Latitude encompasses multivariate climatic dimension.}
+  \item{H2: Latitude is substitute for average selective environment. i.e. populations are connected by gene flow, such that alleles at a given site must do well there and in surrounding areas.}
+\end{itemize}
+
+Predictions:
+\begin{itemize}
+  \item{P1: Climatic axis in high dimensional climate space should correlate with latitude (across card sites especially, not just any site [using pseudoabsences]). Focal site position in high-dimensional climatic space should correlated with traits as well or better than latitude.}
+  \item{P2: Climate (averaged over nearby sites) varies with latitude and the nearby average climate predicts trait values as well or better than latitude.}
+  \item{P1+2: These are not mutually exclusive and both could be imortant. i.e. average selective environment in high-dimensional climate space predicts trait values as well or better than latitude.}
+\end{itemize}
+
+Methods specific to latitude vs. trait correlation:
+We used Random Forest regression \citep{Liaw_Wiener_2002} to identify putative climatic factors underlying trait-latitude associations in \textit{M. cardinalis}. We used a comprehensive set of \cdm{358 in total before thinning} recent (since 2000) known \textit{M. cardinalis} occurences recorded from herbarium records and an exhaustive field survey in 2010-11 \citep{Angert_ENM}. For each occurence, we used a 90m digital elevation model from HydroSHEDS \citep{Lehner_etal_2006} to extract elevation. Monthly interpolated climate layers were calculated using ClimateWNA \citep{Wang_etal_2012}, which accurately downscales climate data specifically for the rugged topography of western North America. For each occurence, we calculated bioclimatic variables using the biovars function in the R package \pkg{dismo} \citep{Hijmans_etal_2014}. In total, we included X environmental variables from ClimateWNA and 17? bioclimatic variables (Table S\#). For each variable, we calculated both a 30-year normal by averging annual values between 1981 and 2010 and 30-year coefficient of variation, a standardized metric of interannual climatic variation). Temperatures were converted to Kelvin to be on an interval scale appropriate for calculating the coefficient of variation. 
+
+Selection at given site might not reflect simply the local environment, but rather the average environment in a surrounding region, since alleles will experience selection across populations linked by migration. We therefore calculated spatially averaged \cdm{maybe spatially-integrated is better term?} climate means and coefficients of variation. We sampled climate at 1000 random points (at 90-m resolition) within a 10 km buffer around focal populations. Since \textit{M. cardinalis} is found exclusively in riparian areas, we only selected points along streams using the National Hydrogeoraphy Dataset \citep{NHD}. Climatic means and CVs were weighted by the predicted suitability of each point, using ENM models from \cite{Angert_ENM}.
+
+To identify climatic variables that were closely associated with latitude in \textit{M. cardinalis}, we used a "Variable Selection Using Random Forest" (VSURF) algorithm in the R \pkg{VSURF} version 0.8.2 \citep{Genuer_etal_2014}. In this algorithm, climatic variables are regressed against latitude, and the most important variables were selected after a three-stage selection process that progressively excludes unimportant variables.
+
+Predictions: looked for climatic variables (means or CVs) that were strong predictors of both population latitudes (from all card pops) and trait variation in 16 focal popultions. If spatial average environment is important, then expect greater predictive power and closer association with latitude-predictors than point averages.
+
+Evaluated fit on test set (correlation between predicted versus actual latitude) and on pseudoabsence set.
+, Despite this common, and long-standing pattern, only certain traits In particular, adaptation to the local abiotic environment is generally thought to be the major cause of natural selection. Physiology, the study of organismal function, connects fitness to the abiotic environment, yet we actually know little about the physiological basis of adaptation to different environments within a species. To address this question, we looked at physiological variation across a broad latitudual gradient within \textit{Mimulus cardinalis}...
+
+% Methods for spatial-average selection
+For 16 focal populations, I took the average climate within a 10 km buffer, clipped to streams based on the National Hydrological Database \citep{NHD} weighted by climatic suitability determined [multimodel average/ensemble?] from ecological niche modeling \citep{Angert_ENM}.
+
+\begin{table}[ht]
+   \centering
+   \topcaption{Climatic variables}
+   \begin{tabular}{@{} ll @{}}
+      \toprule
+  Climate variable & Abbreviation \\
+      \midrule
+  % climateWNA VARIABLES:
+	DD\_0	& degree-days below 0\celsius (chilling degree-days)  \\
+	DD5	  & degree-days above 5\celsius (growing degree-days)   \\
+	DD\_18	& degree-days below 18\celsius (heating degree-days)  \\
+	DD18	& degree-days above 18\celsius (cooling degree-days)  \\
+	NFFD	& number of frost-free days                           \\
+	PAS	  & precipitation as snow (mm) between August in previous year and July in current  \\
+	Eref	& Hargreaves reference evaporation (mm) \\
+	CMD	  & Hargreaves climativ moisture deficit (mm) \\
+	MAR   &	mean annual solar radiation (NOTE: removing because too many missing values) \\
+	RH    &	mean annual relative humidity \\
+  %BIOCLIM VARIABLES:
+  bio1	&	Annual Mean Temperature	\\
+	bio2	&	Mean Diurnal Range (Mean of monthly (max temp - min temp))	\\
+	bio3	&	Isothermality (bio2/bio7) (* 100)	\\
+	bio4	&	Temperature Seasonality (standard deviation *100)	\\
+	bio5	&	Max Temperature of Warmest Month	\\
+	bio6	&	Min Temperature of Coldest Month	\\
+	bio7	&	Temperature Annual Range (bio5-bio6)	\\
+	bio8	&	Mean Temperature of Wettest Quarter	\\
+	bio9	&	Mean Temperature of Driest Quarter	\\
+	bio10	&	Mean Temperature of Warmest Quarter	\\
+	bio11	&	Mean Temperature of Coldest Quarter	\\
+	bio12	&	Annual Precipitation	\\
+	bio15	&	Precipitation Seasonality (Coefficient of Variation)	\\
+	bio16	&	Precipitation of Wettest Quarter	\\
+	bio17	&	Precipitation of Driest Quarter	\\
+	bio18	&	Precipitation of Warmest Quarter	\\
+	bio19	&	Precipitation of Coldest Quarter	\\
+	    \bottomrule
+   \end{tabular}
+\end{table}
 
 \section*{Results}
+
+\begin{table}[ht]
+   \centering
+   \topcaption{Population, treatment effects}
+   \begin{tabular}{@{} llllllll @{}}
+      \toprule
+                                   & Germination & Leaf expansion & Stem elongation & Photosynthesis & Intrin. Photo & Mortality \\
+                                   & survreg     & lmer           & lmer            & lmer           & lmer          & glm \\
+      \midrule
+  Population                       &
+    ***  &
+    *** &
+    *** &
+    *** & 
+    *** & 
+    *** & \\
+  Temperature                      &
+    NA                                                          &
+    ***    &
+    *** &
+    *** & 
+     &     *** & \\
+  Water                            &
+    NA                                                          &
+    ***   &
+    ***   &
+    *** & 
+     &     
+    *** & \\
+  Pop $\times$ Temp                &
+    NA                                                          &
+     &
+     &
+    * & 
+     &     
+    * & \\
+  Pop $\times$ Water               &
+     NA                                                          &
+    * &
+     &
+     & 
+     &     
+     & \\
+  Temp $\times$ Water              &
+    NA                                                          &
+     &
+    *** &
+     & 
+     &     
+    *** & \\
+  Pop $\times$ Temp $\times$ Water &
+    NA                                                          &
+     &
+     &
+     & 
+     &     
+     & \\
+      \bottomrule
+   \end{tabular}
+\end{table}
+
+\subsection*{Coordinated latitudinal clines in germination, growth, and photosynthesis}
+
+\subsection*{Little evidence population by treatment interactions}
+
+\subsection*{Latitude and phenotypic clines are associated with more variable precipitation}
 
 % ANOVA table for LLL growth rate (need to label tables)
 \begin{table}[htbp]
@@ -224,6 +849,19 @@ We tested for Population, Treatment, and Population $\times$ Treatment interacti
 	\label{fig:Fig_height}
 \end{figure}
 
+\section*{Discussion}
+
+% stuff about environmental grain
+How organisms adapt depends on the grain of the environment, ..., and gene flow between populations
+
+Possibilities:
+1. no trait variation: no environmental variation, high gene flow, generalist (convex)
+2. variation in mean:
+3. variation in plasticity: convex?,
+
+our data are most consistent with:
+- concave tradeoffs, fine-grained (coarse+concave would predict alt morphs), high gene flow
+
 %--------------------------------------------------
 % References
 %--------------------------------------------------
@@ -243,7 +881,7 @@ We tested for Population, Treatment, and Population $\times$ Treatment interacti
 	\usefont{T1}{phv}{m}{n}
 	\fontsize{10}{12}
 	\selectfont
-	\caption[ANOVA table, leaf expansion rate]{Initial size of seedlings did not vary among Populations, Families, or Treatments. We used a censored Gaussian model of initial size at the outset of the experiment (longest leaf length of the first true leaves). The model was censored because we could not accurately measure leaves less than 0.25 mm with digital callipers (217 of 702, 30.9\%, were too small). We fit models using a Bayesian MCMC method implemented using the MCMCglmm function with default priors in the R package MCMCglmm version 2.17 \citep{Hadfield_2010}. We estimated the posterior distribution from 1000 samples of an MCMC chain run for $10 ^ 5$ steps after a $10^4$ step burn-in. We step-wise backward elimination procedure to find the best-supported model according to Deviance Information Criterion (DIC).}
+	\caption[ANOVA table, leaf expansion rate]{Initial size of seedlings did not vary among Populations, Families, or Treatments. We used a censored Gaussian model of initial size at the outset of the experiment (longest leaf length of the first true leaves). The model was censored because we could not accurately measure leaves less than 0.25 mm with digital callipers (217 of 702, 30.9\%, were too small). We fit models using a Bayesian MCMC method implemented using the MCMCglmm function with default priors in the R package \pkg{MCMCglmm} version 2.17 \citep{Hadfield_2010}. We estimated the posterior distribution from 1000 samples of an MCMC chain run for $10 ^ 5$ steps after a $10^4$ step burn-in. We step-wise backward elimination procedure to find the best-supported model according to Deviance Information Criterion (DIC).}
 	\begin{center}
 	\begin{tabular}{>{\everypar{\hangindent1cm}{}\raggedright}p{6cm}lc}
 	\toprule

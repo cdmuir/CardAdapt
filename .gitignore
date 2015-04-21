@@ -1,3 +1,7 @@
+# GIS files
+*.asc
+*.prj
+
 # History files
 .Rhistory
 
@@ -5,8 +9,8 @@
 .Rproj.user/
 
 # Image
-.jpg
-.pdf
+# *.jpg
+# *.pdf
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
@@ -117,3 +121,4 @@ sympy-plots-for-*.tex/
 
 # xindy
 *.xdy
+.Rproj.user
