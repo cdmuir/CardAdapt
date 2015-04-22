@@ -670,24 +670,24 @@ As with previous studies in \textit{Mimulus} and many other species [CITES], lat
   \hlkwd{load}\hlstd{(}\hlkwd{paste}\hlstd{(pathDat,} \hlstr{"/clim2lat_fit_t1.RData"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{))} \hlcom{# fit_t1}
   \hlstd{vsurfLat} \hlkwb{<-} \hlstd{fit_t1}
 
+        \hlcom{# Load climVars}
+        \hlkwd{load}\hlstd{(}\hlkwd{paste}\hlstd{(pathDat,} \hlstr{"/ExploratoryCimateVariables.RData"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{))}
+
   \hlcom{# Figure of variable importance for latitude}
   \hlkwd{pdf}\hlstd{(}\hlkwd{paste}\hlstd{(pathFig,} \hlstr{"/Figure_clim2lat_imp.pdf"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{),} \hlnum{4}\hlstd{,} \hlnum{5}\hlstd{)}
   \hlkwd{par}\hlstd{(}\hlkwc{mar} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{5}\hlstd{,} \hlnum{6}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{1}\hlstd{))}
-  \hlkwd{plot}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"n"}\hlstd{,} \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlkwd{ceiling}\hlstd{(vsurfLat}\hlopt{$}\hlstd{ord.imp}\hlopt{$}\hlstd{x)[}\hlnum{1}\hlstd{]),} \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,}
-    \hlkwd{length}\hlstd{(vsurfLat}\hlopt{$}\hlstd{varselect.pred)),} \hlkwc{axes} \hlstd{= F,} \hlkwc{frame.plot} \hlstd{= T,} \hlkwc{xlab} \hlstd{=} \hlstr{"Importance"}\hlstd{,}
-    \hlkwc{ylab} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwc{cex.lab} \hlstd{=} \hlnum{1.5}\hlstd{)}
+  \hlkwd{plot}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"n"}\hlstd{,} \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlkwd{ceiling}\hlstd{(vsurfLat}\hlopt{$}\hlstd{ord.imp}\hlopt{$}\hlstd{x)[}\hlnum{1}\hlstd{]),}
+                \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,} \hlkwd{length}\hlstd{(vsurfLat}\hlopt{$}\hlstd{varselect.pred)),} \hlkwc{axes} \hlstd{= F,} \hlkwc{frame.plot} \hlstd{= T,}
+                \hlkwc{xlab} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwc{ylab} \hlstd{=} \hlstr{""}\hlstd{)}
+        \hlkwd{title}\hlstd{(}\hlkwc{xlab} \hlstd{=} \hlstr{"Climate-Latitude\textbackslash{}nImportance"}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{4}\hlstd{,} \hlkwc{cex.lab} \hlstd{=} \hlnum{1.5}\hlstd{)}
   \hlkwa{for} \hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlkwd{length}\hlstd{(vsurfLat}\hlopt{$}\hlstd{varselect.pred))}
   \hlstd{\{}
      \hlkwd{lines}\hlstd{(}\hlkwc{x} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{1}\hlstd{,} \hlkwd{length}\hlstd{(vsurfLat}\hlopt{$}\hlstd{varselect.pred)),} \hlkwc{y} \hlstd{=} \hlkwd{c}\hlstd{(i, i),} \hlkwc{col} \hlstd{=} \hlstr{"grey"}\hlstd{)}
   \hlstd{\}}
   \hlkwd{points}\hlstd{(vsurfLat}\hlopt{$}\hlstd{ord.imp}\hlopt{$}\hlstd{x[}\hlnum{1}\hlopt{:}\hlkwd{length}\hlstd{(vsurfLat}\hlopt{$}\hlstd{varselect.pred)],}
     \hlkwd{length}\hlstd{(vsurfLat}\hlopt{$}\hlstd{varselect.pred)}\hlopt{:}\hlnum{1}\hlstd{,} \hlkwc{pch} \hlstd{=} \hlnum{21}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"black"}\hlstd{,} \hlkwc{bg} \hlstd{=} \hlstr{"white"}\hlstd{,} \hlkwc{cex} \hlstd{=} \hlnum{1.5}\hlstd{)}
-        \hlkwd{mtext}\hlstd{(climVars[vsurfLat}\hlopt{$}\hlstd{varselect.pred],} \hlkwc{side} \hlstd{=} \hlnum{2}\hlstd{,}
-    \hlkwc{at} \hlstd{=} \hlkwd{length}\hlstd{(vsurfLat}\hlopt{$}\hlstd{varselect.pred)}\hlopt{:}\hlnum{1}\hlstd{,} \hlkwc{las} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{1}\hlstd{)}
-\end{alltt}
-
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in as.graphicsAnnot(text): object 'climVars' not found}}\begin{alltt}
+        \hlcom{# mtext(climVars[vsurfLat$varselect.pred], side = 2, }
+    \hlcom{# at = length(vsurfLat$varselect.pred):1, las = 1, line = 1)}
         \hlkwd{axis}\hlstd{(}\hlnum{1}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lwd.ticks} \hlstd{=} \hlnum{1}\hlstd{)}
         \hlkwd{dev.off}\hlstd{()}
 \end{alltt}
@@ -696,12 +696,9 @@ As with previous studies in \textit{Mimulus} and many other species [CITES], lat
 ##   2
 \end{verbatim}
 \begin{alltt}
-  \hlcom{# Columns with climatic variables to test}
-  \hlkwd{load}\hlstd{(}\hlkwd{paste}\hlstd{(pathDat,} \hlstr{"/Exploratory_climate_variables.RData"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{))} \hlcom{#climVars}
-
   \hlcom{# Variable selection using random forests (VSURF)}
   \hlstd{linmod.PC1} \hlkwb{<-} \hlkwd{as.formula}\hlstd{(}\hlkwd{paste}\hlstd{(}\hlstr{"PC1 ~ "}\hlstd{,} \hlkwd{paste}\hlstd{(climVars,} \hlkwc{collapse} \hlstd{=} \hlstr{" + "}\hlstd{),} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{))}
-  \hlkwd{set.seed}\hlstd{(}\hlnum{69646}\hlstd{)}
+  \hlkwd{set.seed}\hlstd{(}\hlnum{69647}\hlstd{)}
   \hlstd{vsurfPC1} \hlkwb{<-} \hlkwd{VSURF.parallel}\hlstd{(linmod.PC1,} \hlkwc{data} \hlstd{= focClim[,} \hlkwd{c}\hlstd{(}\hlstr{"PC1"}\hlstd{, climVars)],}
     \hlkwc{ncores} \hlstd{=} \hlnum{3}\hlstd{)}
 \end{alltt}
@@ -757,16 +754,19 @@ As with previous studies in \textit{Mimulus} and many other species [CITES], lat
         \hlkwd{pdf}\hlstd{(}\hlkwd{paste}\hlstd{(pathFig,} \hlstr{"/Figure_clim2pc1_imp.pdf"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{),} \hlnum{4}\hlstd{,} \hlnum{5}\hlstd{)}
         \hlkwd{par}\hlstd{(}\hlkwc{mar} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{5}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{6}\hlstd{))}
 
-        \hlkwd{plot}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"n"}\hlstd{,} \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{30}\hlstd{),} \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{, nImpLat),}
-                \hlkwc{axes} \hlstd{= F,} \hlkwc{frame.plot} \hlstd{= T,} \hlkwc{xlab} \hlstd{=} \hlstr{"Importance"}\hlstd{,} \hlkwc{ylab} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwc{cex.lab} \hlstd{=} \hlnum{1.5}\hlstd{)}
-        \hlkwa{for} \hlstd{(i} \hlkwa{in} \hlstd{(nImpLat}\hlopt{:}\hlstd{(nImpLat} \hlopt{-} \hlstd{nImpPC1} \hlopt{+} \hlnum{1}\hlstd{)))} \hlkwd{lines}\hlstd{(}\hlkwc{x} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{100}\hlstd{,} \hlnum{100}\hlstd{),} \hlkwc{y} \hlstd{=} \hlkwd{c}\hlstd{(i, i),}
-                \hlkwc{col} \hlstd{=} \hlstr{"grey"}\hlstd{)}
-        \hlkwd{points}\hlstd{(}\hlnum{100} \hlopt{*} \hlstd{vsurfPC1}\hlopt{$}\hlstd{ord.imp}\hlopt{$}\hlstd{x[}\hlnum{1}\hlopt{:}\hlstd{nImpPC1], nImpLat}\hlopt{:}\hlstd{(nImpLat} \hlopt{-} \hlstd{nImpPC1} \hlopt{+} \hlnum{1}\hlstd{),} \hlkwc{pch} \hlstd{=} \hlnum{21}\hlstd{,}
-                \hlkwc{col} \hlstd{=} \hlstr{"black"}\hlstd{,} \hlkwc{bg} \hlstd{=} \hlstr{"white"}\hlstd{,} \hlkwc{cex} \hlstd{=} \hlnum{1.5}\hlstd{)}
-        \hlkwd{mtext}\hlstd{(climVars[vsurfPC1}\hlopt{$}\hlstd{varselect.pred],} \hlkwc{side} \hlstd{=} \hlnum{4}\hlstd{,} \hlkwc{las} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{1}\hlstd{,}
-    \hlkwc{at} \hlstd{= nImpLat}\hlopt{:}\hlstd{(nImpLat} \hlopt{-} \hlstd{nImpPC1} \hlopt{+} \hlnum{1}\hlstd{),}
-                \hlkwc{font} \hlstd{=} \hlkwd{ifelse}\hlstd{(vsurfPC1}\hlopt{$}\hlstd{varselect.pred} \hlopt{%in%} \hlstd{vsurfLat}\hlopt{$}\hlstd{varselect.pred,}     \hlnum{2}\hlstd{,} \hlnum{1}\hlstd{))}
-        \hlkwd{axis}\hlstd{(}\hlnum{1}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lwd.ticks} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{labels} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{3}\hlstd{,} \hlnum{0.5}\hlstd{),} \hlkwc{at} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{30}\hlstd{,} \hlnum{5}\hlstd{))}
+        \hlkwd{plot}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"n"}\hlstd{,} \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0.3}\hlstd{),} \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{, nImpLat),}
+                \hlkwc{axes} \hlstd{= F,} \hlkwc{frame.plot} \hlstd{= T,} \hlkwc{xlab} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwc{ylab} \hlstd{=} \hlstr{""}\hlstd{)}
+        \hlkwd{title}\hlstd{(}\hlkwc{xlab} \hlstd{=} \hlstr{"Climate-Trait PC1\textbackslash{}nImportance"}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{4}\hlstd{,} \hlkwc{cex.lab} \hlstd{=} \hlnum{1.5}\hlstd{)}
+        \hlkwa{for} \hlstd{(i} \hlkwa{in} \hlstd{(nImpLat}\hlopt{:}\hlstd{(nImpLat} \hlopt{-} \hlstd{nImpPC1} \hlopt{+} \hlnum{1}\hlstd{)))}
+        \hlstd{\{}
+                \hlkwd{lines}\hlstd{(}\hlkwc{x} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{100}\hlstd{,} \hlnum{100}\hlstd{),} \hlkwc{y} \hlstd{=} \hlkwd{c}\hlstd{(i, i),} \hlkwc{col} \hlstd{=} \hlstr{"grey"}\hlstd{)}
+        \hlstd{\}}
+        \hlkwd{points}\hlstd{(vsurfPC1}\hlopt{$}\hlstd{ord.imp}\hlopt{$}\hlstd{x[}\hlnum{1}\hlopt{:}\hlstd{nImpPC1], nImpLat}\hlopt{:}\hlstd{(nImpLat} \hlopt{-} \hlstd{nImpPC1} \hlopt{+} \hlnum{1}\hlstd{),}
+                \hlkwc{pch} \hlstd{=} \hlnum{21}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"black"}\hlstd{,} \hlkwc{bg} \hlstd{=} \hlstr{"white"}\hlstd{,} \hlkwc{cex} \hlstd{=} \hlnum{1.5}\hlstd{)}
+        \hlcom{# mtext(climVars[vsurfPC1$varselect.pred], side = 4, las = 1, line = 1, }
+  \hlcom{#  at = nImpLat:(nImpLat - nImpPC1 + 1), }
+        \hlcom{#	font = ifelse(vsurfPC1$varselect.pred %in% vsurfLat$varselect.pred,	2, 1))}
+        \hlkwd{axis}\hlstd{(}\hlnum{1}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lwd.ticks} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{at} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0.3}\hlstd{,} \hlnum{0.1}\hlstd{))}
   \hlkwd{dev.off}\hlstd{()}
 \end{alltt}
 \begin{verbatim}
@@ -853,7 +853,7 @@ For 16 focal populations, I took the average climate within a 10 km buffer, clip
 
 \subsection*{Coordinated latitudinal clines in germination, growth, and photosynthesis}
 
-Genetic differences between populations affecting originsmal function and performance point to traits that may be involved in local adaptation. Using a common garden design, we identified strong genetic differences in germination, growth, and photosynthetic rate among populations of \textit{M. cardinalis} (Table~\ref{Table_AnovaSummary}). A single principal component captured 74.2 %\% of among population trait variation, defining an axis of variation from fast to slow growth (Fig~\ref{Fig_PC1vLat}). As we explain below, intrinsic differences between populations in terms of plant function (photosynthesis) and performance (growth) contrasted greatly with little variation in plasticity.
+Genetic differences between populations affecting originsmal function and performance point to traits that may be involved in local adaptation. Using a common garden design, we identified strong genetic differences in germination, growth, and photosynthetic rate among populations of \textit{M. cardinalis} (Table~\ref{table:Table_AnovaSummary}). A single principal component captured 74.2 %$\%$ of the trait variation among populations, defining an axis of variation from fast to slow growth (Fig~\ref{fig:Fig_PC1vLat}). As we explain below, intrinsic differences between populations in terms of plant function (photosynthesis) and performance (growth) contrasted greatly with little variation in plasticity.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Table of Population, Treatment, Population x Treatment interactions for varies traits
@@ -936,13 +936,28 @@ Genetic differences between populations affecting originsmal function and perfor
 
 \subsection*{Remarkably little evidence for variation in plasticity}
 
-Genotype by environment interactions are also a common signature of local adaptation [CITE]. For example, populations from more stressful environments may tradeoff reduced growth rate under benign conditions for the ability to tolerate stress by maintaining positive growth rates and/or surviving through adverse conditions. We found remarkably little evidence for this pattern in \textit{M. cardinalis}.
-
-Do not think this is a power issue because statistical signifiance of treatment and populations effects were very high.
+Genotype $\times$ environment interactions are also a common signature of local adaptation [CITE]. For example, populations from more stressful environments may tradeoff reduced growth rate under benign conditions for the ability to tolerate stress by maintaining positive growth rates and/or surviving through adverse conditions. We found remarkably little evidence for this pattern in \textit{M. cardinalis}. There was only one statistically significant Population $\times$ Treatment interaction (Table~\ref{table:Table_AnovaSummary}), but this idiosyncratic result was weak and would not have survived correction for multiple testing. Otherwise, populations responded remarkably similarly to treatments: faster growth in the hot treatment, slower growth in the dry treatment, and high mortality in the hot, dry treatment (Table~\ref{table:Table_AnovaSummary}). Note that interactions were calculated after factoring out intrinsic trait differences, necessarily reducing statistical power to detect significant interactions relative to main effects. However, the fact that the Population and Treatment effects were highly significant ($P \ll 0.001$ in most cases) suggests that statistical power alone cannot explain why we failed to detect Population $\times$ Treatment interactions.
 
 \subsection*{Latitude and phenotypic clines are associated with more variable precipitation}
 
+Latitude explains variation
+Presumably selective agent is not latitude, but something related to it
+Exploratory approach to identify putative selective agent to test in future studies
+We used a machine learning approach...identified interannual variation in precipitation (Fig~\ref{fig:Fig_ClimVarImp})
+Obviously, cannot identify alternative variables that were not included in analysis.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Figure of climatic variable importance
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[h!]
+	\centerline{\includegraphics[width=1\textwidth]{Figures/Figure_ClimVarImp.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Interannual variation in precipitation is closely correlated with latitude and trait variation]{CAPTION}
+	\label{fig:Fig_ClimVarImp}
+\end{figure}
 
 %--------------------------------------------------
 % Discussion
