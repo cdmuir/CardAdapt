@@ -253,13 +253,133 @@ We simulated typical growing season (June and July) air temperatures at the two 
 
 \subsubsection*{Water}
 
+      April 14 germinate
+      Before May 20 (36 days): 7.5 min (complete flood) every 2 hours
+      between May 20 to June 10 (57 days), down to 30 seconds, 1x per day
 			Wet: daily/constant irrigation with cooled water
 			Dry: start at week \#, gradually decrease watering frequency/level
 
 			\cdm{Are there any data from California about soil water content through the season?}
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(scales)} \hlcom{# for color transparency}
+\hlstd{exptlDes} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(}\hlkwd{paste}\hlstd{(pathDat,} \hlstr{"/ExperimentalDesign.csv"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{))}
 
-\subsubsection*{Growth and photosynthesis}
+\hlkwd{pdf}\hlstd{(}\hlkwd{paste}\hlstd{(pathFig,} \hlstr{"/ExperimentalDesignBase.pdf"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{),} \hlnum{7}\hlstd{,} \hlnum{5}\hlstd{)}
+\hlkwd{par}\hlstd{(}\hlkwc{mai} \hlstd{=} \hlkwd{rep}\hlstd{(}\hlnum{1}\hlstd{,} \hlnum{4}\hlstd{))}
+\hlkwd{plot}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"n"}\hlstd{,} \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlkwd{max}\hlstd{(exptlDes}\hlopt{$}\hlstd{DayN)),} \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{1}\hlstd{,} \hlnum{41}\hlstd{),}
+                 \hlkwc{axes} \hlstd{= F,} \hlkwc{frame.plot} \hlstd{= T,} \hlkwc{cex.lab} \hlstd{=} \hlnum{1.5}\hlstd{,} \hlkwc{xlab} \hlstd{=} \hlstr{"Key treatments and measurements"}\hlstd{,}
+     \hlkwc{ylab} \hlstd{=} \hlkwd{expression}\hlstd{(}\hlkwd{paste}\hlstd{(}\hlstr{"Temperature ("}\hlstd{,} \hlkwd{phantom}\hlstd{()}\hlopt{*}\hlstd{degree,} \hlstr{"C)"}\hlstd{)))}
+
+\hlcom{# Temperature axis}
+\hlkwd{axis}\hlstd{(}\hlnum{2}\hlstd{,} \hlkwc{at} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{40}\hlstd{,} \hlnum{10}\hlstd{),} \hlkwc{lwd} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lwd.ticks} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{las} \hlstd{=} \hlnum{1}\hlstd{,}
+        \hlkwc{labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlkwd{expression}\hlstd{(}\hlnum{0}\hlopt{*}\hlstd{degree),} \hlkwd{expression}\hlstd{(}\hlnum{10}\hlopt{*}\hlstd{degree),} \hlkwd{expression}\hlstd{(}\hlnum{20}\hlopt{*}\hlstd{degree),}
+                                                 \hlkwd{expression}\hlstd{(}\hlnum{30}\hlopt{*}\hlstd{degree),} \hlkwd{expression}\hlstd{(}\hlnum{40}\hlopt{*}\hlstd{degree)))}
+\hlcom{# Axis of time on top}
+\hlkwd{mtext}\hlstd{(}\hlstr{"Days after sowing"}\hlstd{,} \hlkwc{side} \hlstd{=} \hlnum{3}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{3.5}\hlstd{,} \hlkwc{cex} \hlstd{=} \hlnum{1.5}\hlstd{)}
+\hlkwd{mtext}\hlstd{(}\hlstr{"(Date for climate simulation)"}\hlstd{,} \hlkwc{side} \hlstd{=} \hlnum{3}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{2.25}\hlstd{,} \hlkwc{cex} \hlstd{=} \hlnum{1.5}\hlstd{)}
+\hlkwd{axis}\hlstd{(}\hlnum{3}\hlstd{,} \hlkwc{at} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{90}\hlstd{,} \hlnum{30}\hlstd{),} \hlkwc{lwd} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lwd.ticks} \hlstd{=} \hlnum{1}\hlstd{)}
+\hlkwd{axis}\hlstd{(}\hlnum{3}\hlstd{,} \hlkwc{at} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{17}\hlstd{,} \hlnum{47}\hlstd{,} \hlnum{78}\hlstd{),} \hlkwc{lwd} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lwd.ticks} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{line} \hlstd{=} \hlopt{-}\hlnum{0.5}\hlstd{,}
+     \hlkwc{labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"(June)"}\hlstd{,} \hlstr{"(July)"}\hlstd{,} \hlstr{"(August)"}\hlstd{))}
+
+\hlcom{# Indicate sowing, beginning of temperature and drought treatments}
+\hlkwd{abline}\hlstd{(}\hlkwc{v} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"grey"}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{)}
+\hlkwd{mtext}\hlstd{(}\hlstr{"Sow"}\hlstd{,} \hlkwc{side} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{at} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{0}\hlstd{)}
+\hlkwd{abline}\hlstd{(}\hlkwc{v} \hlstd{=} \hlnum{17}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"grey"}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{)}
+\hlkwd{mtext}\hlstd{(}\hlstr{"Temp\textbackslash{}nTreatment"}\hlstd{,} \hlkwc{side} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{at} \hlstd{=} \hlnum{17}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{1}\hlstd{)}
+\hlkwd{abline}\hlstd{(}\hlkwc{v} \hlstd{=} \hlnum{37}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"grey"}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{)}
+\hlkwd{mtext}\hlstd{(}\hlstr{"Drought\textbackslash{}nTreatment"}\hlstd{,} \hlkwc{side} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{at} \hlstd{=} \hlnum{37}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{1}\hlstd{)}
+
+\hlcom{# Polygon of Hot treatment, min and max}
+\hlkwd{with}\hlstd{(exptlDes[}\hlnum{18}\hlopt{:}\hlnum{94}\hlstd{, ],} \hlkwd{polygon}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{17}\hlopt{:}\hlnum{93}\hlstd{,} \hlnum{93}\hlopt{:}\hlnum{17}\hlstd{),} \hlkwd{c}\hlstd{(Tmin_hot,} \hlkwd{rev}\hlstd{(Tmax_hot)),}
+  \hlkwc{border} \hlstd{=} \hlnum{NA}\hlstd{,} \hlkwc{col} \hlstd{=} \hlkwd{alpha}\hlstd{(primShade0,} \hlnum{0.25}\hlstd{)))}
+
+\hlcom{# Polygon of Cool treatment, min and max}
+\hlkwd{with}\hlstd{(exptlDes[}\hlnum{18}\hlopt{:}\hlnum{94}\hlstd{, ],} \hlkwd{polygon}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{17}\hlopt{:}\hlnum{93}\hlstd{,} \hlnum{93}\hlopt{:}\hlnum{17}\hlstd{),} \hlkwd{c}\hlstd{(Tmin_cool,} \hlkwd{rev}\hlstd{(Tmax_cool)),}
+  \hlkwc{border} \hlstd{=} \hlnum{NA}\hlstd{,} \hlkwc{col} \hlstd{=} \hlkwd{alpha}\hlstd{(sec1shade0,} \hlnum{0.25}\hlstd{)))}
+
+\hlcom{# Lines with average temperature}
+\hlkwd{with}\hlstd{(exptlDes[}\hlnum{18}\hlopt{:}\hlnum{94}\hlstd{, ],} \hlkwd{points}\hlstd{(}\hlnum{17}\hlopt{:}\hlnum{93}\hlstd{, Tavg_hot,} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"l"}\hlstd{,}
+        \hlkwc{col} \hlstd{= primShade3))}
+\hlkwd{with}\hlstd{(exptlDes[}\hlnum{18}\hlopt{:}\hlnum{94}\hlstd{, ],} \hlkwd{points}\hlstd{(}\hlnum{17}\hlopt{:}\hlnum{93}\hlstd{, Tavg_cool,} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"l"}\hlstd{,}
+        \hlkwc{col} \hlstd{= sec1shade3))}
+
+\hlcom{# Rug indicating measurment timing}
+\hlkwd{rect}\hlstd{(}\hlnum{6}\hlstd{,} \hlopt{-}\hlnum{2}\hlstd{,} \hlnum{17}\hlstd{,} \hlnum{0}\hlstd{,} \hlkwc{border} \hlstd{=} \hlstr{"white"}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"grey"}\hlstd{)}
+\hlkwd{with}\hlstd{(exptlDes,} \hlkwd{text}\hlstd{(}\hlnum{11.5}\hlstd{,} \hlopt{-}\hlnum{1}\hlstd{,} \hlkwc{labels} \hlstd{=} \hlstr{"Germ"}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"white"}\hlstd{,} \hlkwc{font} \hlstd{=} \hlnum{3}\hlstd{,}
+  \hlkwc{cex} \hlstd{=} \hlnum{0.9}\hlstd{))}
+
+\hlkwd{with}\hlstd{(exptlDes,} \hlkwd{rect}\hlstd{(}\hlkwd{min}\hlstd{(}\hlkwd{which}\hlstd{(LERmeas)),} \hlopt{-}\hlnum{2}\hlstd{,} \hlkwd{max}\hlstd{(}\hlkwd{which}\hlstd{(LERmeas)),} \hlnum{0}\hlstd{,}
+        \hlkwc{border} \hlstd{=} \hlstr{"white"}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"grey"}\hlstd{))}
+\hlkwd{with}\hlstd{(exptlDes,} \hlkwd{text}\hlstd{(}\hlkwd{min}\hlstd{((}\hlkwd{which}\hlstd{(LERmeas))} \hlopt{+} \hlkwd{max}\hlstd{(}\hlkwd{which}\hlstd{(LERmeas)))} \hlopt{/} \hlnum{2}\hlstd{,} \hlopt{-}\hlnum{1}\hlstd{,}
+        \hlkwc{labels} \hlstd{=} \hlstr{"LER"}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"white"}\hlstd{,} \hlkwc{font} \hlstd{=} \hlnum{3}\hlstd{,} \hlkwc{cex} \hlstd{=} \hlnum{0.9}\hlstd{))}
+
+\hlkwd{with}\hlstd{(exptlDes,} \hlkwd{rect}\hlstd{(}\hlkwd{min}\hlstd{(}\hlkwd{which}\hlstd{(SERmeas)),} \hlnum{0}\hlstd{,} \hlkwd{max}\hlstd{(}\hlkwd{which}\hlstd{(SERmeas)),} \hlnum{2}\hlstd{,}
+        \hlkwc{border} \hlstd{=} \hlstr{"white"}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"grey"}\hlstd{))}
+\hlkwd{with}\hlstd{(exptlDes,} \hlkwd{text}\hlstd{(}\hlkwd{min}\hlstd{((}\hlkwd{which}\hlstd{(SERmeas))} \hlopt{+} \hlkwd{max}\hlstd{(}\hlkwd{which}\hlstd{(SERmeas)))} \hlopt{/} \hlnum{2}\hlstd{,} \hlnum{1}\hlstd{,}
+        \hlkwc{labels} \hlstd{=} \hlstr{"SER"}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"white"}\hlstd{,} \hlkwc{font} \hlstd{=} \hlnum{3}\hlstd{,} \hlkwc{cex} \hlstd{=} \hlnum{0.9}\hlstd{))}
+
+\hlkwd{with}\hlstd{(exptlDes,} \hlkwd{rect}\hlstd{(}\hlkwd{min}\hlstd{(}\hlkwd{which}\hlstd{(Harvest)),} \hlopt{-}\hlnum{2}\hlstd{,} \hlkwd{max}\hlstd{(}\hlkwd{which}\hlstd{(Harvest)),} \hlnum{0}\hlstd{,}
+        \hlkwc{border} \hlstd{=} \hlstr{"white"}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"grey"}\hlstd{))}
+\hlkwd{with}\hlstd{(exptlDes,} \hlkwd{text}\hlstd{(}\hlkwd{min}\hlstd{((}\hlkwd{which}\hlstd{(Harvest))} \hlopt{+} \hlkwd{max}\hlstd{(}\hlkwd{which}\hlstd{(Harvest)))} \hlopt{/} \hlnum{2}\hlstd{,} \hlopt{-}\hlnum{1}\hlstd{,}
+        \hlkwc{labels} \hlstd{=} \hlstr{"Harvest"}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"white"}\hlstd{,} \hlkwc{font} \hlstd{=} \hlnum{3}\hlstd{,} \hlkwc{cex} \hlstd{=} \hlnum{0.9}\hlstd{))}
+
+\hlkwd{with}\hlstd{(exptlDes,} \hlkwd{text}\hlstd{(}\hlkwd{min}\hlstd{((}\hlkwd{which}\hlstd{(PhotoMeas))} \hlopt{+} \hlkwd{max}\hlstd{(}\hlkwd{which}\hlstd{(PhotoMeas)))} \hlopt{/} \hlnum{2}\hlstd{,} \hlnum{5}\hlstd{,}
+        \hlkwc{labels} \hlstd{=} \hlstr{"Photo"}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"grey"}\hlstd{,} \hlkwc{font} \hlstd{=} \hlnum{3}\hlstd{,} \hlkwc{cex} \hlstd{=} \hlnum{0.9}\hlstd{))}
+\hlkwd{with}\hlstd{(exptlDes,} \hlkwd{rect}\hlstd{(}\hlkwd{min}\hlstd{(}\hlkwd{which}\hlstd{(PhotoMeas)),} \hlnum{2}\hlstd{,} \hlkwd{max}\hlstd{(}\hlkwd{which}\hlstd{(PhotoMeas)),} \hlnum{4}\hlstd{,}
+        \hlkwc{border} \hlstd{=} \hlstr{"white"}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"grey"}\hlstd{))}
+\hlcom{#with(exptlDes, text(min((which(PhotoMeas)) + max(which(PhotoMeas))) / 2, 3, }
+\hlcom{#	labels = "Photo", col = "white", font = 3, cex = 0.9))}
+
+\hlkwd{dev.off}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## pdf 
+##   2
+\end{verbatim}
+\begin{alltt}
+\hlcom{# Legend}
+\hlkwd{pdf}\hlstd{(}\hlkwd{paste}\hlstd{(pathFig,} \hlstr{"/ExperimentalDesignLegend.pdf"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{),} \hlnum{1.5}\hlstd{,} \hlnum{2}\hlstd{)}
+\hlkwd{par}\hlstd{(}\hlkwc{mai} \hlstd{=} \hlkwd{rep}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{4}\hlstd{))}
+\hlkwd{plot}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"n"}\hlstd{,} \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{1.5}\hlstd{),} \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{1}\hlstd{),} \hlkwc{axes} \hlstd{= F)}
+
+\hlkwd{polygon}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0.5}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{0.5}\hlstd{,} \hlnum{0}\hlstd{),} \hlkwd{c}\hlstd{(}\hlnum{0.8}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{0.55}\hlstd{,} \hlnum{0.55}\hlstd{,} \hlnum{0.35}\hlstd{),} \hlkwc{border} \hlstd{=} \hlnum{NA}\hlstd{,}
+                                \hlkwc{col} \hlstd{=} \hlkwd{alpha}\hlstd{(primShade0,} \hlnum{0.25}\hlstd{))}
+\hlkwd{polygon}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0.5}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{0.5}\hlstd{,} \hlnum{0}\hlstd{),} \hlkwd{c}\hlstd{(}\hlnum{0.6}\hlstd{,} \hlnum{0.45}\hlstd{,} \hlnum{0.45}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{0.15}\hlstd{),} \hlkwc{border} \hlstd{=} \hlnum{NA}\hlstd{,}
+                                \hlkwc{col} \hlstd{=} \hlkwd{alpha}\hlstd{(sec1shade0,} \hlnum{0.25}\hlstd{))}
+\hlkwd{points}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0.5}\hlstd{,} \hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlnum{0.575}\hlstd{,} \hlnum{0.775}\hlstd{,} \hlnum{0.775}\hlstd{),} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"l"}\hlstd{,} \hlkwc{col} \hlstd{= primShade3)}
+\hlkwd{points}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0.5}\hlstd{,} \hlnum{1}\hlstd{),} \hlkwd{c}\hlstd{(}\hlnum{0.375}\hlstd{,} \hlnum{0.225}\hlstd{,} \hlnum{0.225}\hlstd{),} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"l"}\hlstd{,} \hlkwc{col} \hlstd{= sec1shade3)}
+\hlkwd{text}\hlstd{(}\hlnum{0.5}\hlstd{,} \hlnum{0.9}\hlstd{,} \hlkwc{labels} \hlstd{=} \hlstr{"Hot"}\hlstd{,} \hlkwc{col} \hlstd{= primShade3)}
+\hlkwd{text}\hlstd{(}\hlnum{0.5}\hlstd{,} \hlnum{0.1}\hlstd{,} \hlkwc{labels} \hlstd{=} \hlstr{"Cool"}\hlstd{,} \hlkwc{col} \hlstd{= sec1shade3)}
+\hlkwd{text}\hlstd{(}\hlnum{1.25}\hlstd{,} \hlnum{1}\hlstd{,} \hlkwc{labels} \hlstd{=} \hlstr{"Max"}\hlstd{,} \hlkwc{col} \hlstd{=} \hlkwd{alpha}\hlstd{(primShade0,} \hlnum{0.25}\hlstd{))}
+\hlkwd{text}\hlstd{(}\hlnum{1.25}\hlstd{,} \hlnum{0.55}\hlstd{,} \hlkwc{labels} \hlstd{=} \hlstr{"Min"}\hlstd{,} \hlkwc{col} \hlstd{=} \hlkwd{alpha}\hlstd{(primShade0,} \hlnum{0.25}\hlstd{))}
+\hlkwd{text}\hlstd{(}\hlnum{1.25}\hlstd{,} \hlnum{0.775}\hlstd{,} \hlkwc{labels} \hlstd{=} \hlstr{"Mean"}\hlstd{,} \hlkwc{col} \hlstd{= primShade3)}
+
+\hlkwd{text}\hlstd{(}\hlnum{1.25}\hlstd{,} \hlnum{0}\hlstd{,} \hlkwc{labels} \hlstd{=} \hlstr{"Min"}\hlstd{,} \hlkwc{col} \hlstd{=} \hlkwd{alpha}\hlstd{(sec1shade0,} \hlnum{0.25}\hlstd{))}
+\hlkwd{text}\hlstd{(}\hlnum{1.25}\hlstd{,} \hlnum{0.45}\hlstd{,} \hlkwc{labels} \hlstd{=} \hlstr{"Max"}\hlstd{,} \hlkwc{col} \hlstd{=} \hlkwd{alpha}\hlstd{(sec1shade0,} \hlnum{0.25}\hlstd{))}
+\hlkwd{text}\hlstd{(}\hlnum{1.25}\hlstd{,} \hlnum{0.225}\hlstd{,} \hlkwc{labels} \hlstd{=} \hlstr{"Mean"}\hlstd{,} \hlkwc{col} \hlstd{= sec1shade3)}
+
+\hlkwd{dev.off}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## pdf 
+##   2
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\begin{figure}[h!]
+	\centerline{\includegraphics[width=1\textwidth]{Figures/Figure_ExptlDes.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Experimental Design]{CAPTION}
+	\label{fig:Fig_ExptlDes}
+\end{figure}
+
+\subsection*{Measurements: Growth and photosynthesis}
 
 \begin{table}[ht]
    \centering
@@ -487,17 +607,22 @@ We tested for Population, Treatment, and Population $\times$ Treatment interacti
   \hlstd{pve} \hlkwb{<-} \hlkwd{paste}\hlstd{(}\hlkwd{round}\hlstd{(}\hlnum{100} \hlopt{*} \hlstd{traitPC}\hlopt{$}\hlstd{sdev[}\hlnum{1}\hlstd{]} \hlopt{^} \hlnum{2} \hlopt{/} \hlkwd{sum}\hlstd{(traitPC}\hlopt{$}\hlstd{sdev} \hlopt{^} \hlnum{2}\hlstd{),} \hlnum{1}\hlstd{),} \hlstr{"%"}\hlstd{)}
 
   \hlcom{# Plot latitude versus PC1}
-  \hlkwd{pdf}\hlstd{(}\hlkwd{paste}\hlstd{(pathFig,} \hlstr{"/Figure_PC1vLat.pdf"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{),} \hlnum{5}\hlstd{,} \hlnum{5}\hlstd{)}
-  \hlkwd{par}\hlstd{(}\hlkwc{mar} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{5}\hlstd{,} \hlnum{5}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{1}\hlstd{))}
+  \hlkwd{pdf}\hlstd{(}\hlkwd{paste}\hlstd{(pathFig,} \hlstr{"/Figure_PC1vLat.pdf"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{),} \hlnum{5.5}\hlstd{,} \hlnum{5}\hlstd{)}
+  \hlkwd{par}\hlstd{(}\hlkwc{mai} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,} \hlnum{1.5}\hlstd{,} \hlnum{0.25}\hlstd{,} \hlnum{0.25}\hlstd{))}
   \hlkwd{plot}\hlstd{(focClim}\hlopt{$}\hlstd{Lat, focClim}\hlopt{$}\hlstd{PC1,} \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{32}\hlstd{,} \hlnum{44}\hlstd{),} \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{4}\hlstd{,} \hlnum{4}\hlstd{),} \hlkwc{axes} \hlstd{= F,}
     \hlkwc{frame.plot} \hlstd{= T,} \hlkwc{type} \hlstd{=} \hlstr{"n"}\hlstd{,} \hlkwc{xlab} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwc{ylab} \hlstd{=} \hlstr{""}\hlstd{)}
   \hlkwd{title}\hlstd{(}\hlkwc{xlab} \hlstd{=} \hlstr{"Latitude"}\hlstd{,} \hlkwc{cex.lab} \hlstd{=} \hlnum{1.5}\hlstd{)}
   \hlkwd{title}\hlstd{(}\hlkwc{ylab} \hlstd{=} \hlkwd{substitute}\hlstd{(}\hlkwd{plain}\hlstd{(Principal}\hlopt{~}\hlstd{Component}\hlopt{~}\hlnum{1}\hlstd{)}\hlopt{~}\hlkwd{group}\hlstd{(}\hlstr{"("}\hlstd{, x,} \hlstr{")"}\hlstd{),}
     \hlkwd{list}\hlstd{(}\hlkwc{x} \hlstd{= pve)))}
-  \hlkwd{axis}\hlstd{(}\hlnum{1}\hlstd{,} \hlkwc{at} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlnum{32}\hlstd{,} \hlnum{44}\hlstd{,} \hlnum{4}\hlstd{),} \hlkwc{labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlkwd{expression}\hlstd{(}\hlnum{32}\hlopt{*}\hlstd{degree),} \hlkwd{expression}\hlstd{(}\hlnum{36}\hlopt{*}\hlstd{degree),}
-    \hlkwd{expression}\hlstd{(}\hlnum{40}\hlopt{*}\hlstd{degree),} \hlkwd{expression}\hlstd{(}\hlnum{44}\hlopt{*}\hlstd{degree)),} \hlkwc{lwd} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lwd.ticks} \hlstd{=} \hlnum{1}\hlstd{)}
+  \hlkwd{axis}\hlstd{(}\hlnum{1}\hlstd{,} \hlkwc{at} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlnum{32}\hlstd{,} \hlnum{44}\hlstd{,} \hlnum{4}\hlstd{),} \hlkwc{labels} \hlstd{=} \hlkwd{c}\hlstd{(}\hlkwd{expression}\hlstd{(}\hlnum{32}\hlopt{*}\hlstd{degree),}
+                \hlkwd{expression}\hlstd{(}\hlnum{36}\hlopt{*}\hlstd{degree),} \hlkwd{expression}\hlstd{(}\hlnum{40}\hlopt{*}\hlstd{degree),} \hlkwd{expression}\hlstd{(}\hlnum{44}\hlopt{*}\hlstd{degree)),}
+                \hlkwc{lwd} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lwd.ticks} \hlstd{=} \hlnum{1}\hlstd{)}
   \hlkwd{axis}\hlstd{(}\hlnum{2}\hlstd{,} \hlkwc{at} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlopt{-}\hlnum{4}\hlstd{,} \hlnum{4}\hlstd{,} \hlnum{2}\hlstd{),} \hlkwc{las} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lwd.ticks} \hlstd{=} \hlnum{1}\hlstd{)}
   \hlstd{fitLat} \hlkwb{<-} \hlkwd{lm}\hlstd{(PC1} \hlopt{~} \hlstd{Latitude,} \hlkwc{data} \hlstd{= focClim)}
+
+        \hlcom{# Label y-axis from slow to fast growth}
+        \hlkwd{mtext}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"Slow\textbackslash{}nGrowth"}\hlstd{,} \hlstr{"Fast\textbackslash{}nGrowth"}\hlstd{),} \hlnum{2}\hlstd{,} \hlkwc{at} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{4}\hlstd{,} \hlnum{4}\hlstd{),} \hlkwc{cex} \hlstd{=} \hlnum{1.25}\hlstd{,}
+                                \hlkwc{font} \hlstd{=} \hlnum{3}\hlstd{,} \hlkwc{las} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{4}\hlstd{,} \hlkwc{adj} \hlstd{=} \hlnum{0.5}\hlstd{)}
 
   \hlcom{# polygon of confidence intervals}
   \hlstd{x} \hlkwb{<-} \hlkwd{seq}\hlstd{(}\hlkwd{min}\hlstd{(focClim}\hlopt{$}\hlstd{Latitude),} \hlkwd{max}\hlstd{(focClim}\hlopt{$}\hlstd{Latitude),} \hlkwc{l} \hlstd{=} \hlnum{1e3}\hlstd{)}
@@ -518,7 +643,7 @@ We tested for Population, Treatment, and Population $\times$ Treatment interacti
 ##   2
 \end{verbatim}
 \begin{alltt}
-     \hlcom{# plot axes could be range maps with areas highlighted (x-axis) and short to tall plants (y-axis)}
+  \hlcom{# plot axes could be range maps with areas highlighted (x-axis) and short to tall plants (y-axis)}
   \hlcom{#plot(focClim$Lat, traitPC$x[, "PC1"])}
   \hlcom{#cor.test(focClim$Lat, traitPC$x[, "PC1"])}
   \hlcom{#cor.test(popMeans[, 4], traitPC$x[, "PC1"])}
@@ -529,6 +654,8 @@ We tested for Population, Treatment, and Population $\times$ Treatment interacti
 
 
 \subsection*{Selective agents and environmental correlates}
+
+As with previous studies in \textit{Mimulus} and many other species [CITES], latitude \textit{per se} predicted trait variation more than many obvious environmental variables (e.g. temperature or precipitation) that covary with latitude.
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -696,7 +823,7 @@ For 16 focal populations, I took the average climate within a 10 km buffer, clip
 	CMD	  & Hargreaves climativ moisture deficit (mm) \\
 	MAR   &	mean annual solar radiation (NOTE: removing because too many missing values) \\
 	RH    &	mean annual relative humidity \\
-  %BIOCLIM VARIABLES:
+  % BIOCLIM VARIABLES:
   bio1	&	Annual Mean Temperature	\\
 	bio2	&	Mean Diurnal Range (Mean of monthly (max temp - min temp))	\\
 	bio3	&	Isothermality (bio2/bio7) (* 100)	\\
@@ -718,7 +845,19 @@ For 16 focal populations, I took the average climate within a 10 km buffer, clip
    \end{tabular}
 \end{table}
 
+%--------------------------------------------------
+% Results
+%--------------------------------------------------
+
 \section*{Results}
+
+\subsection*{Coordinated latitudinal clines in germination, growth, and photosynthesis}
+
+Genetic differences between populations affecting originsmal function and performance point to traits that may be involved in local adaptation. Using a common garden design, we identified strong genetic differences in germination, growth, and photosynthetic rate among populations of \textit{M. cardinalis} (Table~\ref{Table_AnovaSummary}). A single principal component captured 74.2 %\% of among population trait variation, defining an axis of variation from fast to slow growth (Fig~\ref{Fig_PC1vLat}). As we explain below, intrinsic differences between populations in terms of plant function (photosynthesis) and performance (growth) contrasted greatly with little variation in plasticity.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table of Population, Treatment, Population x Treatment interactions for varies traits
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{table}[ht]
    \centering
@@ -740,7 +879,8 @@ For 16 focal populations, I took the average climate within a 10 km buffer, clip
     ***    &
     *** &
     *** & 
-     &     *** & \\
+     &
+    *** & \\
   Water                            &
     NA                                                          &
     ***   &
@@ -778,78 +918,47 @@ For 16 focal populations, I took the average climate within a 10 km buffer, clip
      & \\
       \bottomrule
    \end{tabular}
+   \label{table:Table_AnovaSummary}
 \end{table}
 
-\subsection*{Coordinated latitudinal clines in germination, growth, and photosynthesis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Figure of latitude versus PC1 (growth axis)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection*{Little evidence population by treatment interactions}
+\begin{figure}[h!]
+	\centerline{\includegraphics[width=1\textwidth]{Figures/Figure_PC1vLat.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Southern populations grow faster]{CAPTION}
+	\label{fig:Fig_PC1vLat}
+\end{figure}
+
+\subsection*{Remarkably little evidence for variation in plasticity}
+
+Genotype by environment interactions are also a common signature of local adaptation [CITE]. For example, populations from more stressful environments may tradeoff reduced growth rate under benign conditions for the ability to tolerate stress by maintaining positive growth rates and/or surviving through adverse conditions. We found remarkably little evidence for this pattern in \textit{M. cardinalis}.
+
+Do not think this is a power issue because statistical signifiance of treatment and populations effects were very high.
 
 \subsection*{Latitude and phenotypic clines are associated with more variable precipitation}
 
-% ANOVA table for LLL growth rate (need to label tables)
-\begin{table}[htbp]
-	\usefont{T1}{phv}{m}{n}
-	\fontsize{10}{12}
-	\selectfont
-	\caption[ANOVA table, leaf expansion rate]{CAPTION}
-	\begin{center}
-	\begin{tabular}{lcccccc}
-	\toprule
 
-	\input{Tables/Table_lllGrowthAnova.txt}
 
-	\bottomrule
-	\end{tabular}
-	\end{center}
-\end{table}
-
-% ANOVA table for height growth rate (need to label tables)
-\begin{table}[htbp]
-	\usefont{T1}{phv}{m}{n}
-	\fontsize{10}{12}
-	\selectfont
-	\caption[ANOVA table, stem expansion rate]{CAPTION}
-	\begin{center}
-	\begin{tabular}{lcccccc}
-	\toprule
-
-	\input{Tables/Table_heightGrowthAnova.txt}
-
-	\bottomrule
-	\end{tabular}
-	\end{center}
-\end{table}
-
-\subsection*{Latitude versus growth rate}
-
-\begin{figure}[h!]
-	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Figure_DoG_Lat.pdf}}
-	\usefont{T1}{phv}{m}{n}
-	\fontsize{10}{12}
-	\selectfont
-	\caption[Southern populations germinate sooner.]{CAPTION}
-	\label{fig:Fig_DoG}
-\end{figure}
-
-\begin{figure}[h!]
-	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Figure_LLL_Lat.pdf}}
-	\usefont{T1}{phv}{m}{n}
-	\fontsize{10}{12}
-	\selectfont
-	\caption[Southern populations grow faster (leaf expansion rate).]{CAPTION}
-	\label{fig:Fig_LLL}
-\end{figure}
-
-\begin{figure}
-	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Figure_Height_Lat.pdf}}
-	\usefont{T1}{phv}{m}{n}
-	\fontsize{10}{12}
-	\selectfont
-	\caption[Southern populations grow faster (stem elongation rate).]{CAPTION}
-	\label{fig:Fig_height}
-\end{figure}
+%--------------------------------------------------
+% Discussion
+%--------------------------------------------------
 
 \section*{Discussion}
+
+1. How does local adaptation occur? It's complex (gene flow, shape of tradeoffs, demography) and although there is abundant evidence for local adaptaiton, we do not a general sense for when local adaptation succeeds or fails. For this, we need a system in which there are axes of variation and constraint, traits with known physiological function?, and selective agents
+
+2. Why does local adaptation succeed? shallow environmental gradients lead to convex tradeoffs not heavily constrained by gene flow.
+
+3. Selective agent - unpredictability. Explain
+
+4. Why does local adaptation fail? concave, high gene flow, demography. Qualify that our metrics of plasticity are coarse, but at least suggest that GxE is much weaker than G for the environmental gradients evaluated here.
+
+5. Future work and broad conclusions. Supports general conclusions that traits related to timing and growth are evolutionarily labile whereas those related to the fundamental niche are constrained (cites like \cite{Emery_etal_2012, Emery_Ackerly_2014}).
 
 % stuff about environmental grain
 How organisms adapt depends on the grain of the environment, ..., and gene flow between populations
@@ -893,7 +1002,73 @@ our data are most consistent with:
 	\end{center}
 \end{table}
 
+% ANOVA table for LER (need to label tables)
+\begin{table}[htbp]
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[ANOVA table, leaf expansion rate]{CAPTION}
+	\begin{center}
+	\begin{tabular}{lcccccc}
+	\toprule
+
+	\input{Tables/Table_lllGrowthAnova.txt}
+
+	\bottomrule
+	\end{tabular}
+	\end{center}
+\end{table}
+
+% ANOVA table for SER (need to label tables)
+\begin{table}[htbp]
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[ANOVA table, stem expansion rate]{CAPTION}
+	\begin{center}
+	\begin{tabular}{lcccccc}
+	\toprule
+
+	\input{Tables/Table_heightGrowthAnova.txt}
+
+	\bottomrule
+	\end{tabular}
+	\end{center}
+\end{table}
+
+% Figures showing latitudinal clines with specific traits
+
+\begin{figure}[h!]
+	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Figure_DoG_Lat.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Southern populations germinate sooner.]{CAPTION}
+	\label{fig:Fig_DoG}
+\end{figure}
+
+\begin{figure}[h!]
+	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Figure_LLL_Lat.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Southern populations grow faster (leaf expansion rate).]{CAPTION}
+	\label{fig:Fig_LLL}
+\end{figure}
+
+\begin{figure}
+	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Figure_Height_Lat.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Southern populations grow faster (stem elongation rate).]{CAPTION}
+	\label{fig:Fig_height}
+\end{figure}
+
 \end{document}
+
+
+
 
 
 	\subsection{Structure}

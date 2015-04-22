@@ -311,6 +311,15 @@ dev.off()
 
 @
 
+\begin{figure}[h!]
+	\centerline{\includegraphics[width=1\textwidth]{Figures/Figure_ExptlDes.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Experimental Design]{CAPTION}
+	\label{fig:Fig_ExptlDes}
+\end{figure}
+
 \subsection*{Measurements: Growth and photosynthesis}
 
 \begin{table}[ht]
@@ -494,18 +503,23 @@ We tested for Population, Treatment, and Population $\times$ Treatment interacti
   pve <- paste(round(100 * traitPC$sdev[1] ^ 2 / sum(traitPC$sdev ^ 2), 1), "%")
   
   # Plot latitude versus PC1
-  pdf(paste(pathFig, "/Figure_PC1vLat.pdf", sep = ""), 5, 5)
-  par(mar = c(5, 5, 1, 1))
+  pdf(paste(pathFig, "/Figure_PC1vLat.pdf", sep = ""), 5.5, 5)
+  par(mai = c(1, 1.5, 0.25, 0.25))
   plot(focClim$Lat, focClim$PC1, xlim = c(32, 44), ylim = c(-4, 4), axes = F,
     frame.plot = T, type = "n", xlab = "", ylab = "")
   title(xlab = "Latitude", cex.lab = 1.5)
   title(ylab = substitute(plain(Principal~Component~1)~group("(", x, ")"), 
     list(x = pve)))
-  axis(1, at = seq(32, 44, 4), labels = c(expression(32*degree), expression(36*degree),
-    expression(40*degree), expression(44*degree)), lwd = 0, lwd.ticks = 1) 
+  axis(1, at = seq(32, 44, 4), labels = c(expression(32*degree), 
+		expression(36*degree), expression(40*degree), expression(44*degree)), 
+		lwd = 0, lwd.ticks = 1) 
   axis(2, at = seq(-4, 4, 2), las = 1, lwd = 0, lwd.ticks = 1)    
   fitLat <- lm(PC1 ~ Latitude, data = focClim)
   
+	# Label y-axis from slow to fast growth
+	mtext(c("Slow\nGrowth", "Fast\nGrowth"), 2, at = c(-4, 4), cex = 1.25, 
+				font = 3, las = 1, line = 4, adj = 0.5)
+
   # polygon of confidence intervals
   x <- seq(min(focClim$Latitude), max(focClim$Latitude), l = 1e3)
   u <- predict(fitLat, new = data.frame(Latitude = x))
@@ -520,7 +534,7 @@ We tested for Population, Treatment, and Population $\times$ Treatment interacti
     lwd = 2)
   dev.off()
 
-     # plot axes could be range maps with areas highlighted (x-axis) and short to tall plants (y-axis)
+  # plot axes could be range maps with areas highlighted (x-axis) and short to tall plants (y-axis)
   #plot(focClim$Lat, traitPC$x[, "PC1"])
   #cor.test(focClim$Lat, traitPC$x[, "PC1"])
   #cor.test(popMeans[, 4], traitPC$x[, "PC1"])
@@ -530,6 +544,8 @@ We tested for Population, Treatment, and Population $\times$ Treatment interacti
 
 \subsection*{Selective agents and environmental correlates}
 
+As with previous studies in \textit{Mimulus} and many other species [CITES], latitude \textit{per se} predicted trait variation more than many obvious environmental variables (e.g. temperature or precipitation) that covary with latitude.
+
 <<VSURF>>=
 
 library(VSURF)
@@ -537,6 +553,9 @@ library(VSURF)
   # Note that occurences have been randomly thinned to account for variation in sampling effort
   load(paste(pathDat, "/clim2lat_fit_t1.RData", sep = "")) # fit_t1
   vsurfLat <- fit_t1
+
+	# Load climVars
+	load(paste(pathDat, "/ExploratoryCimateVariables.RData", sep = ""))
 
   # Figure of variable importance for latitude
   pdf(paste(pathFig, "/Figure_clim2lat_imp.pdf", sep = ""), 4, 5)
@@ -554,13 +573,10 @@ library(VSURF)
     at = length(vsurfLat$varselect.pred):1, las = 1, line = 1)
 	axis(1, lwd = 0, lwd.ticks = 1)
 	dev.off()
-
-  # Columns with climatic variables to test
-  load(paste(pathDat, "/Exploratory_climate_variables.RData", sep = "")) #climVars
   
   # Variable selection using random forests (VSURF)
   linmod.PC1 <- as.formula(paste("PC1 ~ ", paste(climVars, collapse = " + "), sep = ""))
-  set.seed(69646)
+  set.seed(69647)
   vsurfPC1 <- VSURF.parallel(linmod.PC1, data = focClim[, c("PC1", climVars)], 
     ncores = 3)
 
@@ -663,7 +679,7 @@ For 16 focal populations, I took the average climate within a 10 km buffer, clip
 	CMD	  & Hargreaves climativ moisture deficit (mm) \\
 	MAR   &	mean annual solar radiation (NOTE: removing because too many missing values) \\
 	RH    &	mean annual relative humidity \\
-  %BIOCLIM VARIABLES:
+  % BIOCLIM VARIABLES:
   bio1	&	Annual Mean Temperature	\\
 	bio2	&	Mean Diurnal Range (Mean of monthly (max temp - min temp))	\\
 	bio3	&	Isothermality (bio2/bio7) (* 100)	\\
@@ -685,7 +701,19 @@ For 16 focal populations, I took the average climate within a 10 km buffer, clip
    \end{tabular}
 \end{table}
 
+%--------------------------------------------------
+% Results
+%--------------------------------------------------
+
 \section*{Results}
+
+\subsection*{Coordinated latitudinal clines in germination, growth, and photosynthesis}
+
+Genetic differences between populations affecting originsmal function and performance point to traits that may be involved in local adaptation. Using a common garden design, we identified strong genetic differences in germination, growth, and photosynthetic rate among populations of \textit{M. cardinalis} (Table~\ref{table:Table_AnovaSummary}). A single principal component captured \Sexpr{pve}$\%$ of the trait variation among populations, defining an axis of variation from fast to slow growth (Fig~\ref{fig:Fig_PC1vLat}). As we explain below, intrinsic differences between populations in terms of plant function (photosynthesis) and performance (growth) contrasted greatly with little variation in plasticity.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table of Population, Treatment, Population x Treatment interactions for varies traits
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{table}[ht]
    \centering
@@ -707,7 +735,8 @@ For 16 focal populations, I took the average climate within a 10 km buffer, clip
     \Sexpr{sigStar(fitLER$anova.table["TempTrt", "Pr(>F)"])}    &
     \Sexpr{sigStar(fitSER$anova.table["TempTrt", "Pr(>F)"])} &
     \Sexpr{sigStar(fitPhoto$anova.table["TempTrt", "Pr(>F)"])} & 
-    \Sexpr{sigStar(fitIntrnPhoto$anova.table["TempTrt", "Pr(>F)"])} &     \Sexpr{sigStar(Anova(fitMort, type = 2)["TempTrt", "Pr(>Chisq)"])} & \\
+    \Sexpr{sigStar(fitIntrnPhoto$anova.table["TempTrt", "Pr(>F)"])} &
+    \Sexpr{sigStar(Anova(fitMort, type = 2)["TempTrt", "Pr(>Chisq)"])} & \\
   Water                            &
     NA                                                          &
     \Sexpr{sigStar(fitLER$anova.table["WaterTrt", "Pr(>F)"])}   &
@@ -745,78 +774,49 @@ For 16 focal populations, I took the average climate within a 10 km buffer, clip
     \Sexpr{sigStar(Anova(fitMort, type = 2)["PopID:TempTrt:WaterTrt", "Pr(>Chisq)"])} & \\
       \bottomrule
    \end{tabular}
+   \label{table:Table_AnovaSummary}
 \end{table}
 
-\subsection*{Coordinated latitudinal clines in germination, growth, and photosynthesis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Figure of latitude versus PC1 (growth axis)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection*{Little evidence population by treatment interactions}
+\begin{figure}[h!]
+	\centerline{\includegraphics[width=1\textwidth]{Figures/Figure_PC1vLat.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Southern populations grow faster]{CAPTION}
+	\label{fig:Fig_PC1vLat}
+\end{figure}
+
+\subsection*{Remarkably little evidence for variation in plasticity}
+
+Genotype $\times$ environment interactions are also a common signature of local adaptation [CITE]. For example, populations from more stressful environments may tradeoff reduced growth rate under benign conditions for the ability to tolerate stress by maintaining positive growth rates and/or surviving through adverse conditions. We found remarkably little evidence for this pattern in \textit{M. cardinalis}. There was only one statistically significant Population $\times$ Treatment interaction (Table~\ref{table:Table_AnovaSummary}), but this idiosyncratic result was weak and would not have survived correction for multiple testing. Otherwise, populations responded remarkably similarly to treatments: faster growth in the hot treatment, slower growth in the dry treatment, and high mortality in the hot, dry treatment (Table~\ref{table:Table_AnovaSummary}). Note that interactions were calculated after factoring out intrinsic trait differences, necessarily reducing statistical power to detect significant interactions relative to main effects. However, the fact that the Population and Treatment effects were highly significant ($P \lle 0.001$ in most cases) suggests that statistical power alone cannot explain why we failed to detect Population $\times$ Treatment interactions.
 
 \subsection*{Latitude and phenotypic clines are associated with more variable precipitation}
 
-% ANOVA table for LLL growth rate (need to label tables)
-\begin{table}[htbp]
-	\usefont{T1}{phv}{m}{n}
-	\fontsize{10}{12}
-	\selectfont
-	\caption[ANOVA table, leaf expansion rate]{CAPTION}
-	\begin{center}
-	\begin{tabular}{lcccccc}
-	\toprule
+Latitude explains variation
+Presumably selective agent is not latitude, but something related to it
+Exploratory approach to identify putative selective agent to test in future studies
+We used a machine learning approach...identified interannual variation in precipitation
+Obviously, cannot identify alternative variables that were not included in analysis.
 
-	\input{Tables/Table_lllGrowthAnova.txt}
-
-	\bottomrule
-	\end{tabular}
-	\end{center}
-\end{table}
-
-% ANOVA table for height growth rate (need to label tables)
-\begin{table}[htbp]
-	\usefont{T1}{phv}{m}{n}
-	\fontsize{10}{12}
-	\selectfont
-	\caption[ANOVA table, stem expansion rate]{CAPTION}
-	\begin{center}
-	\begin{tabular}{lcccccc}
-	\toprule
-
-	\input{Tables/Table_heightGrowthAnova.txt}
-
-	\bottomrule
-	\end{tabular}
-	\end{center}
-\end{table}
-
-\subsection*{Latitude versus growth rate}
-
-\begin{figure}[h!]
-	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Figure_DoG_Lat.pdf}}
-	\usefont{T1}{phv}{m}{n}
-	\fontsize{10}{12}
-	\selectfont
-	\caption[Southern populations germinate sooner.]{CAPTION}
-	\label{fig:Fig_DoG}
-\end{figure}
-
-\begin{figure}[h!]
-	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Figure_LLL_Lat.pdf}}
-	\usefont{T1}{phv}{m}{n}
-	\fontsize{10}{12}
-	\selectfont
-	\caption[Southern populations grow faster (leaf expansion rate).]{CAPTION}
-	\label{fig:Fig_LLL}
-\end{figure}
-
-\begin{figure}
-	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Figure_Height_Lat.pdf}}
-	\usefont{T1}{phv}{m}{n}
-	\fontsize{10}{12}
-	\selectfont
-	\caption[Southern populations grow faster (stem elongation rate).]{CAPTION}
-	\label{fig:Fig_height}
-\end{figure}
+%--------------------------------------------------
+% Discussion
+%--------------------------------------------------
 
 \section*{Discussion}
+
+1. How does local adaptation occur? It's complex (gene flow, shape of tradeoffs, demography) and although there is abundant evidence for local adaptaiton, we do not a general sense for when local adaptation succeeds or fails. For this, we need a system in which there are axes of variation and constraint, traits with known physiological function?, and selective agents
+
+2. Why does local adaptation succeed? shallow environmental gradients lead to convex tradeoffs not heavily constrained by gene flow.
+
+3. Selective agent - unpredictability. Explain
+
+4. Why does local adaptation fail? concave, high gene flow, demography. Qualify that our metrics of plasticity are coarse, but at least suggest that GxE is much weaker than G for the environmental gradients evaluated here.
+
+5. Future work and broad conclusions. Supports general conclusions that traits related to timing and growth are evolutionarily labile whereas those related to the fundamental niche are constrained (cites like \cite{Emery_etal_2012, Emery_Ackerly_2014}).
 
 % stuff about environmental grain
 How organisms adapt depends on the grain of the environment, ..., and gene flow between populations
@@ -860,7 +860,73 @@ our data are most consistent with:
 	\end{center}
 \end{table}
 
+% ANOVA table for LER (need to label tables)
+\begin{table}[htbp]
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[ANOVA table, leaf expansion rate]{CAPTION}
+	\begin{center}
+	\begin{tabular}{lcccccc}
+	\toprule
+
+	\input{Tables/Table_lllGrowthAnova.txt}
+
+	\bottomrule
+	\end{tabular}
+	\end{center}
+\end{table}
+
+% ANOVA table for SER (need to label tables)
+\begin{table}[htbp]
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[ANOVA table, stem expansion rate]{CAPTION}
+	\begin{center}
+	\begin{tabular}{lcccccc}
+	\toprule
+
+	\input{Tables/Table_heightGrowthAnova.txt}
+
+	\bottomrule
+	\end{tabular}
+	\end{center}
+\end{table}
+
+% Figures showing latitudinal clines with specific traits
+
+\begin{figure}[h!]
+	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Figure_DoG_Lat.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Southern populations germinate sooner.]{CAPTION}
+	\label{fig:Fig_DoG}
+\end{figure}
+
+\begin{figure}[h!]
+	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Figure_LLL_Lat.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Southern populations grow faster (leaf expansion rate).]{CAPTION}
+	\label{fig:Fig_LLL}
+\end{figure}
+
+\begin{figure}
+	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Figure_Height_Lat.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Southern populations grow faster (stem elongation rate).]{CAPTION}
+	\label{fig:Fig_height}
+\end{figure}
+
 \end{document}
+
+
+
 
 
 	\subsection{Structure}
