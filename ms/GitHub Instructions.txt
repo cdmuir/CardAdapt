@@ -3,4 +3,9 @@ git add [FILES]
 git commit "[MESSAGE]"
 git push -u origin master
 
+# Cloning repo
+# In Termial, cd to directory where you want to save repo
+git clone https://github.com/cdmuir/CardAdapt
+
 # Instructions for pulling from GitHub
+git pull origin master
