@@ -39,7 +39,8 @@
 
   # The path to the ms directory may need to be changed for different users
   # Manuscript files
-  pathMS <- "~/Google Drive/CardLocalAdaptation/ms"
+  pathMS <- "~/Google Drive/CardLocalAdaptation/ms" # Chris' MacBook
+  pathMS <- "~/Documents/CardAdapt/ms" # Chris' Linux laptop
   
   # Data files for paper
   pathDat <- paste(pathMS, "/Data", sep = "")
@@ -140,6 +141,7 @@ We used 16 populations from throughout the range of \textit{M. cardinalis} (Tabl
 
 <<focClim, echo = FALSE>>=
 # Read in climate data for 16 focal populations to use in making Table 1
+# need to make this available from ms directory
 load('~/Google Drive/CardLocalAdaptation/Data/Climate/Robjects/focClim.RData') # focClim
 
 @
