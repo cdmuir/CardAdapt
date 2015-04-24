@@ -1,0 +1,7 @@
+load("/Users/cdmuir/Google Drive/CardLocalAdaptation/ms/Data/Exploratory_climate_variables.RData")
+ls()
+load('~/Google Drive/CardLocalAdaptation/ms/Data/ExploratoryCimateVariables.RData')
+1.11296036
+1 / 1.11296036
+0.8985046 * 66947.28
+sample(3, 1)

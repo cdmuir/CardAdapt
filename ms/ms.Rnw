@@ -40,7 +40,7 @@
   # The path to the ms directory may need to be changed for different users
   # Manuscript files
   pathMS <- "~/Google Drive/CardLocalAdaptation/ms" # Chris' MacBook
-  pathMS <- "~/Documents/CardAdapt/ms" # Chris' Linux laptop
+  # pathMS <- "~/Documents/CardAdapt/ms" # Chris' Linux laptop
   
   # Data files for paper
   pathDat <- paste(pathMS, "/Data", sep = "")
