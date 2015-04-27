@@ -10,3 +10,4 @@ ExploratoryCimateVariables.RData	Climate variables used VSURF models
 focClim.RData						Climate data on 16 focal M. cardinalis populations
 mmLER.RData							Fitted linear mixed model of leaf expansion rate
 mmSER.RData							Fitted linear mixed model of shoot elongation rate
+thinnedOccClimate.RData				R data.frame of 178 M. cardinalis occurrences, thinned to correct for sampling bias, and associated climate data
