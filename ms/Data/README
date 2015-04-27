@@ -1,0 +1,12 @@
+[Filename]							[Description]
+
+ExperimentalDesign.csv				Temperature treatments, watering treatments, and dates of key measurements
+LERdata.csv							Data for leaf expansion rate
+MasterDatasheet_in.csv				Raw datasheet on all plants in experiment
+MasterDatasheet_out.csv				Raw datasheet on all plants in experiment plus calculated variables related to growth rate and photosynthesis
+SERdata.csv							Data for shoot elongation rate
+clim2lat_fit_t1.RData				Fitted VSURF model for climate variables and latitude of M. cardinalis occurences (t1 = first set of randomly thinned occurence records)
+ExploratoryCimateVariables.RData	Climate variables used VSURF models
+focClim.RData						Climate data on 16 focal M. cardinalis populations
+mmLER.RData							Fitted linear mixed model of leaf expansion rate
+mmSER.RData							Fitted linear mixed model of shoot elongation rate

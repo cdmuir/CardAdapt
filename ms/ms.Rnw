@@ -141,8 +141,8 @@ We used 16 populations from throughout the range of \textit{M. cardinalis} (Tabl
 
 <<focClim, echo = FALSE>>=
 # Read in climate data for 16 focal populations to use in making Table 1
-# need to make this available from ms directory
-load('~/Google Drive/CardLocalAdaptation/Data/Climate/Robjects/focClim.RData') # focClim
+# [MAYBE SHOULD RENAMED "ExtendedTable1" or something?]
+load(paste(pathDat, "/focClim.RData", sep = ""))
 
 @
 
@@ -201,14 +201,11 @@ We imposed four treatments, a fully-factorial cross of two temperature treatment
 
 We simulated typical growing season (June 1 - August 15) air temperatures at the two most thermally divergent focal sites in our study, Whitewater Canyon (Hot) and Little Jameson (Cool). We downloaded daily interpolated mean, minimum, and maximum air temperature from 13 years (2000-2012) at both sites from ClimateWNA \citep{Wang_etal_2012}. Daily temperatures from ClimateWNA are highly correlated with the air temperature recorded from data loggers in the field at these sites (A. Angert, unpub. data). Hence, the ClimateWNA temperature profiles are similar to actual thermal regimes experienced by \textit{M. cardinalis} in nature. We simulated realistic temperature regimes by calculating the mean temperature trend from June to August using LOESS \citep{Cleveland_etal_1992}. The residuals were highly autocorrelated at both sites (warmer than average days are typically followed by more warm days) and there was strong correlation ($r = 0.65$) between sites (warm days in WWC were also warm in LIJ). The `VARselect' function in the \pkg{vars} package for R \citep{Pfaff_2008} indicated that a lag two Vector Autoregression (VAR(2)) model best captured the within-site autocorrelation as well as between-site correlation in residuals. We fit and simulated from the VAR(2) model using the package \pkg{dse} \citep{Gilbert_2014} in R. Simulated data closely resembled the autocorrelation and between-site correlation of the actual data. From simulated mean temperature, we next selected minimum and maximum daily temperatures. Mean, min, and max temperature were highly correlated at both sites. We chose min and max temperatures using site-specific fitted linear models between mean, max, and min temperature, with additional variation given by normally-distributed random deviates with variance equal to the residual variance of the linear models. For each day, the nighttime (22:00 - 6:00) chamber temperature was set to the simulated minimum temperature. During the middle of the day, temperature was set to the simulated maximum temperature, with a variable period of transition between min and max so that the average temperature was equal the simulated mean temperature.
 
-\subsubsection*{Water}
+\subsubsection*{Watering treatments}
 
-For watering treatments, we simulated two extreme types of streams where \textit{M. cardinalis} grows. In the well-watered treatment, we simulated a large stream with that never goes dry during the summer growing season. In the drought treatment, we simulated a small stream that has ample flow at the beginning of the season, but gradually dries down as the winter snow pack melts. In both treatments, plants were bottom-watered using with water from chilled by MAKE AND MODEL OF CHILLER to 7.5 degrees??? Check temp! MARKER - continue here!!!        Before May 20 (36 days): 7.5 min (complete flood) every 2 hours
-      between May 20 to June 10 (57 days), down to 30 seconds, 1x per day
-			Wet: daily/constant irrigation with cooled water
-			Dry: start at week \#, gradually decrease watering frequency/level
+For watering treatments, we simulated two extreme types of streams where \textit{M. cardinalis} grows. In the well-watered treatment, we simulated a large stream that never goes dry during the summer growing season. In the drought treatment, we simulated a small stream that has ample flow at the beginning of the season, but gradually dries down as the winter snow pack melts. In both treatments, plants were bottom-watered using  water chilled to 7.5 [check] by MAKE AND MODEL OF CHILLER. Plants in the well-watered treatment were fully saturated every two hours during the day. Watering in the drought treatment gradually declined from every two hours to every day between May 20 (36 days after sowing) and 10 June (57 days after sowing). Simultaneously, the amount of bottom-watering per flood decreased, such that only the bottom of the cone-tainers were wetted by the end of the experiment.
 
-			\cdm{Are there any data from California about soil water content through the season?}
+\cdm{Are there any data from California about soil water content through the season?}
 
 <<ExperimentalDesign>>=
 library(scales) # for color transparency
@@ -316,7 +313,7 @@ dev.off()
 	\label{fig:Fig_ExptlDes}
 \end{figure}
 
-\subsection*{Measurements: Growth and photosynthesis}
+\subsection*{Growth and photosynthesis}
 
 \begin{table}[ht]
    \centering
@@ -333,6 +330,7 @@ dev.off()
   Mortality &  Probability?  \\
 	    \bottomrule
    \end{tabular}
+   \label{table:Table_traits}
 \end{table}
 
 \paragraph{Day of germination} We tested for population variation in germination rate, measured as Days to Germination, using a lognormal survival model fit using the survreg function in the R package \pkg{survival} version 2.38 \citep{Therneau_2015}. The model was fit with Population as a fixed effect and Family as random effect using a $\Gamma$ frailty function. The signifcance of the Population effect was determined using analysis of deviance.
@@ -476,14 +474,13 @@ We assayed mortality during twice-weekly growth measurements. We could not get G
 
 \paragraph{Biomass (show correlation between growth rate and biomass?)}
 
-
 \subsection*{Intrinsic variation and plasticity}
 
-\cdm{which traits: germination, growth rate, biomass, biomass allometry, leaf traits, photosynthesis?, mortality?}
-We tested for Population, Treatment, and Population $\times$ Treatment interactions using mixed model ANOVA with Family included as a random factor. Models were fit by restricted maximum likelihood using lmer from the R package \pkg{lme4} \citep{Bates_etal_2014}. Significant fixed effect terms were selected using a step-wise backward elimination procedure implemented with the step function in the R package \pkg{lmerTest} version 2.0-11 \citep{Kuznetsova_etal_2014}. Denominator degrees of freedom for $F$-tests were estimated using Satterthwaite's approximation. Significant Population effect indicate intrinsic trait differences; significant Population $\times$ Treatment effects indicate population differences in plasticity. For growth rate, we also accounted for differences in germination rate by including day of germination as a factor.
+For all traits (Table~\ref{table:Table_traits}) we tested for Population, Treatment, and Population $\times$ Treatment interactions. We interpreted significant Population effects to indicate intrinsic variation and Population by Treatment effects to indicate variation in plasticity. As mentioned above, we survival and GLM models for germination rate and mortality, respectively. For all other traits, we used mixed model ANOVAs with Family included as a random factor. Models were fit by restricted maximum likelihood using lmer from the R package \pkg{lme4} \citep{Bates_etal_2014}. Significant fixed effect terms were selected using a step-wise backward elimination procedure implemented with the step function in the R package \pkg{lmerTest} version 2.0-11 \citep{Kuznetsova_etal_2014}. Denominator degrees of freedom for $F$-tests were estimated using Satterthwaite's approximation. Significant Population effect indicate intrinsic trait differences; significant Population $\times$ Treatment effects indicate population differences in plasticity. For growth rate, we also accounted for differences in germination rate by including day of germination as a factor.
 
 \subsection*{Principal components of germination, growth, and photosynthesis}
-
+[maybe this goes in Results?]
+We summarized population-level coefficients, after factoring out Treatment and other effects, using principal components. Spec
 <<Principal Components>>=
 
   popMeans <- data.frame(
@@ -541,6 +538,38 @@ We tested for Population, Treatment, and Population $\times$ Treatment interacti
 \subsection*{Selective agents and environmental correlates}
 
 As with previous studies in \textit{Mimulus} and many other species [CITES], latitude \textit{per se} predicted trait variation more than many obvious environmental variables (e.g. temperature or precipitation) that covary with latitude.
+
+
+MARKER - continue here!!!
+
+(this also goes into the goal of trying to figure out ecological selective agent driving trait variation). Why does latitude predict trait variation, often better than any of the climatic variables that vary with latitude? Some hypotheses:
+\begin{itemize}
+  \item{H1: Latitude encompasses multivariate climatic dimension.}
+  \item{H2: Latitude is substitute for average selective environment. i.e. populations are connected by gene flow, such that alleles at a given site must do well there and in surrounding areas.}
+\end{itemize}
+
+Predictions:
+\begin{itemize}
+  \item{P1: Climatic axis in high dimensional climate space should correlate with latitude (across card sites especially, not just any site [using pseudoabsences]). Focal site position in high-dimensional climatic space should correlated with traits as well or better than latitude.}
+  \item{P2: Climate (averaged over nearby sites) varies with latitude and the nearby average climate predicts trait values as well or better than latitude.}
+  \item{P1+2: These are not mutually exclusive and both could be imortant. i.e. average selective environment in high-dimensional climate space predicts trait values as well or better than latitude.}
+\end{itemize}
+
+Methods specific to latitude vs. trait correlation:
+We used Random Forest regression \citep{Liaw_Wiener_2002} to identify putative climatic factors underlying trait-latitude associations in \textit{M. cardinalis}. We used a comprehensive set of \cdm{358 in total before thinning} recent (since 2000) known \textit{M. cardinalis} occurences recorded from herbarium records and an exhaustive field survey in 2010-11 \citep{Angert_ENM}. For each occurence, we used a 90m digital elevation model from HydroSHEDS \citep{Lehner_etal_2006} to extract elevation. Monthly interpolated climate layers were calculated using ClimateWNA \citep{Wang_etal_2012}, which accurately downscales climate data specifically for the rugged topography of western North America. For each occurence, we calculated bioclimatic variables using the biovars function in the R package \pkg{dismo} \citep{Hijmans_etal_2014}. In total, we included X environmental variables from ClimateWNA and 17? bioclimatic variables (Table S\#). For each variable, we calculated both a 30-year normal by averging annual values between 1981 and 2010 and 30-year coefficient of variation, a standardized metric of interannual climatic variation). Temperatures were converted to Kelvin to be on an interval scale appropriate for calculating the coefficient of variation. 
+
+Selection at given site might not reflect simply the local environment, but rather the average environment in a surrounding region, since alleles will experience selection across populations linked by migration. We therefore calculated spatially averaged \cdm{maybe spatially-integrated is better term?} climate means and coefficients of variation. We sampled climate at 1000 random points (at 90-m resolition) within a 10 km buffer around focal populations. Since \textit{M. cardinalis} is found exclusively in riparian areas, we only selected points along streams using the National Hydrogeoraphy Dataset \citep{NHD}. Climatic means and CVs were weighted by the predicted suitability of each point, using ENM models from \cite{Angert_ENM}.
+
+To identify climatic variables that were closely associated with latitude in \textit{M. cardinalis}, we used a "Variable Selection Using Random Forest" (VSURF) algorithm in the R \pkg{VSURF} version 0.8.2 \citep{Genuer_etal_2014}. In this algorithm, climatic variables are regressed against latitude, and the most important variables were selected after a three-stage selection process that progressively excludes unimportant variables.
+
+Predictions: looked for climatic variables (means or CVs) that were strong predictors of both population latitudes (from all card pops) and trait variation in 16 focal popultions. If spatial average environment is important, then expect greater predictive power and closer association with latitude-predictors than point averages.
+
+Evaluated fit on test set (correlation between predicted versus actual latitude) and on pseudoabsence set.
+, Despite this common, and long-standing pattern, only certain traits In particular, adaptation to the local abiotic environment is generally thought to be the major cause of natural selection. Physiology, the study of organismal function, connects fitness to the abiotic environment, yet we actually know little about the physiological basis of adaptation to different environments within a species. To address this question, we looked at physiological variation across a broad latitudual gradient within \textit{Mimulus cardinalis}...
+
+% Methods for spatial-average selection
+For 16 focal populations, I took the average climate within a 10 km buffer, clipped to streams based on the National Hydrological Database \citep{NHD} weighted by climatic suitability determined [multimodel average/ensemble?] from ecological niche modeling \citep{Angert_ENM}.
+
 
 <<VSURF>>=
 
@@ -631,35 +660,6 @@ library(VSURF)
 	axis(1, lwd = 0, lwd.ticks = 1, at = seq(0, 0.3, 0.1))
   dev.off()
 @
-
-
-(this also goes into the goal of trying to figure out ecological selective agent driving trait variation). Why does latitude predict trait variation, often better than any of the climatic variables that vary with latitude? Some hypotheses:
-\begin{itemize}
-  \item{H1: Latitude encompasses multivariate climatic dimension.}
-  \item{H2: Latitude is substitute for average selective environment. i.e. populations are connected by gene flow, such that alleles at a given site must do well there and in surrounding areas.}
-\end{itemize}
-
-Predictions:
-\begin{itemize}
-  \item{P1: Climatic axis in high dimensional climate space should correlate with latitude (across card sites especially, not just any site [using pseudoabsences]). Focal site position in high-dimensional climatic space should correlated with traits as well or better than latitude.}
-  \item{P2: Climate (averaged over nearby sites) varies with latitude and the nearby average climate predicts trait values as well or better than latitude.}
-  \item{P1+2: These are not mutually exclusive and both could be imortant. i.e. average selective environment in high-dimensional climate space predicts trait values as well or better than latitude.}
-\end{itemize}
-
-Methods specific to latitude vs. trait correlation:
-We used Random Forest regression \citep{Liaw_Wiener_2002} to identify putative climatic factors underlying trait-latitude associations in \textit{M. cardinalis}. We used a comprehensive set of \cdm{358 in total before thinning} recent (since 2000) known \textit{M. cardinalis} occurences recorded from herbarium records and an exhaustive field survey in 2010-11 \citep{Angert_ENM}. For each occurence, we used a 90m digital elevation model from HydroSHEDS \citep{Lehner_etal_2006} to extract elevation. Monthly interpolated climate layers were calculated using ClimateWNA \citep{Wang_etal_2012}, which accurately downscales climate data specifically for the rugged topography of western North America. For each occurence, we calculated bioclimatic variables using the biovars function in the R package \pkg{dismo} \citep{Hijmans_etal_2014}. In total, we included X environmental variables from ClimateWNA and 17? bioclimatic variables (Table S\#). For each variable, we calculated both a 30-year normal by averging annual values between 1981 and 2010 and 30-year coefficient of variation, a standardized metric of interannual climatic variation). Temperatures were converted to Kelvin to be on an interval scale appropriate for calculating the coefficient of variation. 
-
-Selection at given site might not reflect simply the local environment, but rather the average environment in a surrounding region, since alleles will experience selection across populations linked by migration. We therefore calculated spatially averaged \cdm{maybe spatially-integrated is better term?} climate means and coefficients of variation. We sampled climate at 1000 random points (at 90-m resolition) within a 10 km buffer around focal populations. Since \textit{M. cardinalis} is found exclusively in riparian areas, we only selected points along streams using the National Hydrogeoraphy Dataset \citep{NHD}. Climatic means and CVs were weighted by the predicted suitability of each point, using ENM models from \cite{Angert_ENM}.
-
-To identify climatic variables that were closely associated with latitude in \textit{M. cardinalis}, we used a "Variable Selection Using Random Forest" (VSURF) algorithm in the R \pkg{VSURF} version 0.8.2 \citep{Genuer_etal_2014}. In this algorithm, climatic variables are regressed against latitude, and the most important variables were selected after a three-stage selection process that progressively excludes unimportant variables.
-
-Predictions: looked for climatic variables (means or CVs) that were strong predictors of both population latitudes (from all card pops) and trait variation in 16 focal popultions. If spatial average environment is important, then expect greater predictive power and closer association with latitude-predictors than point averages.
-
-Evaluated fit on test set (correlation between predicted versus actual latitude) and on pseudoabsence set.
-, Despite this common, and long-standing pattern, only certain traits In particular, adaptation to the local abiotic environment is generally thought to be the major cause of natural selection. Physiology, the study of organismal function, connects fitness to the abiotic environment, yet we actually know little about the physiological basis of adaptation to different environments within a species. To address this question, we looked at physiological variation across a broad latitudual gradient within \textit{Mimulus cardinalis}...
-
-% Methods for spatial-average selection
-For 16 focal populations, I took the average climate within a 10 km buffer, clipped to streams based on the National Hydrological Database \citep{NHD} weighted by climatic suitability determined [multimodel average/ensemble?] from ecological niche modeling \citep{Angert_ENM}.
 
 \begin{table}[ht]
    \centering
