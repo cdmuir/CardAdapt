@@ -474,7 +474,6 @@ We assayed mortality during twice-weekly growth measurements. We could not get G
   Anova(fitMort, type = 2)
 @
 
-
 \paragraph{Biomass (show correlation between growth rate and biomass?)}
 
 \subsection*{Intrinsic variation and plasticity}
@@ -483,7 +482,7 @@ For all traits (Table~\ref{table:Table_traits}) we tested for Population, Treatm
 
 \subsection*{Principal components of germination, growth, and photosynthesis}
 [maybe this goes in Results?]
-We summarized population-level coefficients, after factoring out Treatment and other effects, using principal components. Spec
+We summarized population-level coefficients, after factoring out Treatment and other effects, using principal components. 
 <<Principal Components>>=
 
   popMeans <- data.frame(
@@ -779,11 +778,7 @@ Genotype $\times$ environment interactions are also a common signature of local 
 
 \subsection*{Climatic variability best explains phenotypic divergence}
 
-Latitude explains variation
-Presumably selective agent is not latitude, but something related to it
-Exploratory approach to identify putative selective agent to test in future studies
-We used a machine learning approach...identified interannual variation in precipitation (Fig~\ref{fig:Fig_ClimVarImp})
-Obviously, cannot identify alternative variables that were not included in analysis.
+Latitudinal clines are common, but it is often difficult to ascribe this variation to a particular selective agent. For \textit{M. cardinalis}, interannual variation in precipitation over the past 30 years is very closely related to the latitude of recently-recorded occurences of this species (Fig.~\ref{fig:Fig_ClimVarImp}A). The two most important Climate-Latitude variables were also strong predictors of position along the fast-slow growth axis (Fig.~\ref{fig:Fig_ClimVarImp}B). This overlap between Climate-Latitude and Climate-Trait variables suggests that interannual variation in precipitation is an important selective agent in \textit{M. cardinalis}. Specifically, we hypothesize that more frequent droughts (greater precipitation cv) in Southern populations selects for an `annual-ized' life history, as we detail in the Discussion. We must qualify these results because our analysis obviously cannot rule out that alternative variables not included in the analysis may be more important.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Figure of climatic variable importance
@@ -804,7 +799,9 @@ Obviously, cannot identify alternative variables that were not included in analy
 
 \section*{Discussion}
 
-1. How does local adaptation occur? It's complex (gene flow, shape of tradeoffs, demography) and although there is abundant evidence for local adaptaiton, we do not a general sense for when local adaptation succeeds or fails. For this, we need a system in which there are axes of variation and constraint, traits with known physiological function?, and selective agents
+The observation that populations are locally adapted to their environment is old and well-documented in many species. New frontiers in local adaptation research aim at a general understanding of why local adaptation sometimes suceeds and other times fails, why certain traits respond to selection whereas others are constrained, and what are the important environmental drivers of local adaptation [CITES such as Kawecki]. Understanding why and how populations adapt to different environments is especially significant for predicting how species' ranges will shift under climate change. In this study, we found evidence for one of two common signature of local adaptation, pointing to both phenotypic lability and constraint. ...
+
+<- add to above: 1. How does local adaptation occur? It's complex (gene flow, shape of tradeoffs, demography) and although there is abundant evidence for local adaptaiton, we do not a general sense for when local adaptation succeeds or fails. For this, we need a system in which there are axes of variation and constraint, traits with known physiological function?, and selective agents
 
 2. Why does local adaptation succeed? shallow environmental gradients lead to convex tradeoffs not heavily constrained by gene flow.
 
@@ -824,6 +821,13 @@ Possibilities:
 
 our data are most consistent with:
 - concave tradeoffs, fine-grained (coarse+concave would predict alt morphs), high gene flow
+
+%--------------------------------------------------
+% Acknowledgements
+%--------------------------------------------------
+
+\section*{Acknowledgements}
+Erin Warkman and Lisa Lin helped collect data.
 
 %--------------------------------------------------
 % References
@@ -854,6 +858,7 @@ our data are most consistent with:
 	\bottomrule
 	\end{tabular}
 	\end{center}
+	\lable{tables:TableS_InitialSize}
 \end{table}
 
 % ANOVA table for LER (need to label tables)

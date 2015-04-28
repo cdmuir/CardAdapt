@@ -1,0 +1,10 @@
+Lables for figures in and tables:
+
+Figures:
+
+	fig:Fig_PC1vLat						Latitudinal cline in growth and photosynthesis
+	fig:Fig_ClimVarImp				Climatic variable importance
+
+Supplemental Tables
+
+	table:TableS_InitialSize	ANOVA table of initial size
