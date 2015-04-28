@@ -144,6 +144,9 @@ We used 16 populations from throughout the range of \textit{M. cardinalis} (Tabl
 # [MAYBE SHOULD RENAMED "ExtendedTable1" or something?]
 load(paste(pathDat, "/focClim.RData", sep = ""))
 
+# Read in spatially-averaged (10 km buffer) for 16 focal populations
+load(paste(pathDat, "/focClimSA.RData", sep = ""))
+
 @
 
 \begin{table}[ht]
@@ -153,38 +156,38 @@ load(paste(pathDat, "/focClim.RData", sep = ""))
       \toprule
   Name& Region  & Demo?& Pop gen?& Latitude  & Longtiude  & Elevation (mas) \\
       \midrule
-	HAU & South Margin		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$ID == "HAU"], 3)}	& 
-    \Sexpr{round(focClim$Longitude[focClim$ID == "HAU"], 3)}	& \Sexpr{focClim$Elevation[focClim$ID == "HAU"]}   \\
-	CTC	& South Margin		& yes	& no	& \Sexpr{round(focClim$Latitude[focClim$ID == "CTC"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$ID == "CTC"], 3)}	& \Sexpr{focClim$Elevation[focClim$ID == "CTC"]}   \\
-	CUR	& South Margin		& yes	& yes & \Sexpr{round(focClim$Latitude[focClim$ID == "CUR"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$ID == "CUR"], 3)}	& \Sexpr{focClim$Elevation[focClim$ID == "CUR"]}   \\
-	GRP & South Margin		& no	& no	& \Sexpr{round(focClim$Latitude[focClim$ID == "GRP"], 3)} &
-    \Sexpr{round(focClim$Longitude[focClim$ID == "GRP"], 3)}	& \Sexpr{focClim$Elevation[focClim$ID == "GRP"]}   \\
-	WWC &	Transverse		  & yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$ID == "WWC"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$ID == "WWC"], 3)}	& \Sexpr{focClim$Elevation[focClim$ID == "WWC"]}   \\
-	MIL	& Transverse	  	& yes	& no	& \Sexpr{round(focClim$Latitude[focClim$ID == "MIL"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$ID == "MIL"], 3)}	& \Sexpr{focClim$Elevation[focClim$ID == "MIL"]}   \\
-	WFM	& Transverse	  	& yes	& no	& \Sexpr{round(focClim$Latitude[focClim$ID == "WFM"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$ID == "WFM"], 3)}	& \Sexpr{focClim$Elevation[focClim$ID == "WFM"]}   \\
-	NMT	& South Sierras		& yes	& yes?& \Sexpr{round(focClim$Latitude[focClim$ID == "NMT"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$ID == "NMT"], 3)}	& \Sexpr{focClim$Elevation[focClim$ID == "NMT"]}   \\
-	PRD	& South Sierras		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$ID == "PRD"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$ID == "PRD"], 3)}	& \Sexpr{focClim$Elevation[focClim$ID == "PRD"]}   \\
-	RWD	& South Sierras		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$ID == "RWD"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$ID == "RWD"], 3)}	& \Sexpr{focClim$Elevation[focClim$ID == "RWD"]}   \\
-	WNA	& Central Sierras	& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$ID == "WNA"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$ID == "WNA"], 3)}	& \Sexpr{focClim$Elevation[focClim$ID == "WNA"]}   \\
-	RBW	& Central Sierras	& yes	& no	& \Sexpr{round(focClim$Latitude[focClim$ID == "RBW"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$ID == "RBW"], 3)}	& \Sexpr{focClim$Elevation[focClim$ID == "RBW"]}   \\
-	MYU	& North Sierras		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$ID == "MYU"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$ID == "MYU"], 3)}	& \Sexpr{focClim$Elevation[focClim$ID == "MYU"]}   \\
-	LIJ	& North Sierras		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$ID == "LIJ"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$ID == "LIJ"], 3)}	& \Sexpr{focClim$Elevation[focClim$ID == "LIJ"]}   \\
-	DPC	& North Coast	  	& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$ID == "DPC"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$ID == "DPC"], 3)}	& \Sexpr{focClim$Elevation[focClim$ID == "DPC"]}   \\
-	RCC	& North Margin		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$ID == "RCC"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$ID == "RCC"], 3)}	& \Sexpr{focClim$Elevation[focClim$ID == "RCC"]}   \\
+	HAU & South Margin		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Hauser Creek"], 3)}	& 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "Hauser Creek"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Hauser Creek"]}   \\
+	CTC	& South Margin		& yes	& no	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Cottonwood Creek"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "Cottonwood Creek"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Cottonwood Creek"]}   \\
+	CUR	& South Margin		& yes	& yes & \Sexpr{round(focClim$Latitude[focClim$PopID == "Cuyamaca Rancho"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "Cuyamaca Rancho"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Cuyamaca Rancho"]}   \\
+	GRP & South Margin		& no	& no	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Grade Road Palomar"], 3)} &
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "Grade Road Palomar"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Grade Road Palomar"]}   \\
+	WWC &	Transverse		  & yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Whitewater Canyon"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "Whitewater Canyon"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Whitewater Canyon"]}   \\
+	MIL	& Transverse	  	& yes	& no	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Mill Creek"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "Mill Creek"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Mill Creek"]}   \\
+	WFM	& Transverse	  	& yes	& no	& \Sexpr{round(focClim$Latitude[focClim$PopID == "West Fork Mojave River"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "West Fork Mojave River"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "West Fork Mojave River"]}   \\
+	NMT	& South Sierras		& yes	& yes?& \Sexpr{round(focClim$Latitude[focClim$PopID == "North Fork Middle Tule"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "North Fork Middle Tule"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "North Fork Middle Tule"]}   \\
+	PRD	& South Sierras		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Paradise Creek"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "Paradise Creek"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Paradise Creek"]}   \\
+	RWD	& South Sierras		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Redwood Creek"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "Redwood Creek"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Redwood Creek"]}   \\
+	WNA	& Central Sierras	& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Wawona"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "Wawona"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Wawona"]}   \\
+	RBW	& Central Sierras	& yes	& no	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Rainbow Pool"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "Rainbow Pool"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Rainbow Pool"]}   \\
+	MYU	& North Sierras		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Middle Yuba"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "Middle Yuba"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Middle Yuba"]}   \\
+	LIJ	& North Sierras		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Little Jameson"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "Little Jameson"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Little Jameson"]}   \\
+	DPC	& North Coast	  	& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Deep Creek"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "Deep Creek"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Deep Creek"]}   \\
+	RCC	& North Margin		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Rock Creek"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "Rock Creek"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Rock Creek"]}   \\
 	\bottomrule
    \end{tabular}
 \end{table}
@@ -491,6 +494,7 @@ We summarized population-level coefficients, after factoring out Treatment and o
 
   traitPC <- prcomp(popMeans, center = T, scale. = T)
   focClim$PC1 <- traitPC$x[, "PC1"]
+  focClimSA$PC1 <- traitPC$x[, "PC1"]
   
   # Percent variance explained by first principal component
   pve <- paste(round(100 * traitPC$sdev[1] ^ 2 / sum(traitPC$sdev ^ 2), 1), "%")
@@ -541,7 +545,7 @@ load(paste(pathDat, "/thinnedOccClimate.RData", sep = ""))
 
 \subsection*{Selective agents and environmental correlates}
 
-As with previous studies in \textit{Mimulus} and many other species [CITES], latitude \textit{per se} predicted trait variation more than many obvious environmental variables (e.g. temperature or precipitation) that covary with latitude. We used Random Forest regression \citep{Liaw_Wiener_2002} to identify putative climatic factors underlying trait-latitude associations in \textit{M. cardinalis}. We did this by looking for overlap between climatic variables that best predict latitude of \textit{M. cadinalis} populations and climatic variables that best predict trait variation across our 16 focal populations. We used a representative set of \Sexpr{nrow(thinnedOccClimate)} recent (since 2000) known \textit{M. cardinalis} occurences. These occurences were thinned by 50\% to correct for uneven sampling from a comprehensive set of herbarium records and an exhaustive field survey in 2010-11 \citep{Angert_ENM}. For each occurence, we used a 90m digital elevation model from HydroSHEDS \citep{Lehner_etal_2006} to extract elevation. Monthly interpolated climate layers were calculated using ClimateWNA \citep{Wang_etal_2012}, which accurately downscales climate data specifically for the rugged topography of western North America. For each occurence, we calculated bioclimatic variables using the biovars function in the R package \pkg{dismo} \citep{Hijmans_etal_2014}. In total, we included X environmental variables from ClimateWNA and 17? bioclimatic variables (Table~\ref{table:TableS_}). For each variable, we calculated both a 30-year normal by averging annual values between 1981 and 2010 and 30-year coefficient of variation, a standardized metric of interannual climatic variation). Temperatures were converted to Kelvin to be on an interval scale appropriate for calculating the coefficient of variation. 
+As with previous studies in \textit{Mimulus} and many other species [CITES, Huey_etal, mosquitoes, what else?], latitude \textit{per se} predicted trait variation more than many obvious environmental variables (e.g. temperature or precipitation) that covary with latitude. We used Random Forest regression \citep{Liaw_Wiener_2002} to identify putative climatic factors underlying trait-latitude associations in \textit{M. cardinalis}. We did this by looking for overlap between climatic variables that best predict latitude of \textit{M. cadinalis} occurence records and climatic variables that best predict trait variation across our 16 focal populations. We used a representative set of \Sexpr{nrow(thinnedOccClimate)} recent (since 2000) known \textit{M. cardinalis} occurences. These occurences were thinned by 50\% to correct for uneven sampling from a comprehensive set of herbarium records and an exhaustive field survey in 2010-11 \citep{Angert_ENM}. For each occurence, we used a 90m digital elevation model from HydroSHEDS \citep{Lehner_etal_2006} to extract elevation. Monthly interpolated climate layers were calculated using ClimateWNA \citep{Wang_etal_2012}, which accurately downscales climate data specifically for the rugged topography of western North America. For each occurence, we calculated bioclimatic variables using the biovars function in the R package \pkg{dismo} \citep{Hijmans_etal_2014}. In total, we included \Sexpr{length(climVars) / 2} cliamte variables, 9 from ClimateWNA and 15 bioclimatic variables (Table~\ref{table:TableS_ClimVars}). For each variable, we calculated both a 30-year normal by averging annual values between 1981 and 2010 and 30-year coefficient of variation, a standardized metric of interannual climatic variation. Temperatures were converted to Kelvin to be on an interval scale appropriate for calculating the coefficient of variation. 
 
 Selection at given site might not reflect simply the local environment, but rather the average environment in a surrounding region, since alleles will experience selection across populations linked by migration. We therefore calculated spatially averaged \cdm{maybe spatially-integrated is better term?} climate means and coefficients of variation. We sampled climate at 1000 random points (at 90-m resolition) within a 10 km buffer around focal populations. Since \textit{M. cardinalis} is found exclusively in riparian areas, we only selected points along streams using the National Hydrogeoraphy Dataset \citep{NHD}. Climatic means and CVs were weighted by the predicted suitability of each point, using ENM models from \cite{Angert_ENM}.
 
@@ -590,6 +594,8 @@ library(VSURF)
   set.seed(69647)
   vsurfPC1 <- VSURF.parallel(linmod.PC1, data = focClim[, c("PC1", climVars)], 
     ncores = 3)
+  vsurfPC1_SA <- VSURF.parallel(linmod.PC1, data = focClimSA[, c("PC1", climVars)], 
+    ncores = 3)
 
   # Plot most important climatic predictor versus PC1
   pdf(paste(pathFig, "/Figure_bio16cva_v_Lat.pdf", sep = ""), 5, 5)
@@ -619,7 +625,9 @@ library(VSURF)
   dev.off()
 
   # Overlap between latitude predictors and phenotype predictors
+#### NEED TO COMPARE RESULTS FROM POINT DATA AND SPATIALLY AVERAGED CLIMATE!
   imp2 <- climVars[vsurfPC1$varselect.pred]
+  # imp2 <- climVars[vsurfPC1_SA$varselect.pred]
   nImpPC1 <- length(imp2)
 
   vsurfLat$varselect.pred
@@ -684,6 +692,7 @@ library(VSURF)
 	bio19	&	Precipitation of Coldest Quarter	\\
 	    \bottomrule
    \end{tabular}
+   \label{table:TableS_ClimVars}
 \end{table}
 
 %--------------------------------------------------

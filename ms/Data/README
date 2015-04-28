@@ -8,6 +8,7 @@ SERdata.csv							Data for shoot elongation rate
 clim2lat_fit_t1.RData				Fitted VSURF model for climate variables and latitude of M. cardinalis occurences (t1 = first set of randomly thinned occurence records)
 ExploratoryCimateVariables.RData	Climate variables used VSURF models
 focClim.RData						Climate data on 16 focal M. cardinalis populations
+focClimSA.RData						Climate data (spatial average across 10 km buffer) on 16 focal M. cardinalis populations
 mmLER.RData							Fitted linear mixed model of leaf expansion rate
 mmSER.RData							Fitted linear mixed model of shoot elongation rate
 thinnedOccClimate.RData				R data.frame of 178 M. cardinalis occurrences, thinned to correct for sampling bias, and associated climate data

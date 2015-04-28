@@ -199,38 +199,38 @@ We used 16 populations from throughout the range of \textit{M. cardinalis} (Tabl
       \toprule
   Name& Region  & Demo?& Pop gen?& Latitude  & Longtiude  & Elevation (mas) \\
       \midrule
-	HAU & South Margin		& yes	& yes	& 	& 
-    	&    \\
-	CTC	& South Margin		& yes	& no	&  & 
-    	&    \\
-	CUR	& South Margin		& yes	& yes &  & 
-    	&    \\
-	GRP & South Margin		& no	& no	&  &
-    	&    \\
-	WWC &	Transverse		  & yes	& yes	&  & 
-    	&    \\
-	MIL	& Transverse	  	& yes	& no	&  & 
-    	&    \\
-	WFM	& Transverse	  	& yes	& no	&  & 
-    	&    \\
-	NMT	& South Sierras		& yes	& yes?&  & 
-    	&    \\
-	PRD	& South Sierras		& yes	& yes	&  & 
-    	&    \\
-	RWD	& South Sierras		& yes	& yes	&  & 
-    	&    \\
-	WNA	& Central Sierras	& yes	& yes	&  & 
-    	&    \\
-	RBW	& Central Sierras	& yes	& no	&  & 
-    	&    \\
-	MYU	& North Sierras		& yes	& yes	&  & 
-    	&    \\
-	LIJ	& North Sierras		& yes	& yes	&  & 
-    	&    \\
-	DPC	& North Coast	  	& yes	& yes	&  & 
-    	&    \\
-	RCC	& North Margin		& yes	& yes	&  & 
-    	&    \\
+	HAU & South Margin		& yes	& yes	& 32.657	& 
+    \ensuremath{-116.532}	& 799   \\
+	CTC	& South Margin		& yes	& no	& 32.609 & 
+    \ensuremath{-116.7}	& 267   \\
+	CUR	& South Margin		& yes	& yes & 32.9 & 
+    \ensuremath{-116.585}	& 1180   \\
+	GRP & South Margin		& no	& no	& 33.314 &
+    \ensuremath{-116.871}	& 1577   \\
+	WWC &	Transverse		  & yes	& yes	& 33.994 & 
+    \ensuremath{-116.665}	& 705   \\
+	MIL	& Transverse	  	& yes	& no	& 34.077 & 
+    \ensuremath{-116.873}	& 2050   \\
+	WFM	& Transverse	  	& yes	& no	& 34.284 & 
+    \ensuremath{-117.378}	& 1120   \\
+	NMT	& South Sierras		& yes	& yes?& 36.201 & 
+    \ensuremath{-118.651}	& 1314   \\
+	PRD	& South Sierras		& yes	& yes	& 36.518 & 
+    \ensuremath{-118.759}	& 926   \\
+	RWD	& South Sierras		& yes	& yes	& 36.691 & 
+    \ensuremath{-118.91}	& 1727   \\
+	WNA	& Central Sierras	& yes	& yes	& 37.541 & 
+    \ensuremath{-119.649}	& 1224   \\
+	RBW	& Central Sierras	& yes	& no	& 37.819 & 
+    \ensuremath{-120.007}	& 876   \\
+	MYU	& North Sierras		& yes	& yes	& 39.397 & 
+    \ensuremath{-121.082}	& 455   \\
+	LIJ	& North Sierras		& yes	& yes	& 39.743 & 
+    \ensuremath{-120.704}	& 1603   \\
+	DPC	& North Coast	  	& yes	& yes	& 41.668 & 
+    \ensuremath{-123.11}	& 707   \\
+	RCC	& North Margin		& yes	& yes	& 43.374 & 
+    \ensuremath{-122.957}	& 326   \\
 	\bottomrule
    \end{tabular}
 \end{table}
@@ -717,7 +717,7 @@ For 16 focal populations, I took the average climate within a 10 km buffer, clip
 \end{alltt}
 
 
-{\ttfamily\noindent\color{warningcolor}{\#\# Warning in VSURF.parallel.formula(linmod.PC1, data = focClim[, c("{}PC1"{}, : VSURF with a formula-type call outputs selected variables\\\#\# which are indices of the input matrix based on the formula:\\\#\# you may reorder these to get indices of the original data}}\begin{alltt}
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in model.frame.default(formula = ord.sd \textasciitilde{} ., data = u, na.action = function (x) : variable lengths differ (found for 'u')}}\begin{alltt}
   \hlcom{# Plot most important climatic predictor versus PC1}
   \hlkwd{pdf}\hlstd{(}\hlkwd{paste}\hlstd{(pathFig,} \hlstr{"/Figure_bio16cva_v_Lat.pdf"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{),} \hlnum{5}\hlstd{,} \hlnum{5}\hlstd{)}
   \hlkwd{par}\hlstd{(}\hlkwc{mar} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{5}\hlstd{,} \hlnum{5}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{1}\hlstd{))}
@@ -752,8 +752,15 @@ For 16 focal populations, I took the average climate within a 10 km buffer, clip
 \begin{alltt}
   \hlcom{# Overlap between latitude predictors and phenotype predictors}
   \hlstd{imp2} \hlkwb{<-} \hlstd{climVars[vsurfPC1}\hlopt{$}\hlstd{varselect.pred]}
-  \hlstd{nImpPC1} \hlkwb{<-} \hlkwd{length}\hlstd{(imp2)}
+\end{alltt}
 
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'vsurfPC1' not found}}\begin{alltt}
+  \hlstd{nImpPC1} \hlkwb{<-} \hlkwd{length}\hlstd{(imp2)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'imp2' not found}}\begin{alltt}
   \hlstd{vsurfLat}\hlopt{$}\hlstd{varselect.pred}
 \end{alltt}
 \begin{verbatim}
@@ -774,8 +781,16 @@ For 16 focal populations, I took the average climate within a 10 km buffer, clip
         \hlstd{\{}
                 \hlkwd{lines}\hlstd{(}\hlkwc{x} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{100}\hlstd{,} \hlnum{100}\hlstd{),} \hlkwc{y} \hlstd{=} \hlkwd{c}\hlstd{(i, i),} \hlkwc{col} \hlstd{=} \hlstr{"grey"}\hlstd{)}
         \hlstd{\}}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'nImpPC1' not found}}\begin{alltt}
         \hlkwd{points}\hlstd{(vsurfPC1}\hlopt{$}\hlstd{ord.imp}\hlopt{$}\hlstd{x[}\hlnum{1}\hlopt{:}\hlstd{nImpPC1], nImpLat}\hlopt{:}\hlstd{(nImpLat} \hlopt{-} \hlstd{nImpPC1} \hlopt{+} \hlnum{1}\hlstd{),}
                 \hlkwc{pch} \hlstd{=} \hlnum{21}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"black"}\hlstd{,} \hlkwc{bg} \hlstd{=} \hlstr{"white"}\hlstd{,} \hlkwc{cex} \hlstd{=} \hlnum{1.5}\hlstd{)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in points(vsurfPC1\$ord.imp\$x[1:nImpPC1], nImpLat:(nImpLat - nImpPC1 + : object 'vsurfPC1' not found}}\begin{alltt}
         \hlcom{# mtext(climVars[vsurfPC1$varselect.pred], side = 4, las = 1, line = 1, }
   \hlcom{#  at = nImpLat:(nImpLat - nImpPC1 + 1), }
         \hlcom{#	font = ifelse(vsurfPC1$varselect.pred %in% vsurfLat$varselect.pred,	2, 1))}
