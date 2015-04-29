@@ -1,9 +1,13 @@
 Lables for figures in and tables:
 
-Figures:
+Figures
 
 	fig:Fig_PC1vLat						Latitudinal cline in growth and photosynthesis
 	fig:Fig_ClimVarImp				Climatic variable importance
+
+Tables
+
+  table:Table_AnovaSummary  Summary of ANOVA-like results for all traits
 
 Supplemental Tables
 
