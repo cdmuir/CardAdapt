@@ -1,4 +1,53 @@
-\documentclass[11pt, oneside]{article}
+\documentclass[11pt, oneside]{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
 
 %
 % Packages
@@ -103,7 +152,7 @@
 %
 % Start document
 %
-
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
 \maketitle
 \listoffigures
@@ -116,9 +165,9 @@
 \section*{Introduction}
 
 % Toggle these commands to get version for doing word count
-\linenumbers
-%\pagenumbering{gobble}
-%\raggedright
+% \linenumbers
+% \pagenumbering{gobble}
+% \raggedright
 
 Local adaptation is one of the most ubiquitous observations in nature: organisms perform well in their natal environment, but poorly outside it. Local adaptation within species most often involves genetic differences in ecologically relevant traits caused by selection to different environments, leading to predictable trait-environment correlations that persist in a common garden. Although local adaptation is well-supported by data from reciprocal transplant experiments, trait-environment associations, and ecological genetics/genomics, predicting which traits respond to selection exceeds our understanding. In particular, the role of physiological traits is poorly understood, even though physiology explains adaptation to the abiotic environment, which we need to understand as a baseline for anticipating how organisms will respond to climate change. A related problem is identifying the exact selective agents, such as abiotic factors like soil water availability or biotic interactions [etc.]... Here, we simultaneously investigate which traits and causal selective agents explain range-wide patterns of local physiological adaptation to climate in \textit{Mimulus}, a model genus for local adaptation studies.
 
@@ -607,5 +656,582 @@ We summarized population-level coefficients, after factoring out Treatment and o
 \end{kframe}
 \end{knitrout}
 
+\subsection*{Selective agents and environmental correlates}
+
+As with previous studies in \textit{Mimulus} and many other species [CITES, \citep{Huey_etal}, mosquitoes, what else?], latitude \textit{per se} predicted trait variation more than many obvious environmental variables (e.g. temperature or precipitation) that covary with latitude. We used Random Forest regression \citep{Liaw_Wiener_2002} to identify putative climatic factors underlying trait-latitude associations in \textit{M. cardinalis}. We did this by looking for overlap between climatic variables that best predict latitude of \textit{M. cadinalis} occurence records and climatic variables that best predict trait variation across our 16 focal populations. For brevity, we refer to these as Climate-Latitude and Climate-Trait variables. We selected Climate-Latitude and Climate-Trait variables independently using Random Forest (VSURF algorithm in the R \pkg{VSURF} version 0.8.2 \citep{Genuer_etal_2014}). From VSURF models, we kept only variables selected for prediction, the most stringent criteria.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(VSURF)}
+\end{alltt}
 
 
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: randomForest\\\#\# randomForest 4.6-10\\\#\# Type rfNews() to see new features/changes/bug fixes.\\\#\# Loading required package: rpart\\\#\# Loading required package: doParallel\\\#\# Loading required package: foreach\\\#\# Loading required package: iterators\\\#\# Loading required package: parallel}}\begin{alltt}
+  \hlcom{# Load VSURF results of climatic variables associated with latitude at cardinalis occurence points}
+  \hlcom{# Note that occurences have been randomly thinned to account for variation in sampling effort}
+  \hlkwd{load}\hlstd{(}\hlkwd{paste}\hlstd{(pathDat,} \hlstr{"/clim2lat_fit_t1.RData"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{))} \hlcom{# fit_t1}
+  \hlstd{vsurfLat} \hlkwb{<-} \hlstd{fit_t1}
+
+        \hlcom{# Load climVars}
+        \hlkwd{load}\hlstd{(}\hlkwd{paste}\hlstd{(pathDat,} \hlstr{"/ExploratoryCimateVariables.RData"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{))}
+
+  \hlcom{# Figure of variable importance for latitude}
+  \hlkwd{pdf}\hlstd{(}\hlkwd{paste}\hlstd{(pathFig,} \hlstr{"/Figure_clim2lat_imp.pdf"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{),} \hlnum{4}\hlstd{,} \hlnum{5}\hlstd{)}
+  \hlkwd{par}\hlstd{(}\hlkwc{mar} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{5}\hlstd{,} \hlnum{6}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{1}\hlstd{))}
+  \hlkwd{plot}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"n"}\hlstd{,} \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlkwd{ceiling}\hlstd{(vsurfLat}\hlopt{$}\hlstd{ord.imp}\hlopt{$}\hlstd{x)[}\hlnum{1}\hlstd{]),}
+                \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{,} \hlkwd{length}\hlstd{(vsurfLat}\hlopt{$}\hlstd{varselect.pred)),} \hlkwc{axes} \hlstd{= F,} \hlkwc{frame.plot} \hlstd{= T,}
+                \hlkwc{xlab} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwc{ylab} \hlstd{=} \hlstr{""}\hlstd{)}
+        \hlkwd{title}\hlstd{(}\hlkwc{xlab} \hlstd{=} \hlstr{"Climate-Latitude\textbackslash{}nImportance"}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{4}\hlstd{,} \hlkwc{cex.lab} \hlstd{=} \hlnum{1.5}\hlstd{)}
+  \hlkwa{for} \hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlkwd{length}\hlstd{(vsurfLat}\hlopt{$}\hlstd{varselect.pred))}
+  \hlstd{\{}
+     \hlkwd{lines}\hlstd{(}\hlkwc{x} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{1}\hlstd{,} \hlkwd{length}\hlstd{(vsurfLat}\hlopt{$}\hlstd{varselect.pred)),} \hlkwc{y} \hlstd{=} \hlkwd{c}\hlstd{(i, i),} \hlkwc{col} \hlstd{=} \hlstr{"grey"}\hlstd{)}
+  \hlstd{\}}
+  \hlkwd{points}\hlstd{(vsurfLat}\hlopt{$}\hlstd{ord.imp}\hlopt{$}\hlstd{x[}\hlnum{1}\hlopt{:}\hlkwd{length}\hlstd{(vsurfLat}\hlopt{$}\hlstd{varselect.pred)],}
+    \hlkwd{length}\hlstd{(vsurfLat}\hlopt{$}\hlstd{varselect.pred)}\hlopt{:}\hlnum{1}\hlstd{,} \hlkwc{pch} \hlstd{=} \hlnum{21}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"black"}\hlstd{,} \hlkwc{bg} \hlstd{=} \hlstr{"white"}\hlstd{,} \hlkwc{cex} \hlstd{=} \hlnum{1.5}\hlstd{)}
+        \hlcom{# mtext(climVars[vsurfLat$varselect.pred], side = 2, }
+    \hlcom{# at = length(vsurfLat$varselect.pred):1, las = 1, line = 1)}
+        \hlkwd{axis}\hlstd{(}\hlnum{1}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lwd.ticks} \hlstd{=} \hlnum{1}\hlstd{)}
+        \hlkwd{dev.off}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## pdf 
+##   2
+\end{verbatim}
+\begin{alltt}
+  \hlcom{# Variable selection using random forests (VSURF)}
+  \hlstd{linmod.PC1} \hlkwb{<-} \hlkwd{as.formula}\hlstd{(}\hlkwd{paste}\hlstd{(}\hlstr{"PC1 ~ "}\hlstd{,} \hlkwd{paste}\hlstd{(climVars,} \hlkwc{collapse} \hlstd{=} \hlstr{" + "}\hlstd{),} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{))}
+  \hlkwd{set.seed}\hlstd{(}\hlnum{69647}\hlstd{)}
+  \hlstd{vsurfPC1} \hlkwb{<-} \hlkwd{VSURF.parallel}\hlstd{(linmod.PC1,} \hlkwc{data} \hlstd{= focClim[,} \hlkwd{c}\hlstd{(}\hlstr{"PC1"}\hlstd{, climVars)],}
+    \hlkwc{ncores} \hlstd{=} \hlnum{3}\hlstd{)}
+\end{alltt}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in VSURF.parallel.formula(linmod.PC1, data = focClim[, c("{}PC1"{}, : VSURF with a formula-type call outputs selected variables\\\#\# which are indices of the input matrix based on the formula:\\\#\# you may reorder these to get indices of the original data}}\begin{alltt}
+  \hlstd{vsurfPC1_SA} \hlkwb{<-} \hlkwd{VSURF.parallel}\hlstd{(linmod.PC1,} \hlkwc{data} \hlstd{= focClimSA[,} \hlkwd{c}\hlstd{(}\hlstr{"PC1"}\hlstd{, climVars)],}
+    \hlkwc{ncores} \hlstd{=} \hlnum{3}\hlstd{)}
+\end{alltt}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in VSURF.parallel.formula(linmod.PC1, data = focClimSA[, c("{}PC1"{}, : VSURF with a formula-type call outputs selected variables\\\#\# which are indices of the input matrix based on the formula:\\\#\# you may reorder these to get indices of the original data}}\begin{alltt}
+  \hlcom{# Plot most important climatic predictor versus PC1}
+  \hlkwd{pdf}\hlstd{(}\hlkwd{paste}\hlstd{(pathFig,} \hlstr{"/Figure_bio16cva_v_Lat.pdf"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{),} \hlnum{5}\hlstd{,} \hlnum{5}\hlstd{)}
+  \hlkwd{par}\hlstd{(}\hlkwc{mar} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{5}\hlstd{,} \hlnum{5}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{1}\hlstd{))}
+  \hlkwd{plot}\hlstd{(focClim}\hlopt{$}\hlstd{bio16_cva, focClim}\hlopt{$}\hlstd{PC1,} \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0.25}\hlstd{,} \hlnum{0.55}\hlstd{),} \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{4}\hlstd{,} \hlnum{4}\hlstd{),} \hlkwc{axes} \hlstd{= F,}
+    \hlkwc{frame.plot} \hlstd{= T,} \hlkwc{type} \hlstd{=} \hlstr{"n"}\hlstd{,} \hlkwc{xlab} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwc{ylab} \hlstd{=} \hlstr{""}\hlstd{)}
+  \hlkwd{title}\hlstd{(}\hlkwc{xlab} \hlstd{=} \hlstr{"Precipitation of Wettest Quarter"}\hlstd{,} \hlkwc{cex.lab} \hlstd{=} \hlnum{1.5}\hlstd{)}
+  \hlkwd{title}\hlstd{(}\hlkwc{xlab} \hlstd{=} \hlstr{"(Coefficient of variation)"}\hlstd{,} \hlkwc{cex.lab} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{4}\hlstd{)}
+  \hlkwd{title}\hlstd{(}\hlkwc{ylab} \hlstd{=} \hlkwd{substitute}\hlstd{(}\hlkwd{plain}\hlstd{(Principal}\hlopt{~}\hlstd{Component}\hlopt{~}\hlnum{1}\hlstd{)}\hlopt{~}\hlkwd{group}\hlstd{(}\hlstr{"("}\hlstd{, x,} \hlstr{")"}\hlstd{),}
+    \hlkwd{list}\hlstd{(}\hlkwc{x} \hlstd{= pve)))}
+  \hlkwd{axis}\hlstd{(}\hlnum{1}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lwd.ticks} \hlstd{=} \hlnum{1}\hlstd{)}
+  \hlkwd{axis}\hlstd{(}\hlnum{2}\hlstd{,} \hlkwc{at} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlopt{-}\hlnum{4}\hlstd{,} \hlnum{4}\hlstd{,} \hlnum{2}\hlstd{),} \hlkwc{las} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lwd.ticks} \hlstd{=} \hlnum{1}\hlstd{)}
+  \hlstd{fitBio16cva} \hlkwb{<-} \hlkwd{lm}\hlstd{(PC1} \hlopt{~} \hlstd{bio16_cva,} \hlkwc{data} \hlstd{= focClim)}
+
+  \hlcom{# polygon of confidence intervals}
+  \hlstd{x} \hlkwb{<-} \hlkwd{seq}\hlstd{(}\hlkwd{min}\hlstd{(focClim}\hlopt{$}\hlstd{bio16_cva),} \hlkwd{max}\hlstd{(focClim}\hlopt{$}\hlstd{bio16_cva),} \hlkwc{l} \hlstd{=} \hlnum{1e3}\hlstd{)}
+  \hlstd{u} \hlkwb{<-} \hlkwd{predict}\hlstd{(fitBio16cva,} \hlkwc{new} \hlstd{=} \hlkwd{data.frame}\hlstd{(}\hlkwc{bio16_cva} \hlstd{= x))}
+  \hlstd{s} \hlkwb{<-} \hlkwd{sqrt}\hlstd{(}\hlkwd{sapply}\hlstd{(x,} \hlkwa{function}\hlstd{(}\hlkwc{X}\hlstd{)} \hlkwd{t}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{, X))} \hlopt{%*%} \hlkwd{vcov}\hlstd{(fitBio16cva)} \hlopt{%*%} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{, X)))}
+  \hlstd{confInt} \hlkwb{<-} \hlkwd{data.frame}\hlstd{(}\hlkwc{lowerCI} \hlstd{=} \hlkwd{qnorm}\hlstd{(}\hlnum{0.025}\hlstd{, u, s),} \hlkwc{upperCI} \hlstd{=} \hlkwd{qnorm}\hlstd{(}\hlnum{0.975}\hlstd{, u, s))}
+  \hlkwd{polygon}\hlstd{(}\hlkwd{c}\hlstd{(x,} \hlkwd{rev}\hlstd{(x)),} \hlkwd{c}\hlstd{(confInt}\hlopt{$}\hlstd{lowerCI,} \hlkwd{rev}\hlstd{(confInt}\hlopt{$}\hlstd{upperCI)),}
+    \hlkwc{col} \hlstd{=} \hlstr{"grey80"}\hlstd{,} \hlkwc{border} \hlstd{=} \hlnum{NA}\hlstd{)}
+  \hlkwd{lines}\hlstd{(x, confInt}\hlopt{$}\hlstd{lowerCI,} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{)}
+  \hlkwd{lines}\hlstd{(x, confInt}\hlopt{$}\hlstd{upperCI,} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{)}
+  \hlkwd{lines}\hlstd{(}\hlkwd{range}\hlstd{(focClim}\hlopt{$}\hlstd{bio16_cva),} \hlkwd{range}\hlstd{(}\hlkwd{predict}\hlstd{(fitBio16cva)),} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{)}
+  \hlkwd{points}\hlstd{(focClim}\hlopt{$}\hlstd{bio16_cva, focClim}\hlopt{$}\hlstd{PC1,} \hlkwc{pch} \hlstd{=} \hlnum{21}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"black"}\hlstd{,} \hlkwc{bg} \hlstd{= primShade0,}
+    \hlkwc{cex} \hlstd{=} \hlnum{1.5}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{2}\hlstd{)}
+  \hlkwd{dev.off}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## pdf 
+##   2
+\end{verbatim}
+\begin{alltt}
+  \hlcom{# Overlap between latitude predictors and phenotype predictors}
+\hlcom{#### NEED TO COMPARE RESULTS FROM POINT DATA AND SPATIALLY AVERAGED CLIMATE!}
+  \hlstd{imp2} \hlkwb{<-} \hlstd{climVars[vsurfPC1}\hlopt{$}\hlstd{varselect.pred]}
+  \hlcom{# imp2 <- climVars[vsurfPC1_SA$varselect.pred]}
+  \hlstd{nImpPC1} \hlkwb{<-} \hlkwd{length}\hlstd{(imp2)}
+
+  \hlstd{vsurfLat}\hlopt{$}\hlstd{varselect.pred}
+\end{alltt}
+\begin{verbatim}
+##  [1] 45 43 42 20 47 41 46 39 19 13
+\end{verbatim}
+\begin{alltt}
+  \hlstd{imp1} \hlkwb{<-} \hlstd{climVars[vsurfLat}\hlopt{$}\hlstd{varselect.pred]}
+  \hlstd{nImpLat} \hlkwb{<-} \hlkwd{length}\hlstd{(imp1)}
+
+  \hlcom{# Figure of variable importance for traits}
+        \hlkwd{pdf}\hlstd{(}\hlkwd{paste}\hlstd{(pathFig,} \hlstr{"/Figure_clim2pc1_imp.pdf"}\hlstd{,} \hlkwc{sep} \hlstd{=} \hlstr{""}\hlstd{),} \hlnum{4}\hlstd{,} \hlnum{5}\hlstd{)}
+        \hlkwd{par}\hlstd{(}\hlkwc{mar} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{5}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{6}\hlstd{))}
+
+        \hlkwd{plot}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"n"}\hlstd{,} \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0.3}\hlstd{),} \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{1}\hlstd{, nImpLat),}
+                \hlkwc{axes} \hlstd{= F,} \hlkwc{frame.plot} \hlstd{= T,} \hlkwc{xlab} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwc{ylab} \hlstd{=} \hlstr{""}\hlstd{)}
+        \hlkwd{title}\hlstd{(}\hlkwc{xlab} \hlstd{=} \hlstr{"Climate-Trait PC1\textbackslash{}nImportance"}\hlstd{,} \hlkwc{line} \hlstd{=} \hlnum{4}\hlstd{,} \hlkwc{cex.lab} \hlstd{=} \hlnum{1.5}\hlstd{)}
+        \hlkwa{for} \hlstd{(i} \hlkwa{in} \hlstd{(nImpLat}\hlopt{:}\hlstd{(nImpLat} \hlopt{-} \hlstd{nImpPC1} \hlopt{+} \hlnum{1}\hlstd{)))}
+        \hlstd{\{}
+                \hlkwd{lines}\hlstd{(}\hlkwc{x} \hlstd{=} \hlkwd{c}\hlstd{(}\hlopt{-}\hlnum{100}\hlstd{,} \hlnum{100}\hlstd{),} \hlkwc{y} \hlstd{=} \hlkwd{c}\hlstd{(i, i),} \hlkwc{col} \hlstd{=} \hlstr{"grey"}\hlstd{)}
+        \hlstd{\}}
+        \hlkwd{points}\hlstd{(vsurfPC1}\hlopt{$}\hlstd{ord.imp}\hlopt{$}\hlstd{x[}\hlnum{1}\hlopt{:}\hlstd{nImpPC1], nImpLat}\hlopt{:}\hlstd{(nImpLat} \hlopt{-} \hlstd{nImpPC1} \hlopt{+} \hlnum{1}\hlstd{),}
+                \hlkwc{pch} \hlstd{=} \hlnum{21}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"black"}\hlstd{,} \hlkwc{bg} \hlstd{=} \hlstr{"white"}\hlstd{,} \hlkwc{cex} \hlstd{=} \hlnum{1.5}\hlstd{)}
+        \hlcom{# mtext(climVars[vsurfPC1$varselect.pred], side = 4, las = 1, line = 1, }
+  \hlcom{#  at = nImpLat:(nImpLat - nImpPC1 + 1), }
+        \hlcom{#	font = ifelse(vsurfPC1$varselect.pred %in% vsurfLat$varselect.pred,	2, 1))}
+        \hlkwd{axis}\hlstd{(}\hlnum{1}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{lwd.ticks} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{at} \hlstd{=} \hlkwd{seq}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0.3}\hlstd{,} \hlnum{0.1}\hlstd{))}
+  \hlkwd{dev.off}\hlstd{()}
+\end{alltt}
+\begin{verbatim}
+## pdf 
+##   2
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+For these analyses, we compiled a representative set of 178 recent (since 2000) known \textit{M. cardinalis} occurences. These occurences were thinned by 50\% to correct for uneven sampling from a comprehensive set of herbarium records and an exhaustive field survey in 2010-11 \citep{Angert_ENM}. For each occurence, we used a 90m digital elevation model from HydroSHEDS \citep{Lehner_etal_2006} to extract elevation. Monthly interpolated climate layers were calculated using ClimateWNA \citep{Wang_etal_2012}, which accurately downscales climate data specifically for the rugged topography of western North America. For each occurence, we calculated bioclimatic variables using the biovars function in the R package \pkg{dismo} \citep{Hijmans_etal_2014}. In total, we included 24 cliamte variables, 9 from ClimateWNA and 15 bioclimatic variables (Table~\ref{table:TableS_ClimVars}). For each variable, we calculated both a 30-year normal by averging annual values between 1981 and 2010 and 30-year coefficient of variation, a standardized metric of interannual climatic variation. Temperatures were converted to Kelvin to be on a ratio scale appropriate for calculating the coefficient of variation. 
+%--------------------------------------------------
+% Results
+%--------------------------------------------------
+
+\section*{Results}
+
+\subsection*{A coordinated latitudinal cline in germination, growth, and photosynthesis}
+
+Genetic differences between populations affecting originsmal function and performance point to traits that may be involved in local adaptation. Using a common garden design, we identified strong genetic differences in germination, growth, and photosynthetic rate among populations of \textit{M. cardinalis} (Table~\ref{table:Table_AnovaSummary}). A single principal component captured 74.2 %$\%$ of the trait variation among populations, defining an axis of variation from fast to slow growth (Fig~\ref{fig:Fig_PC1vLat}). As we explain below, intrinsic differences between populations in terms of plant function (photosynthesis) and performance (growth) contrasted greatly with little variation in plasticity.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table of Population, Treatment, Population x Treatment interactions for varies traits
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{table}[ht]
+   \centering
+   \topcaption{Population, treatment effects}
+   \begin{tabular}{@{} llllllll @{}}
+      \toprule
+                                   & Germination & Leaf expansion & Shoot elongation & Photosynthesis & Intrin. Photo & Mortality \\
+                                   & survreg     & lmer           & lmer            & lmer           & lmer          & glm \\
+      \midrule
+  Population                       &
+    ***  &
+    *** &
+    *** &
+    *** & 
+    *** & 
+    *** & \\
+  Temperature                      &
+    NA                                                          &
+    ***    &
+    *** &
+    *** & 
+     &
+    *** & \\
+  Water                            &
+    NA                                                          &
+    ***   &
+    ***   &
+    *** & 
+     &     
+    *** & \\
+  Pop $\times$ Temp                &
+    NA                                                          &
+     &
+     &
+    * & 
+     &     
+    * & \\
+  Pop $\times$ Water               &
+     NA                                                          &
+    * &
+     &
+     & 
+     &     
+     & \\
+  Temp $\times$ Water              &
+    NA                                                          &
+     &
+    *** &
+     & 
+     &     
+    *** & \\
+  Pop $\times$ Temp $\times$ Water &
+    NA                                                          &
+     &
+     &
+     & 
+     &     
+     & \\
+      \bottomrule
+   \end{tabular}
+   \label{table:Table_AnovaSummary}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Figure of latitude versus PC1 (growth axis)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[h!]
+	\centerline{\includegraphics[width=1\textwidth]{Figures/Figure_PC1vLat.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Southern populations grow faster]{Trait variation, from fast to slow growth, is closely associated with latitude. Each point is a population, its latitude of origin a position along the slow to fast growth axis, defined as Principal Component 1 of five traits (see Methods). The line and 95\% confidence intervals (grey polygon) were estimated using standard linear regression.}
+	\label{fig:Fig_PC1vLat}
+\end{figure}
+
+\subsection*{Remarkably little evidence for variation in plasticity}
+
+Genotype $\times$ environment interactions are also a common signature of local adaptation [CITE]. For example, populations from more stressful environments may tradeoff reduced growth rate under benign conditions for the ability to tolerate stress by maintaining positive growth rates and/or surviving through adverse conditions. We found remarkably little evidence for this pattern in \textit{M. cardinalis}. There was only one statistically significant Population $\times$ Treatment interaction (Table~\ref{table:Table_AnovaSummary}), but this idiosyncratic result was weak and would not have survived correction for multiple testing. Otherwise, populations responded remarkably similarly to treatments: faster growth in the hot treatment, slower growth in the dry treatment, and high mortality in the hot, dry treatment (Table~\ref{table:Table_AnovaSummary}). Note that interactions were calculated after factoring out intrinsic trait differences, necessarily reducing statistical power to detect significant interactions relative to main effects. However, the fact that the Population and Treatment effects were highly significant ($P \ll 0.001$ in most cases) suggests that statistical power alone cannot explain why we failed to detect Population $\times$ Treatment interactions.
+
+\subsection*{Climatic variability best explains phenotypic divergence}
+
+Latitudinal clines are common, but it is often difficult to ascribe this variation to a particular selective agent. For \textit{M. cardinalis}, interannual variation in precipitation over the past 30 years is very closely related to the latitude of recently-recorded occurences of this species (Fig.~\ref{fig:Fig_ClimVarImp}A). The two most important Climate-Latitude variables were also strong predictors of position along the fast-slow growth axis (Fig.~\ref{fig:Fig_ClimVarImp}B). This overlap between Climate-Latitude and Climate-Trait variables suggests that interannual variation in precipitation is an important selective agent in \textit{M. cardinalis}. Specifically, we hypothesize that more frequent droughts (greater precipitation cv) in Southern populations selects for an `annual-ized' life history, as we detail in the Discussion. We must qualify these results because our analysis obviously cannot rule out that alternative variables not included in the analysis may be more important.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Figure of climatic variable importance
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[h!]
+	\centerline{\includegraphics[width=1\textwidth]{Figures/Figure_ClimVarImp.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Interannual variation in precipitation is closely correlated with latitude and trait variation]{Interannual variation in precipitation is closely correlated with latitude and trait variation. A. Using Random Forest regression, we identified 10 climatic variables significantly (high importance) associated with latitude of \textit{M. cardinalis} occurences. B. The two most important Climate-Latitude variables were also the two most important Climate-Trait variables. Note that the Importance values in A and B are not comparable because the dependent variables (Latitude and Trait PC1, respectively) are on different scales. Climatic variables (left of A; right of B) are defined by three qualities: Climatic factor -- Temperature (Temp) or Precipitation (Prec); Temporal scale -- Annual, Coldest quarter (Cold Quar), Warmest Quarter (Warm Quar), Wettest quarter (Wet Quar), Dry Quarter (Dry Quar), or Seasonality; Summary statistic -- average ($\mu$) or coefficient of variation ($\sigma$)}
+	\label{fig:Fig_ClimVarImp}
+\end{figure}
+
+%--------------------------------------------------
+% Discussion
+%--------------------------------------------------
+
+\section*{Discussion}
+
+The observation that populations are locally adapted to their environment is old and well-documented in many species. New frontiers in local adaptation research seek a general explanation for why local adaptation often suceeds but sometimes fails, why certain traits respond to selection whereas others are constrained, and what environmental drivers are most important [CITES such as Kawecki]. Understanding why and how populations have adapted to different environments in the past is especially significant now as a scientific basis for predicting how species' ranges will shift under climate change [CITES, \citep{Catullo_etal_2015}]. In this study, we found evidence for one of two common signature of local adaptation, pointing to both phenotypic lability and constraint. In particular, our data suggest that photosynthesis and intrinsic growth rate vary among populations, whereas the fundamental abiotic niche is more conserved, and that climatic variation may be a more important selective agent than the average. Next, we tie these results into the broader threads of evolutionary theory in order to figure out what factors best explain our data.
+
+As long as environments vary and there exists genetic variation in fitness, why shouldn't local adapted genotypes evolve? Evolutionary theory indicates that the shape of fitness tradeoffs, demography, and gene flow can constrain adaptation \citep{Levins_1968, Ronce_Kirkpatrick_2001}. In \textit{M. cardinalis} we found substantial genetic variation among populations along a phenotypic axis from fast to slow growth that varied over a large spatial scale (Fig.~\ref{fig:Fig_PC1vLat}). If this variation is adaptive, it could be maintained as long as fitness tradeoffs are not too Th... fitness tradeoffs are not too strong, demographic symmetry, and attenuation of gene flow.
+
+2. Why does local adaptation succeed? shallow environmental gradients lead to convex tradeoffs not heavily constrained by gene flow.
+
+Although evolutionary theory ... But what we really need to understand is why certain types of traits are repeatedly targets of natural selection, whereas other traits are constrained.
+
+3. Selective agent - unpredictability. Explain
+
+(also 4.) Another possibility we could have seen is that southern populations, which appear to experience more frequent drought years, could have evolved the ability to tolerate drought better than northern populations, thereby expanding the fundamental niche of the species as a whole. We found no evidence for this; all populations responded to drought and temperature treatments similarly (Table~\ref{table:Table_AnovaSummary}). However, evolution of the fundamental niche may be constrained by a combination of strong fitness tradeoffs, demographic asymmetry, and gene flow. Riparian habitats are highly heterogeneous at small spatial scales. Plants in the stream never have to tolerate drought whereas plants only a few meters away may experience extreme drought if there is little direct precipitation during the growing season, as in Meditteranean climates of Western North America. But alleles that confer greater drought tolerance may be quite costly in well-watered soils, leading to strong fitness tradeoffs. Such tradeoffs promote specialization to one soil type or another, thereby inhibiting the evolution of broad environmental tolerance within a population. Demography and gene flow may reinforce niche conservatism. A new mutant with increased drought tolerance that can survive at the margin of a population. But if . Finally, gene flow, which is generally high among \textit{M. cardinalis} populations within the same ecoregion \citep{Paul_etal_2015}, will thwart local adaptation and reinforce specialization. Spatial grain of the environment, demographic asymmetry, and gene flow conspire to thwart local adaptation via altered fundamental niche.
+4. Why does local adaptation fail? concave, high gene flow, demography. Qualify that our metrics of plasticity are coarse, but at least suggest that GxE is much weaker than G for the environmental gradients evaluated here.
+
+highly connected by gene flow, outcrossing (self-compatible but strongly herkogamous)
+
+? It's complex (gene flow, shape of tradeoffs, demography) and although there is abundant evidence for local adaptaiton, we do not a general sense for when local adaptation succeeds or fails. For this, we need a system in which there are axes of variation and constraint, traits with known physiological function?, and selective agents
+
+5. Future work and broad conclusions. Supports general conclusions that traits related to timing and growth are evolutionarily labile whereas those related to the fundamental niche are constrained (cites like \cite{Emery_etal_2012, Emery_Ackerly_2014}).
+
+% stuff about environmental grain
+How organisms adapt depends on the grain of the environment, ..., and gene flow between populations
+
+Possibilities:
+1. no trait variation: no environmental variation, high gene flow, generalist (convex)
+2. variation in mean:
+3. variation in plasticity: convex?,
+
+our data are most consistent with:
+- concave tradeoffs, fine-grained (coarse+concave would predict alt morphs), high gene flow
+
+%--------------------------------------------------
+% Acknowledgements
+%--------------------------------------------------
+
+\section*{Acknowledgements}
+Erin Warkman and Lisa Lin helped collect data.
+
+%--------------------------------------------------
+% References
+%--------------------------------------------------
+
+\setlength{\bibsep}{6pt}
+\bigskip
+
+\bibliography{refs}
+\bibliographystyle{evolution}
+
+%--------------------------------------------------
+% Supplementary Information
+%--------------------------------------------------
+
+% DIC table for initial size (LLL on 5/12)
+\begin{table}[htbp]
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[ANOVA table, leaf expansion rate]{Initial size of seedlings did not vary among Populations, Families, or Treatments. We used a censored Gaussian model of initial size at the outset of the experiment (longest leaf length of the first true leaves). The model was censored because we could not accurately measure leaves less than 0.25 mm with digital callipers (217 of 702, 30.9\%, were too small). We fit models using a Bayesian MCMC method implemented using the MCMCglmm function with default priors in the R package \pkg{MCMCglmm} version 2.17 \citep{Hadfield_2010}. We estimated the posterior distribution from 1000 samples of an MCMC chain run for $10 ^ 5$ steps after a $10^4$ step burn-in. We step-wise backward elimination procedure to find the best-supported model according to Deviance Information Criterion (DIC).}
+	\begin{center}
+	\begin{tabular}{>{\everypar{\hangindent1cm}{}\raggedright}p{6cm}lc}
+	\toprule
+
+	\input{Tables/Table_InitialSize.txt}
+
+	\bottomrule
+	\end{tabular}
+	\end{center}
+	\label{tables:TableS_InitialSize}
+\end{table}
+
+\begin{table}[ht]
+   \centering
+   \topcaption{Climatic variables}
+   \begin{tabular}{@{} ll @{}}
+      \toprule
+  Climate variable & Abbreviation \\
+      \midrule
+  % climateWNA VARIABLES:
+	DD\_0	& degree-days below 0\celsius (chilling degree-days)  \\
+	DD5	  & degree-days above 5\celsius (growing degree-days)   \\
+	DD\_18	& degree-days below 18\celsius (heating degree-days)  \\
+	DD18	& degree-days above 18\celsius (cooling degree-days)  \\
+	NFFD	& number of frost-free days                           \\
+	PAS	  & precipitation as snow (mm) between August in previous year and July in current  \\
+	Eref	& Hargreaves reference evaporation (mm) \\
+	CMD	  & Hargreaves climativ moisture deficit (mm) \\
+	MAR   &	mean annual solar radiation (NOTE: removing because too many missing values) \\
+	RH    &	mean annual relative humidity \\
+  % BIOCLIM VARIABLES:
+  bio1	&	Annual Mean Temperature	\\
+	bio2	&	Mean Diurnal Range (Mean of monthly (max temp - min temp))	\\
+	bio3	&	Isothermality (bio2/bio7) (* 100)	\\
+	bio4	&	Temperature Seasonality (standard deviation *100)	\\
+	bio5	&	Max Temperature of Warmest Month	\\
+	bio6	&	Min Temperature of Coldest Month	\\
+	bio7	&	Temperature Annual Range (bio5-bio6)	\\
+	bio8	&	Mean Temperature of Wettest Quarter	\\
+	bio9	&	Mean Temperature of Driest Quarter	\\
+	bio10	&	Mean Temperature of Warmest Quarter	\\
+	bio11	&	Mean Temperature of Coldest Quarter	\\
+	bio12	&	Annual Precipitation	\\
+	bio15	&	Precipitation Seasonality (Coefficient of Variation)	\\
+	bio16	&	Precipitation of Wettest Quarter	\\
+	bio17	&	Precipitation of Driest Quarter	\\
+	bio18	&	Precipitation of Warmest Quarter	\\
+	bio19	&	Precipitation of Coldest Quarter	\\
+	    \bottomrule
+   \end{tabular}
+   \label{table:TableS_ClimVars}
+\end{table}
+
+% ANOVA table for LER (need to label tables)
+\begin{table}[htbp]
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[ANOVA table, leaf expansion rate]{CAPTION}
+	\begin{center}
+	\begin{tabular}{lcccccc}
+	\toprule
+
+	\input{Tables/Table_lllGrowthAnova.txt}
+
+	\bottomrule
+	\end{tabular}
+	\end{center}
+\end{table}
+
+% ANOVA table for SER (need to label tables)
+\begin{table}[htbp]
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[ANOVA table, shoot elongation rate]{CAPTION}
+	\begin{center}
+	\begin{tabular}{lcccccc}
+	\toprule
+
+	\input{Tables/Table_heightGrowthAnova.txt}
+
+	\bottomrule
+	\end{tabular}
+	\end{center}
+\end{table}
+
+% Figures showing latitudinal clines with specific traits
+
+\begin{figure}[h!]
+	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Figure_DoG_Lat.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Southern populations germinate sooner.]{CAPTION}
+	\label{fig:Fig_DoG}
+\end{figure}
+
+\begin{figure}[h!]
+	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Figure_LLL_Lat.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Southern populations grow faster (leaf expansion rate).]{CAPTION}
+	\label{fig:Fig_LLL}
+\end{figure}
+
+\begin{figure}
+	\centerline{\includegraphics[width=0.5\textwidth]{Figures/Figure_Height_Lat.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Southern populations grow faster (shoot elongation rate).]{CAPTION}
+	\label{fig:Fig_height}
+\end{figure}
+
+\subsection*{Spatially-averaged climate}
+
+% Methods for spatial-average selection
+Selection at given site might not reflect simply the local environment, but rather the average environment in a surrounding region, since alleles will experience selection across populations linked by migration. We therefore calculated spatially averaged climate means and coefficients of variation. We sampled climate at 1000 random points (at 90-m resolition) within a 10 km buffer around focal populations. Since \textit{M. cardinalis} is found exclusively in riparian areas, we only selected points along streams using the National Hydrogeoraphy Dataset \citep{NHD}. Climatic means and CVs were weighted by their climatic suitability as determined using a multimodel ensemble average of ecological niche models \citep{Angert_ENM}.
+
+\end{document}
+
+
+
+
+
+	\subsection{Structure}
+
+	Leaf traits method: \\
+	Day 1: \\
+	- select focal leaf (e.g. second or third leaf); \\
+	- place in H20, dark, cool overnight. \\
+	Day 2: \\
+	- wet weight; \\
+	- scan; \\
+	- place in drying oven. \\
+
+		\begin{enumerate}
+			\item{Stomatal density, guard cell length, ratio from leaf opposite focal leaf (above}
+			\item{Leaf size/shape (from scans)}
+			\item{Leaf thickness/SLA}
+			\item{Colorimetry (from scans, spec)}
+			\item{stem anthocyanin (qualitative)}
+		\end{enumerate}
+
+	OPEN QUESTIONS: \\
+	save wet samples in preservative (e.g. for leaf venation?) \\
+	chlorophyll content? \\
+	branching architecture (anything in plant protocols?)
+
+	\subsection{Function}
+
+		\subsubsection{during experiment}
+
+		\begin{enumerate}
+			\item{Instantaneous photosynthetic rate, $g_\text{s}$, water-use efficiency.}
+				\subitem{3 min per plant per LICOR}
+				\subitem{Do as many plants as possible in 1-2 weeks}
+				\subitem{Before and after drought?}
+			\item{Respiration}
+			\item{Whole plant water-use (gravimetric)}
+				\subitem{}
+			\item{Leaf temperature (subset)}
+			\item{Temperature response curve (subset)}
+				\subitem{see protocol here: http://prometheuswiki.publish.csiro.au/tiki-index.php?page=Temperature+response+of+photosynthesis+using+a+Li-Cor+6400}
+			\item{Light response curve}
+				\subitem{Sampling? Only in cool, wet?}
+				\subitem{At what temperature?}
+
+		\end{enumerate}
+
+		\subsubsection{after experiment}
+
+		\begin{enumerate}
+			\item{CN content}
+			\item{carbon isotope discrimination}
+		\end{enumerate}
+
+
+	\subsection{Development time and Life history}
+
+	\begin{enumerate}
+		\item{Flowering time: census daily}
+		\item{Starch accumulation: collect (subset) of plants}
+		\item{Rhizome formation: collect on subset of plants harvested for dry mass}
+	\end{enumerate}
+
+	\subsection{Floral (2nd/3rd/etc flower?)}
+
+	\begin{enumerate}
+		\item{Flower size}
+		\item{Herkogamy}
+	\end{enumerate}
+
+\section{Performance}
+
+	Possibilities: \\
+	1. (sub-)weekly census of plant height. $\approx$ 0.5 min per plant, so allow 1 day \\
+
+	$$RGR_\text{height} = \frac{\text{ln} H_2 - \text{ln} H_1}{t_2 - t_1}$$
+
+	2. early development (pre-treatment) leaf-area growth with camera \\
+	3. harvest dry biomass before and after treatments (get whole plant leaf area using scanner at same time to ground truth camera)
+
+	$$RGR_\text{mass} = \frac{\text{ln} M_2 - \text{ln} M_1}{t_2 - t_1}$$
+
+\section{Determining ecological gradients that matter}
+
+Performance tradeoffs
+Isolation by ecology
+
+\section{Tests of divergent selection}
+
+	\subsection{Trait-environment correlation}
+
+	We will account for relatedness by using genetic distance matrix in linear models.
+
+	\subsection{$P_\text{ST}$ -- $F_\text{ST}$}
+
+	Contrast trait classes with Fst distribution
+
+	\subsection{Isolation by ecology}
+
+	Is \textbf{G} better predicted by \textbf{E} than geographic distance? Use Gideon's method?
+
+	\subsection{Performance tradeoffs between treatments}
+
+
+\section{Ecological strategy, physiological mechanism, and tradeoff}
+
+	\subsection{Drought escape}
+		Pattern: \\
+			Flowering time shorter in drier/S populations \\
+			More between population variation in flowering time more variable than predicted by Fst \\
+			... \\
+
+	\subsection{Drought avoidance}
+		Pattern: \\
+			Maybe this should really be dehydration avoidance? \\
+			Populations from drier/S avoid dehydration by limiting water loss; more variable than predicted by Fst \\
+
+			Mechanism \\
+			closing stomata earlier during soil drying
+
+		Mechanisms: \\
+			lower water-use \\
+
+	\subsection{Drought tolerance}
+		Pattern: \\
+			drier/S populations have greater tolerance to low tissue water content
+
+		Mechanisms: \\
+			greater WUE \\
+			ability to photosynthesize during drought \\
+
+\section{Extension: incipient speciation as a byproduct or divergence?}
+
+Collect pollen to measure viability.
+
+(this also goes into the goal of trying to figure out ecological selective agent driving trait variation). Why does latitude predict trait variation, often better than any of the climatic variables that vary with latitude? Some hypotheses:
+\begin{itemize}
+  \item{H1: Latitude encompasses multivariate climatic dimension.}
+  \item{H2: Latitude is substitute for average selective environment. i.e. populations are connected by gene flow, such that alleles at a given site must do well there and in surrounding areas.}
+\end{itemize}
+
+Predictions:
+\begin{itemize}
+  \item{P1: Climatic axis in high dimensional climate space should correlate with latitude (across card sites especially, not just any site [using pseudoabsences]). Focal site position in high-dimensional climatic space should correlated with traits as well or better than latitude.}
+  \item{P2: Climate (averaged over nearby sites) varies with latitude and the nearby average climate predicts trait values as well or better than latitude.}
+  \item{P1+2: These are not mutually exclusive and both could be imortant. i.e. average selective environment in high-dimensional climate space predicts trait values as well or better than latitude.}
+\end{itemize}
+
+\end{document}
