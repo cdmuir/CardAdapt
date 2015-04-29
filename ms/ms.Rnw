@@ -17,6 +17,9 @@
 \usepackage{color}
 \usepackage{array}
 \usepackage{gensymb}
+\usepackage{setspace}
+\newcommand{\stretchy}{1.5}
+\usepackage{lineno}
 
 % Make helvetica the default sans-serif font
 \renewcommand\sfdefault{phv}
@@ -106,14 +109,14 @@
 
 \section*{Abstract}
 
-% write/analyze
-% proposal for summer
-  % local fitness set concave
-  % range-wide fitness set convex
-  % interaction between shape of fitness set and gene flow?
-% evo-phys proposal
+\setstretch{\stretchy}
 
 \section*{Introduction}
+
+% Toggle these commands to get version for doing word count
+\linenumbers
+%\pagenumbering{gobble}
+%\raggedright
 
 Local adaptation is one of the most ubiquitous observations in nature: organisms perform well in their natal environment, but poorly outside it. Local adaptation within species most often involves genetic differences in ecologically relevant traits caused by selection to different environments, leading to predictable trait-environment correlations that persist in a common garden. Although local adaptation is well-supported by data from reciprocal transplant experiments, trait-environment associations, and ecological genetics/genomics, predicting which traits respond to selection exceeds our understanding. In particular, the role of physiological traits is poorly understood, even though physiology explains adaptation to the abiotic environment, which we need to understand as a baseline for anticipating how organisms will respond to climate change. A related problem is identifying the exact selective agents, such as abiotic factors like soil water availability or biotic interactions [etc.]... Here, we simultaneously investigate which traits and causal selective agents explain range-wide patterns of local physiological adaptation to climate in \textit{Mimulus}, a model genus for local adaptation studies.
 
@@ -546,7 +549,8 @@ load(paste(pathDat, "/thinnedOccClimate.RData", sep = ""))
 
 As with previous studies in \textit{Mimulus} and many other species [CITES, Huey_etal, mosquitoes, what else?], latitude \textit{per se} predicted trait variation more than many obvious environmental variables (e.g. temperature or precipitation) that covary with latitude. We used Random Forest regression \citep{Liaw_Wiener_2002} to identify putative climatic factors underlying trait-latitude associations in \textit{M. cardinalis}. We did this by looking for overlap between climatic variables that best predict latitude of \textit{M. cadinalis} occurence records and climatic variables that best predict trait variation across our 16 focal populations. For brevity, we refer to these as Climate-Latitude and Climate-Trait variables. We selected Climate-Latitude and Climate-Trait variables independently using Random Forest (VSURF algorithm in the R \pkg{VSURF} version 0.8.2 \citep{Genuer_etal_2014}). From VSURF models, we kept only variables selected for prediction, the most stringent criteria.
 
-For these analyses, we compiled a representative set of \Sexpr{nrow(thinnedOccClimate)} recent (since 2000) known \textit{M. cardinalis} occurences. These occurences were thinned by 50\% to correct for uneven sampling from a comprehensive set of herbarium records and an exhaustive field survey in 2010-11 \citep{Angert_ENM}. For each occurence, we used a 90m digital elevation model from HydroSHEDS \citep{Lehner_etal_2006} to extract elevation. Monthly interpolated climate layers were calculated using ClimateWNA \citep{Wang_etal_2012}, which accurately downscales climate data specifically for the rugged topography of western North America. For each occurence, we calculated bioclimatic variables using the biovars function in the R package \pkg{dismo} \citep{Hijmans_etal_2014}. In total, we included \Sexpr{length(climVars) / 2} cliamte variables, 9 from ClimateWNA and 15 bioclimatic variables (Table~\ref{table:TableS_ClimVars}). For each variable, we calculated both a 30-year normal by averging annual values between 1981 and 2010 and 30-year coefficient of variation, a standardized metric of interannual climatic variation. Temperatures were converted to Kelvin to be on a ratio scale appropriate for calculating the coefficient of variation. 
+For these analyses, we compiled a representative set of \Sexpr{nrow(thinnedOccClimate)} recent (since 2000) known \textit{M. cardinalis} occurences. These occurences were thinned by 50\% to correct for uneven sampling from a comprehensive set of herbarium records and an exhaustive field survey in 2010-11 \citep{Angert_ENM}. For each occurence, we used a 90m digital elevation model from HydroSHEDS \citep{Lehner_etal_2006} to extract elevation. Monthly interpolated climate layers were calculated using ClimateWNA \citep{Wang_etal_2012}, which accurately downscales climate data specifically for the rugged topography of western North America. For each occurence, we calculated bioclimatic variables using the biovars function in the R package \pkg{dismo} \citep{Hijmans_etal_2014}. In total, we included %\Sexpr{length(climVars) / 2}%
+cliamte variables, 9 from ClimateWNA and 15 bioclimatic variables (Table~\ref{table:TableS_ClimVars}). For each variable, we calculated both a 30-year normal by averging annual values between 1981 and 2010 and 30-year coefficient of variation, a standardized metric of interannual climatic variation. Temperatures were converted to Kelvin to be on a ratio scale appropriate for calculating the coefficient of variation. 
 
 <<VSURF>>=
 
@@ -642,47 +646,6 @@ library(VSURF)
   dev.off()
 @
 
-\begin{table}[ht]
-   \centering
-   \topcaption{Climatic variables}
-   \begin{tabular}{@{} ll @{}}
-      \toprule
-  Climate variable & Abbreviation \\
-      \midrule
-  % climateWNA VARIABLES:
-	DD\_0	& degree-days below 0\celsius (chilling degree-days)  \\
-	DD5	  & degree-days above 5\celsius (growing degree-days)   \\
-	DD\_18	& degree-days below 18\celsius (heating degree-days)  \\
-	DD18	& degree-days above 18\celsius (cooling degree-days)  \\
-	NFFD	& number of frost-free days                           \\
-	PAS	  & precipitation as snow (mm) between August in previous year and July in current  \\
-	Eref	& Hargreaves reference evaporation (mm) \\
-	CMD	  & Hargreaves climativ moisture deficit (mm) \\
-	MAR   &	mean annual solar radiation (NOTE: removing because too many missing values) \\
-	RH    &	mean annual relative humidity \\
-  % BIOCLIM VARIABLES:
-  bio1	&	Annual Mean Temperature	\\
-	bio2	&	Mean Diurnal Range (Mean of monthly (max temp - min temp))	\\
-	bio3	&	Isothermality (bio2/bio7) (* 100)	\\
-	bio4	&	Temperature Seasonality (standard deviation *100)	\\
-	bio5	&	Max Temperature of Warmest Month	\\
-	bio6	&	Min Temperature of Coldest Month	\\
-	bio7	&	Temperature Annual Range (bio5-bio6)	\\
-	bio8	&	Mean Temperature of Wettest Quarter	\\
-	bio9	&	Mean Temperature of Driest Quarter	\\
-	bio10	&	Mean Temperature of Warmest Quarter	\\
-	bio11	&	Mean Temperature of Coldest Quarter	\\
-	bio12	&	Annual Precipitation	\\
-	bio15	&	Precipitation Seasonality (Coefficient of Variation)	\\
-	bio16	&	Precipitation of Wettest Quarter	\\
-	bio17	&	Precipitation of Driest Quarter	\\
-	bio18	&	Precipitation of Warmest Quarter	\\
-	bio19	&	Precipitation of Coldest Quarter	\\
-	    \bottomrule
-   \end{tabular}
-   \label{table:TableS_ClimVars}
-\end{table}
-
 %--------------------------------------------------
 % Results
 %--------------------------------------------------
@@ -768,7 +731,7 @@ Genetic differences between populations affecting originsmal function and perfor
 	\usefont{T1}{phv}{m}{n}
 	\fontsize{10}{12}
 	\selectfont
-	\caption[Southern populations grow faster]{CAPTION}
+	\caption[Southern populations grow faster]{Trait variation, from fast to slow growth, is closely associated with latitude. Each point is a population, its latitude of origin a position along the slow to fast growth axis, defined as Principal Component 1 of five traits (see Methods). The line and 95\% confidence intervals (grey polygon) were estimated using standard linear regression.}
 	\label{fig:Fig_PC1vLat}
 \end{figure}
 
@@ -789,7 +752,7 @@ Latitudinal clines are common, but it is often difficult to ascribe this variati
 	\usefont{T1}{phv}{m}{n}
 	\fontsize{10}{12}
 	\selectfont
-	\caption[Interannual variation in precipitation is closely correlated with latitude and trait variation]{CAPTION}
+	\caption[Interannual variation in precipitation is closely correlated with latitude and trait variation]{Interannual variation in precipitation is closely correlated with latitude and trait variation. A. Using Random Forest regression, we identified 10 climatic variables significantly (high importance) associated with latitude of \textit{M. cardinalis} occurences. B. The two most important Climate-Latitude variables were also the two most important Climate-Trait variables. Note that the Importance values in A and B are not comparable because the dependent variables (Latitude and Trait PC1, respectively) are on different scales. Climatic variables (left of A; right of B) are defined by three qualities: Climatic factor -- Temperature (Temp) or Precipitation (Prec); Temporal scale -- Annual, Coldest quarter (Cold Quar), Warmest Quarter (Warm Quar), Wettest quarter (Wet Quar), Dry Quarter (Dry Quar), or Seasonality; Summary statistic -- average ($\mu$) or coefficient of variation ($\sigma$)}
 	\label{fig:Fig_ClimVarImp}
 \end{figure}
 
@@ -799,9 +762,9 @@ Latitudinal clines are common, but it is often difficult to ascribe this variati
 
 \section*{Discussion}
 
-The observation that populations are locally adapted to their environment is old and well-documented in many species. New frontiers in local adaptation research seek a general understanding of why local adaptation often suceeds but sometimes fails, why certain traits respond to selection whereas others are constrained, and what environmental drivers are most important [CITES such as Kawecki]. Understanding why and how populations have adapted to different environments in the past is especially significant npw because it the scientific basis for predicting how species' ranges will shift under climate change [CITES, Catullo_etal_2015]. In this study, we found evidence for one of two common signature of local adaptation, pointing to both phenotypic lability and constraint related to local adaptation. In particular, our data suggest that photosynthesis and intrinsic growth rate vary among populations, whereas the fundamental abiotic niche is more conserved, and that climatic variation may be a more important selective agent than the average. Next, we tie these results into the broader threads of evolutionary theory in order to figure out what factors best explain our data.
+The observation that populations are locally adapted to their environment is old and well-documented in many species. New frontiers in local adaptation research seek a general explanation for why local adaptation often suceeds but sometimes fails, why certain traits respond to selection whereas others are constrained, and what environmental drivers are most important [CITES such as Kawecki]. Understanding why and how populations have adapted to different environments in the past is especially significant now as a scientific basis for predicting how species' ranges will shift under climate change [CITES, Catullo_etal_2015]. In this study, we found evidence for one of two common signature of local adaptation, pointing to both phenotypic lability and constraint. In particular, our data suggest that photosynthesis and intrinsic growth rate vary among populations, whereas the fundamental abiotic niche is more conserved, and that climatic variation may be a more important selective agent than the average. Next, we tie these results into the broader threads of evolutionary theory in order to figure out what factors best explain our data.
 
-As long as environments vary and there exists genetic variation in fitness, why shouldn't local adaptation suceed? Evolutionary theory indicates that the shape of fitness tradeoffs, demography, and gene flow can constrain local adaptation. In \textit{M. cardinalis} we found substantial genetic variation among populations along a phenotypic axis from fast to slow growth (Fig.~\ref{fig:Fig_PC1vLat}). Th... fitness tradeoffs are not too strong, demographic symmetry, and attenuation of gene flow.
+As long as environments vary and there exists genetic variation in fitness, why shouldn't local adapted genotypes evolve? Evolutionary theory indicates that the shape of fitness tradeoffs, demography, and gene flow can constrain adaptation \citep{Levins_1968, Ronce_Kirkpatrick_2001}. In \textit{M. cardinalis} we found substantial genetic variation among populations along a phenotypic axis from fast to slow growth that varied over a large spatial scale (Fig.~\ref{fig:Fig_PC1vLat}). If this variation is adaptive, it could be maintained as long as fitness tradeoffs are not too Th... fitness tradeoffs are not too strong, demographic symmetry, and attenuation of gene flow.
 
 2. Why does local adaptation succeed? shallow environmental gradients lead to convex tradeoffs not heavily constrained by gene flow.
 
@@ -866,6 +829,47 @@ Erin Warkman and Lisa Lin helped collect data.
 	\end{tabular}
 	\end{center}
 	\lable{tables:TableS_InitialSize}
+\end{table}
+
+\begin{table}[ht]
+   \centering
+   \topcaption{Climatic variables}
+   \begin{tabular}{@{} ll @{}}
+      \toprule
+  Climate variable & Abbreviation \\
+      \midrule
+  % climateWNA VARIABLES:
+	DD\_0	& degree-days below 0\celsius (chilling degree-days)  \\
+	DD5	  & degree-days above 5\celsius (growing degree-days)   \\
+	DD\_18	& degree-days below 18\celsius (heating degree-days)  \\
+	DD18	& degree-days above 18\celsius (cooling degree-days)  \\
+	NFFD	& number of frost-free days                           \\
+	PAS	  & precipitation as snow (mm) between August in previous year and July in current  \\
+	Eref	& Hargreaves reference evaporation (mm) \\
+	CMD	  & Hargreaves climativ moisture deficit (mm) \\
+	MAR   &	mean annual solar radiation (NOTE: removing because too many missing values) \\
+	RH    &	mean annual relative humidity \\
+  % BIOCLIM VARIABLES:
+  bio1	&	Annual Mean Temperature	\\
+	bio2	&	Mean Diurnal Range (Mean of monthly (max temp - min temp))	\\
+	bio3	&	Isothermality (bio2/bio7) (* 100)	\\
+	bio4	&	Temperature Seasonality (standard deviation *100)	\\
+	bio5	&	Max Temperature of Warmest Month	\\
+	bio6	&	Min Temperature of Coldest Month	\\
+	bio7	&	Temperature Annual Range (bio5-bio6)	\\
+	bio8	&	Mean Temperature of Wettest Quarter	\\
+	bio9	&	Mean Temperature of Driest Quarter	\\
+	bio10	&	Mean Temperature of Warmest Quarter	\\
+	bio11	&	Mean Temperature of Coldest Quarter	\\
+	bio12	&	Annual Precipitation	\\
+	bio15	&	Precipitation Seasonality (Coefficient of Variation)	\\
+	bio16	&	Precipitation of Wettest Quarter	\\
+	bio17	&	Precipitation of Driest Quarter	\\
+	bio18	&	Precipitation of Warmest Quarter	\\
+	bio19	&	Precipitation of Coldest Quarter	\\
+	    \bottomrule
+   \end{tabular}
+   \label{table:TableS_ClimVars}
 \end{table}
 
 % ANOVA table for LER (need to label tables)

@@ -12,3 +12,4 @@ Tables
 Supplemental Tables
 
 	table:TableS_InitialSize	ANOVA table of initial size
+	table:TableS_ClimVars			Climatic variables used in VSURF analysis
