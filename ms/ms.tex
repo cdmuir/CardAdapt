@@ -202,38 +202,38 @@ We used 16 populations from throughout the range of \textit{M. cardinalis} (Tabl
       \toprule
   Name& Region  & Demo?& Pop gen?& Latitude  & Longtiude  & Elevation (mas) \\
       \midrule
-	HAU & South Margin		& yes	& yes	& 	& 
-    	&    \\
-	CTC	& South Margin		& yes	& no	&  & 
-    	&    \\
-	CUR	& South Margin		& yes	& yes &  & 
-    	&    \\
-	GRP & South Margin		& no	& no	&  &
-    	&    \\
-	WWC &	Transverse		  & yes	& yes	&  & 
-    	&    \\
-	MIL	& Transverse	  	& yes	& no	&  & 
-    	&    \\
-	WFM	& Transverse	  	& yes	& no	&  & 
-    	&    \\
-	NMT	& South Sierras		& yes	& yes?&  & 
-    	&    \\
-	PRD	& South Sierras		& yes	& yes	&  & 
-    	&    \\
-	RWD	& South Sierras		& yes	& yes	&  & 
-    	&    \\
-	WNA	& Central Sierras	& yes	& yes	&  & 
-    	&    \\
-	RBW	& Central Sierras	& yes	& no	&  & 
-    	&    \\
-	MYU	& North Sierras		& yes	& yes	&  & 
-    	&    \\
-	LIJ	& North Sierras		& yes	& yes	&  & 
-    	&    \\
-	DPC	& North Coast	  	& yes	& yes	&  & 
-    	&    \\
-	RCC	& North Margin		& yes	& yes	&  & 
-    	&    \\
+	HAU & South Margin		& yes	& yes	& 32.657	& 
+    \ensuremath{-116.532}	& 799   \\
+	CTC	& South Margin		& yes	& no	& 32.609 & 
+    \ensuremath{-116.7}	& 267   \\
+	CUR	& South Margin		& yes	& yes & 32.9 & 
+    \ensuremath{-116.585}	& 1180   \\
+	GRP & South Margin		& no	& no	& 33.314 &
+    \ensuremath{-116.871}	& 1577   \\
+	WWC &	Transverse		  & yes	& yes	& 33.994 & 
+    \ensuremath{-116.665}	& 705   \\
+	MIL	& Transverse	  	& yes	& no	& 34.077 & 
+    \ensuremath{-116.873}	& 2050   \\
+	WFM	& Transverse	  	& yes	& no	& 34.284 & 
+    \ensuremath{-117.378}	& 1120   \\
+	NMT	& South Sierras		& yes	& yes?& 36.201 & 
+    \ensuremath{-118.651}	& 1314   \\
+	PRD	& South Sierras		& yes	& yes	& 36.518 & 
+    \ensuremath{-118.759}	& 926   \\
+	RWD	& South Sierras		& yes	& yes	& 36.691 & 
+    \ensuremath{-118.91}	& 1727   \\
+	WNA	& Central Sierras	& yes	& yes	& 37.541 & 
+    \ensuremath{-119.649}	& 1224   \\
+	RBW	& Central Sierras	& yes	& no	& 37.819 & 
+    \ensuremath{-120.007}	& 876   \\
+	MYU	& North Sierras		& yes	& yes	& 39.397 & 
+    \ensuremath{-121.082}	& 455   \\
+	LIJ	& North Sierras		& yes	& yes	& 39.743 & 
+    \ensuremath{-120.704}	& 1603   \\
+	DPC	& North Coast	  	& yes	& yes	& 41.668 & 
+    \ensuremath{-123.11}	& 707   \\
+	RCC	& North Margin		& yes	& yes	& 43.374 & 
+    \ensuremath{-122.957}	& 326   \\
 	\bottomrule
    \end{tabular}
 \end{table}
@@ -902,26 +902,30 @@ Latitudinal clines are common, but it is often difficult to ascribe this variati
 % Discussion
 %--------------------------------------------------
 
+% Maybe focus in on tradeoffs as sine qua non of specialization vs generalization, then mention that demography and/or gene flow could reinforce?
+
 \section*{Discussion}
 
-The observation that populations are locally adapted to their environment is old and well-documented in many species. New frontiers in local adaptation research seek a general explanation for why local adaptation often suceeds but sometimes fails, why certain traits respond to selection whereas others are constrained, and what environmental drivers are most important [CITES such as Kawecki]. Understanding why and how populations have adapted to different environments in the past is especially significant now as a scientific basis for predicting how species' ranges will shift under climate change [CITES, \citep{Catullo_etal_2015}]. In this study, we found evidence for one of two common signature of local adaptation, pointing to both phenotypic lability and constraint. In particular, our data suggest that photosynthesis and intrinsic growth rate vary among populations, whereas the fundamental abiotic niche is more conserved, and that climatic variation may be a more important selective agent than the average. Next, we tie these results into the broader threads of evolutionary theory in order to figure out what factors best explain our data.
+The observation that populations are locally adapted to their environment is old and well-documented in many species. New frontiers in local adaptation research seek a general explanation for why local adaptation often suceeds but sometimes fails, why certain traits respond to selection whereas others are constrained, and what environmental drivers are most important [CITES such as Kawecki]. Understanding why and how populations have adapted to different environments in the past is especially significant now as a scientific basis for predicting how species' ranges will shift under climate change [CITES, \citep{Catullo_etal_2015}]. In this study, we found evidence for one of two common signature of local adaptation, pointing to both phenotypic lability and constraint. In particular, our data suggest that photosynthesis and intrinsic growth rate vary among populations, whereas the fundamental abiotic niche is more conserved, and that climatic variation may be a more important selective agent than the average. Next, we tie these results into the broader threads of evolutionary theory in order to figure out what factors explain the trait variation we see and that we do not.
 
-As long as environments vary and there exists genetic variation in fitness, why shouldn't local adapted genotypes evolve? Evolutionary theory indicates that the shape of fitness tradeoffs, demography, and gene flow can constrain adaptation \citep{Levins_1968, Ronce_Kirkpatrick_2001}. In \textit{M. cardinalis} we found substantial genetic variation among populations along a phenotypic axis from fast to slow growth that varied over a large spatial scale (Fig.~\ref{fig:Fig_PC1vLat}). If this variation is adaptive, it could be maintained as long as fitness tradeoffs are not too Th... fitness tradeoffs are not too strong, demographic symmetry, and attenuation of gene flow.
+As long as environments vary and there exists genetic variation in fitness, why shouldn't local adapted genotypes evolve? Evolutionary theory indicates that the shape of fitness tradeoffs, demography, and gene flow can constrain adaptation \citep{Levins_1968, Ronce_Kirkpatrick_2001}. Specifically, adaptive variation cannot be maintained by spatially varying selection if tradeoffs are too strong, demography is strong asymmetric, and/or maladaptive gene flow is too high. In \textit{M. cardinalis} we found substantial genetic variation among populations along a phenotypic axis from fast to slow growth that varied over a large spatial scale (Fig.~\ref{fig:Fig_PC1vLat}). If this variation is adaptive, it suggests that the fitness tradeoff between doing well in low versus high latitude environments is not too strong nor swamped by demographic asymmetry or maladaptive gene flow. That is, alleles favoured at one latitude are not strongly selected against when they flow to another population, allowing locally adaptive genetic variation to be maintained by spatial heterogenous selection. We also know from previous work that population size does not vary strongly with latitude \cdm{Amy - is this correct? JPs pop gen data seemed to suggest little difference in effective pop size across the range. Is this also true of census pop size?}. Gene flow appears to be high, but attenuates at broad spatial scales, especially between Southern ($<35\degree$N) and Northern portions of the range. 
 
-2. Why does local adaptation succeed? shallow environmental gradients lead to convex tradeoffs not heavily constrained by gene flow.
+Another possibility we could have seen is that southern populations, which appear to experience more frequent drought years (see next section), could have evolved the ability to tolerate drought better than northern populations, thereby expanding the fundamental niche of the species as a whole. We found no evidence for this; all populations responded to drought and temperature treatments similarly (Table~\ref{table:Table_AnovaSummary}). We hypothesize that evolution of the fundamental niche may be constrained by a combination of strong fitness tradeoffs, demographic asymmetry, and gene flow. Riparian habitats where \textit{M. cardinalis} live are highly heterogeneous at small spatial scales. Plants in the stream never have to tolerate drought whereas plants only a few meters away may experience extreme drought since there is little direct precipitation during the growing season in Meditteranean climates of Western North America. But alleles that confer greater drought tolerance may be quite costly in well-watered soils, and vice versa, leading to strong fitness tradeoffs. Such tradeoffs promote specialization to one soil type or another, thereby inhibiting the evolution of broad environmental tolerance within a population. Demography and gene flow may reinforce niche conservatism. A new mutant with increased drought tolerance that can survive at the resource-poor margin of a population will be demographically overwhelmed by the larger census populations that can be maintained in higher resource environments. Finally, gene flow, which is generally high among \textit{M. cardinalis} populations within the same ecoregion \citep{Paul_etal_2015}, will thwart local adaptation and reinforce specialization. Thus, the spatial grain of the environment, demographic asymmetry, and gene flow may conspire to constrain local adaptation via altered fundamental niche.
 
-Although evolutionary theory ... But what we really need to understand is why certain types of traits are repeatedly targets of natural selection, whereas other traits are constrained.
+4. Selective agent - unpredictability. Explain
+Reiterate result
+other supporting evidence: 
+- ENM models are better for habitat suitability for S pops when using data from <5 years; better for Northern populations using 30 yr (M. Bayly \& A. Angert, unpub. data)
+- greater variance in recruit size in S pops
+-
 
-3. Selective agent - unpredictability. Explain
+There is a lot of interest in understanding how organisms will respond to changes in climatic variation, not just changes in the average climate. Our data indeed suggest that variation may be more important than the mean. 
 
-(also 4.) Another possibility we could have seen is that southern populations, which appear to experience more frequent drought years, could have evolved the ability to tolerate drought better than northern populations, thereby expanding the fundamental niche of the species as a whole. We found no evidence for this; all populations responded to drought and temperature treatments similarly (Table~\ref{table:Table_AnovaSummary}). However, evolution of the fundamental niche may be constrained by a combination of strong fitness tradeoffs, demographic asymmetry, and gene flow. Riparian habitats are highly heterogeneous at small spatial scales. Plants in the stream never have to tolerate drought whereas plants only a few meters away may experience extreme drought if there is little direct precipitation during the growing season, as in Meditteranean climates of Western North America. But alleles that confer greater drought tolerance may be quite costly in well-watered soils, leading to strong fitness tradeoffs. Such tradeoffs promote specialization to one soil type or another, thereby inhibiting the evolution of broad environmental tolerance within a population. Demography and gene flow may reinforce niche conservatism. A new mutant with increased drought tolerance that can survive at the margin of a population. But if . Finally, gene flow, which is generally high among \textit{M. cardinalis} populations within the same ecoregion \citep{Paul_etal_2015}, will thwart local adaptation and reinforce specialization. Spatial grain of the environment, demographic asymmetry, and gene flow conspire to thwart local adaptation via altered fundamental niche.
-4. Why does local adaptation fail? concave, high gene flow, demography. Qualify that our metrics of plasticity are coarse, but at least suggest that GxE is much weaker than G for the environmental gradients evaluated here.
+But what we really need to understand is why certain types of traits are repeatedly targets of natural selection, whereas other traits are constrained.
 
-highly connected by gene flow, outcrossing (self-compatible but strongly herkogamous)
 
-? It's complex (gene flow, shape of tradeoffs, demography) and although there is abundant evidence for local adaptaiton, we do not a general sense for when local adaptation succeeds or fails. For this, we need a system in which there are axes of variation and constraint, traits with known physiological function?, and selective agents
 
-5. Future work and broad conclusions. Supports general conclusions that traits related to timing and growth are evolutionarily labile whereas those related to the fundamental niche are constrained (cites like \cite{Emery_etal_2012, Emery_Ackerly_2014}).
+5. Future work and broad conclusions. Supports general conclusions that traits related to timing and growth are evolutionarily labile whereas those related to the fundamental niche are constrained (cites like \cite{Emery_etal_2012, Emery_Ackerly_2014}). Next, we are testing whether phenotypic variation and constraint can be predicted by the shape of tradeoffs, as predicted by evolutionary theory,
 
 % stuff about environmental grain
 How organisms adapt depends on the grain of the environment, ..., and gene flow between populations

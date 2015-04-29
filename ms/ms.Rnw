@@ -159,38 +159,38 @@ load(paste(pathDat, "/focClimSA.RData", sep = ""))
       \toprule
   Name& Region  & Demo?& Pop gen?& Latitude  & Longtiude  & Elevation (mas) \\
       \midrule
-	HAU & South Margin		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Hauser Creek"], 3)}	& 
-    \Sexpr{round(focClim$Longitude[focClim$PopID == "Hauser Creek"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Hauser Creek"]}   \\
-	CTC	& South Margin		& yes	& no	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Cottonwood Creek"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$PopID == "Cottonwood Creek"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Cottonwood Creek"]}   \\
-	CUR	& South Margin		& yes	& yes & \Sexpr{round(focClim$Latitude[focClim$PopID == "Cuyamaca Rancho"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$PopID == "Cuyamaca Rancho"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Cuyamaca Rancho"]}   \\
-	GRP & South Margin		& no	& no	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Grade Road Palomar"], 3)} &
-    \Sexpr{round(focClim$Longitude[focClim$PopID == "Grade Road Palomar"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Grade Road Palomar"]}   \\
-	WWC &	Transverse		  & yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Whitewater Canyon"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$PopID == "Whitewater Canyon"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Whitewater Canyon"]}   \\
-	MIL	& Transverse	  	& yes	& no	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Mill Creek"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$PopID == "Mill Creek"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Mill Creek"]}   \\
-	WFM	& Transverse	  	& yes	& no	& \Sexpr{round(focClim$Latitude[focClim$PopID == "West Fork Mojave River"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$PopID == "West Fork Mojave River"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "West Fork Mojave River"]}   \\
-	NMT	& South Sierras		& yes	& yes?& \Sexpr{round(focClim$Latitude[focClim$PopID == "North Fork Middle Tule"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$PopID == "North Fork Middle Tule"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "North Fork Middle Tule"]}   \\
-	PRD	& South Sierras		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Paradise Creek"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$PopID == "Paradise Creek"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Paradise Creek"]}   \\
-	RWD	& South Sierras		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Redwood Creek"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$PopID == "Redwood Creek"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Redwood Creek"]}   \\
-	WNA	& Central Sierras	& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Wawona"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$PopID == "Wawona"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Wawona"]}   \\
-	RBW	& Central Sierras	& yes	& no	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Rainbow Pool"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$PopID == "Rainbow Pool"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Rainbow Pool"]}   \\
-	MYU	& North Sierras		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Middle Yuba"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$PopID == "Middle Yuba"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Middle Yuba"]}   \\
-	LIJ	& North Sierras		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Little Jameson"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$PopID == "Little Jameson"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Little Jameson"]}   \\
-	DPC	& North Coast	  	& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Deep Creek"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$PopID == "Deep Creek"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Deep Creek"]}   \\
-	RCC	& North Margin		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "Rock Creek"], 3)} & 
-    \Sexpr{round(focClim$Longitude[focClim$PopID == "Rock Creek"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "Rock Creek"]}   \\
+	HAU & South Margin		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "HAU"], 3)}	& 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "HAU"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "HAU"]}   \\
+	CTC	& South Margin		& yes	& no	& \Sexpr{round(focClim$Latitude[focClim$PopID == "CTC"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "CTC"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "CTC"]}   \\
+	CUR	& South Margin		& yes	& yes & \Sexpr{round(focClim$Latitude[focClim$PopID == "CUR"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "CUR"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "CUR"]}   \\
+	GRP & South Margin		& no	& no	& \Sexpr{round(focClim$Latitude[focClim$PopID == "GRP"], 3)} &
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "GRP"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "GRP"]}   \\
+	WWC &	Transverse		  & yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "WWC"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "WWC"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "WWC"]}   \\
+	MIL	& Transverse	  	& yes	& no	& \Sexpr{round(focClim$Latitude[focClim$PopID == "MIL"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "MIL"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "MIL"]}   \\
+	WFM	& Transverse	  	& yes	& no	& \Sexpr{round(focClim$Latitude[focClim$PopID == "WFM"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "WFM"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "WFM"]}   \\
+	NMT	& South Sierras		& yes	& yes?& \Sexpr{round(focClim$Latitude[focClim$PopID == "NMT"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "NMT"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "NMT"]}   \\
+	PRD	& South Sierras		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "PRD"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "PRD"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "PRD"]}   \\
+	RWD	& South Sierras		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "RWD"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "RWD"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "RWD"]}   \\
+	WNA	& Central Sierras	& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "WNA"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "WNA"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "WNA"]}   \\
+	RBW	& Central Sierras	& yes	& no	& \Sexpr{round(focClim$Latitude[focClim$PopID == "RBW"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "RBW"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "RBW"]}   \\
+	MYU	& North Sierras		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "MYU"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "MYU"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "MYU"]}   \\
+	LIJ	& North Sierras		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "LIJ"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "LIJ"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "LIJ"]}   \\
+	DPC	& North Coast	  	& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "DPC"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "DPC"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "DPC"]}   \\
+	RCC	& North Margin		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "RCC"], 3)} & 
+    \Sexpr{round(focClim$Longitude[focClim$PopID == "RCC"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "RCC"]}   \\
 	\bottomrule
    \end{tabular}
 \end{table}
@@ -227,6 +227,12 @@ plot(0, 0, type = "n", xlim = c(0, max(exptlDes$DayN)), ylim = c(-1, 41),
 axis(2, at = seq(0, 40, 10), lwd = 0, lwd.ticks = 1, las = 1,
 	labels = c(expression(0*degree), expression(10*degree), expression(20*degree), 
 						 expression(30*degree), expression(40*degree)))
+
+# Watering axis
+axis(4, at = c(0, 40), lwd = 0, lwd.ticks = 1, las = 1, labels = c(1, 12))
+mtext(expression(paste("Watering Freq (no. Day", phantom()^-1, ")")), 4, 
+	cex = 1.5, line = 3, las = 3)
+
 # Axis of time on top
 mtext("Days after sowing", side = 3, line = 3.5, cex = 1.5)
 mtext("(Date for climate simulation)", side = 3, line = 2.25, cex = 1.5)
@@ -268,7 +274,7 @@ with(exptlDes, text(min((which(LERmeas)) + max(which(LERmeas))) / 2, -1,
 
 with(exptlDes, rect(min(which(SERmeas)), 0, max(which(SERmeas)), 2,
 	border = "white", col = "grey"))
-with(exptlDes, text(min((which(SERmeas)) + max(which(SERmeas))) / 2, 1, 
+with(exptlDes, text(min((which(SERmeas)) + max(which(SERmeas))) / 2 - 5, 1, 
 	labels = "SER", col = "white", font = 3, cex = 0.9))
 
 with(exptlDes, rect(min(which(Harvest)), -2, max(which(Harvest)), 0, 
@@ -282,6 +288,14 @@ with(exptlDes, rect(min(which(PhotoMeas)), 2, max(which(PhotoMeas)), 4,
 	border = "white", col = "grey"))
 #with(exptlDes, text(min((which(PhotoMeas)) + max(which(PhotoMeas))) / 2, 3, 
 #	labels = "Photo", col = "white", font = 3, cex = 0.9))
+
+# Polygon of Drought treatment
+# Rescale watering frequency to vary from 0 to 40
+exptlDes$WaterFreq_dry <- exptlDes$WaterFreq_dry * (40 / 11) - 40 / 11
+
+# with(exptlDes, points(DayN, WaterFreq_dry, type = "l", lwd = 12, 
+	# col = alpha("white", 0.5)))
+with(exptlDes, points(DayN, WaterFreq_dry, type = "l", lwd = 3, col = sec2shade4))
 
 dev.off()
 
