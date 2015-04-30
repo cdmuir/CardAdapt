@@ -2,12 +2,15 @@ Lables for figures in and tables:
 
 Figures
 
+	fig:Fig_ExptlDes					Overview of treatments and key measurements
 	fig:Fig_PC1vLat						Latitudinal cline in growth and photosynthesis
 	fig:Fig_ClimVarImp				Climatic variable importance
 
 Tables
 
-  table:Table_AnovaSummary  Summary of ANOVA-like results for all traits
+	table:Table_FocalPops			16 focal populations
+	table:Table_traits				Key traits measured in experiment
+	table:Table_AnovaSummary  Summary of ANOVA-like results for all traits
 
 Supplemental Tables
 

@@ -38,7 +38,7 @@
 % Where to find files
 %
 
-<<Front Matter>>=
+<<Front Matter, echo=FALSE, results='hide'>>=
 
   # The path to the ms directory may need to be changed for different users
   # Manuscript files
@@ -94,9 +94,9 @@
 % Title and authors
 %
 
-\title{(working title) Local Physiological Adaptation in \textit{Mimulus cardinalis}}
-\author{Christopher D. Muir and Amy L. Angert}
-%\date{}							% Activate to display a given date or no date
+\title{Grow with the flow: faster growth is associated with more variable precipitation in a perennial herb}
+\author{Christopher D. Muir$^{1,*}$ and Amy L. Angert$^1$}
+\date{}
 
 %
 % Start document
@@ -104,6 +104,23 @@
 
 \begin{document}
 \maketitle
+
+$^1$ Biodiversity Research Centre, University of British Columbia, Vancouver, BC, Canada
+
+$^*$corresponding author: Chris Muir, cdmuir@biodiversity.ubc.ca
+
+Original Article
+
+Key words: local adaptation, photosynthesis, growth rate, climatic variance, \textit{Mimulus}
+
+Word counts: TBA
+
+3 figures; 3 tables; ? supporting files
+
+Data will be archived on Dryad upon acceptance.
+
+\clearpage
+
 \listoffigures
 \listoftables
 
@@ -118,31 +135,26 @@
 % \pagenumbering{gobble}
 % \raggedright
 
-Local adaptation is one of the most ubiquitous observations in nature: organisms perform well in their natal environment, but poorly outside it. Local adaptation within species most often involves genetic differences in ecologically relevant traits caused by selection to different environments, leading to predictable trait-environment correlations that persist in a common garden. Although local adaptation is well-supported by data from reciprocal transplant experiments, trait-environment associations, and ecological genetics/genomics, predicting which traits respond to selection exceeds our understanding. In particular, the role of physiological traits is poorly understood, even though physiology explains adaptation to the abiotic environment, which we need to understand as a baseline for anticipating how organisms will respond to climate change. A related problem is identifying the exact selective agents, such as abiotic factors like soil water availability or biotic interactions [etc.]... Here, we simultaneously investigate which traits and causal selective agents explain range-wide patterns of local physiological adaptation to climate in \textit{Mimulus}, a model genus for local adaptation studies.
+Local adaptation is one of the most ubiquitous observations in nature: organisms perform well in their natal environment, but poorly outside it. Local adaptation within species most often involves genetic differences in ecologically relevant traits caused by selection to different environments, leading to predictable trait-environment correlations that persist in a common environment. Although local adaptation is well-supported by data from reciprocal transplant experiments, trait-environment associations, and ecological genetics/genomics, predicting which traits respond to selection is beyond our current understanding. In particular, the role of physiological traits is poorly understood, even though physiology explains adaptation to the abiotic environment, which we need to understand as a baseline for anticipating how organisms will respond to climate change. A related problem is identifying which features of the environment, abiotic factors like soil water availability or biotic interactions, cause spatially varying selective pressures. Here, we  investigate which traits and causal selective agents explain range-wide patterns of local physiological adaptation to climate in \textit{Mimulus}, a model genus for local adaptation studies.
 
 % niche-tracking versus niche-shifting
 One surprising pattern is that populations adapt to different environments by adjusting their life history to stay within the same fundamental physiological niche rather than have the niche itself evolve. For example, mosquitoes adjust diapause length with latitude rather than evolve altered ...\cdm{what other examples could we include here?} This suggests that in many situations it is evolutionarily easier to change life history rather than fundamental physiological tolerance.
 
 % Selective agents
-We also know little about the selective agents, such as climatic factors or biotic interactions, that are most important in driving adaptive divergence. In certain situations, such as pollinator shifts and edaphic adaptation, it is straightforward to identify putative selective agents and test predicted mechanisms. However, it is more challenging for cases in which traits vary with less specific factors like mean annual precipitation or latitude. For example, body size clines (larger size at higher latitude) have evolved repeatedly on three contients in \textit{Drosophila subobscura}, strongly indicating selection. But which one or more of the many climatic factors that covary with latitude actually controls selection on body size? Selection might be even more complex for species that live over multiple seasons, meaning that environmental variation rather than the average environment may be a selective agent.
+We also know little about the selective agents, such as climatic factors or biotic interactions, that are most important in driving adaptive divergence. In certain situations, such as pollinator shifts and edaphic adaptation, it is straightforward to identify putative selective agents and test predicted mechanisms. However, it is more challenging for cases in which traits vary with less specific factors like mean annual precipitation or latitude. For example, body size clines (larger size at higher latitude) have evolved repeatedly on three contients in \textit{Drosophila subobscura}, strongly indicating selection \citep{Huey_etal_2000}. But which one or more of the many climatic factors that covary with latitude actually controls selection on body size? Selection might be even more complex for perennial species that live over multiple seasons, meaning that environmental variation rather than the average environment may be a selective agent.
 
 % Motivate using Mimulus
-Linking physiological traits to potentially complex patterns of local adaptation requires integrating multiple lines of evidence from comparative, experimental, genomic studies under both lab and field conditions. Many classic and contemporary studies of local adaptation have been conducted using species from genus \textit{Mimulus} because of its natural history, easy propogation, and genetic/genomic resources. ... Conspicuous absence of phys mechanism
+Linking physiological traits to potentially complex patterns of local adaptation requires integrating multiple lines of evidence from comparative, experimental, genomic studies under both lab and field conditions. Many classic and contemporary studies of local adaptation have been conducted using species from genus \textit{Mimulus} because of its natural history, easy propogation, and genetic/genomic resources [willis, lowry?]. Yet, there is a conspicuous deficieny of links between local adaptation and physiological mechanisms \citep{Angert_2006, Angert_etal_2008}.
 
-% Final paragraph
-1. `intrinsic' physiological variation
-2. variation in plasticity
-3. what ecological factors explain divergence (i.e. putative selective agents underlying local adaptation)
-
-Conclude that observations are best explained by stabilizing selection on the fundamental niche, but spatially varying divergent selection on coordinated life history and physiological traits.
+Two common signatures of local adaptation are nonrandom genetic differences in ecologically important traits and variation in plasticity (genotype by environment interaction). In this study, we found strong genetically-based differences in photosynthesis and growth, but no evidence for variation in plasticity in response to temperature and drought treatments. Interannual variation in precipitaiton is associated intrinsic variation in these traits, suggesting that climatic variance rather than mean may be an important driver of local adaptation in \textit{M. cardinalis}.
 
 \section*{Methods}
 
 \subsection*{Population Selection}
 
-We used 16 populations from throughout the range of \textit{M. cardinalis} (Table 1). Seeds were collected in the field \cdm{Amy, can you explain seed collection methods?}.
+We used 16 populations from throughout the range of \textit{M. cardinalis} (Table~\ref{table:Table_FocalPops}). Seeds were collected in the field \cdm{Amy, can you explain seed collection methods?}.
 
-<<focClim, echo = FALSE>>=
+<<focClim, echo = FALSE, results='hide', warning=FALSE>>=
 # Read in climate data for 16 focal populations to use in making Table 1
 # [MAYBE SHOULD RENAMED "ExtendedTable1" or something?]
 load(paste(pathDat, "/focClim.RData", sep = ""))
@@ -152,9 +164,13 @@ load(paste(pathDat, "/focClimSA.RData", sep = ""))
 
 @
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table of focal population
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{table}[ht]
    \centering
-   \topcaption{16 Focal populations}
+   \topcaption[Focal Populations]{Geographic region, latitude, longitude, and elevation (mas = meters above seal level) of 16 focal populations used in this study.}
    \begin{tabular}{@{} lllllll @{}}
       \toprule
   Name& Region  & Demo?& Pop gen?& Latitude  & Longtiude  & Elevation (mas) \\
@@ -192,7 +208,8 @@ load(paste(pathDat, "/focClimSA.RData", sep = ""))
 	RCC	& North Margin		& yes	& yes	& \Sexpr{round(focClim$Latitude[focClim$PopID == "RCC"], 3)} & 
     \Sexpr{round(focClim$Longitude[focClim$PopID == "RCC"], 3)}	& \Sexpr{focClim$Elevation[focClim$PopID == "RCC"]}   \\
 	\bottomrule
-   \end{tabular}
+	\end{tabular}
+	\label{table:Table_FocalPops}
 \end{table}
 
 \subsection*{Plant propagation}
@@ -213,7 +230,7 @@ For watering treatments, we simulated two extreme types of streams where \textit
 
 \cdm{Are there any data from California about soil water content through the season?}
 
-<<ExperimentalDesign>>=
+<<ExperimentalDesign, echo=FALSE, results='hide', warning=FALSE>>=
 library(scales) # for color transparency
 exptlDes <- read.csv(paste(pathDat, "/ExperimentalDesign.csv", sep = ""))
 
@@ -289,27 +306,32 @@ with(exptlDes, rect(min(which(PhotoMeas)), 2, max(which(PhotoMeas)), 4,
 #with(exptlDes, text(min((which(PhotoMeas)) + max(which(PhotoMeas))) / 2, 3, 
 #	labels = "Photo", col = "white", font = 3, cex = 0.9))
 
-# Polygon of Drought treatment
+# Line of Drought treatment
 # Rescale watering frequency to vary from 0 to 40
 exptlDes$WaterFreq_dry <- exptlDes$WaterFreq_dry * (40 / 11) - 40 / 11
 
 # with(exptlDes, points(DayN, WaterFreq_dry, type = "l", lwd = 12, 
 	# col = alpha("white", 0.5)))
-with(exptlDes, points(DayN, WaterFreq_dry, type = "l", lwd = 3, col = sec2shade4))
+with(exptlDes, points(DayN, WaterFreq_dry, type = "l", lwd = 3, col = "black"))
 
 dev.off()
 
 # Legend
-pdf(paste(pathFig, "/ExperimentalDesignLegend.pdf", sep = ""), 1.5, 2)
+pdf(paste(pathFig, "/ExperimentalDesignLegend.pdf", sep = ""), 2, 2)
 par(mai = rep(0, 4))
-plot(0, 0, type = "n", xlim = c(0, 1.5), ylim = c(0, 1), axes = F)
+plot(0, 0, type = "n", xlim = c(-0.5, 1.5), ylim = c(0, 1), axes = F)
 
+# Temperature
 polygon(c(0, 0.5, 1, 1, 0.5, 0), c(0.8, 1, 1, 0.55, 0.55, 0.35), border = NA, 
 				col = alpha(primShade0, 0.25))
 polygon(c(0, 0.5, 1, 1, 0.5, 0), c(0.6, 0.45, 0.45, 0, 0, 0.15), border = NA, 
 				col = alpha(sec1shade0, 0.25))
 points(c(0, 0.5, 1), c(0.575, 0.775, 0.775), lwd = 2, type = "l", col = primShade3)
 points(c(0, 0.5, 1), c(0.375, 0.225, 0.225), lwd = 2, type = "l", col = sec1shade3)
+
+# Drought
+lines(c(0, 1), c(1, 0), lwd = 2)
+text(-0.25, 0.95, labels = "Water\nFreq")
 text(0.5, 0.9, labels = "Hot", col = primShade3)
 text(0.5, 0.1, labels = "Cool", col = sec1shade3)
 text(1.25, 1, labels = "Max", col = alpha(primShade0, 0.25))
@@ -320,24 +342,33 @@ text(1.25, 0, labels = "Min", col = alpha(sec1shade0, 0.25))
 text(1.25, 0.45, labels = "Max", col = alpha(sec1shade0, 0.25))
 text(1.25, 0.225, labels = "Mean", col = sec1shade3)
 
+
 dev.off()
 
 @
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Figure summarizing experimental design
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{figure}[h!]
 	\centerline{\includegraphics[width=1\textwidth]{Figures/Figure_ExptlDes.pdf}}
 	\usefont{T1}{phv}{m}{n}
 	\fontsize{10}{12}
 	\selectfont
-	\caption[Experimental Design]{CAPTION}
+	\caption[Experimental Design]{Overview of experimental treatments and timing of key trait measurements. All plants germinated within 21 days of sowing. At that time, we began temperature treatments (left axis), simulating a typical June-August weather pattern at Hot (red) and Cold (blue) sites. The bold lines track the average daily temperatures. Within each day, there was a maximum daytime temperture (top of translucent polygons) and minimum nighttime temperature (bottom of translucent polygons). The drought treatment commenced later by ramping down the frequency of bottom-watering episodes (black line; right axis). Grey boxes on the bottom of the plot outline the period of key measurements described in the Methods.}
 	\label{fig:Fig_ExptlDes}
 \end{figure}
 
 \subsection*{Growth and photosynthesis}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table of key traits
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{table}[ht]
    \centering
-   \topcaption{Traits}
+   \topcaption{Key traits measured in this study.}
    \begin{tabular}{@{} ll @{}}
       \toprule
   Trait & Units \\
@@ -355,7 +386,7 @@ dev.off()
 
 \paragraph{Day of germination} We tested for population variation in germination rate, measured as Days to Germination, using a lognormal survival model fit using the survreg function in the R package \pkg{survival} version 2.38 \citep{Therneau_2015}. The model was fit with Population as a fixed effect and Family as random effect using a $\Gamma$ frailty function. The signifcance of the Population effect was determined using analysis of deviance.
 
-<<Germination rate>>=
+<<Germination rate, echo=FALSE, results='hide', warning=FALSE, message=FALSE>>=
 
   library(survival)
   pathMS <- "~/Google Drive/CardLocalAdaptation/ms"
@@ -379,7 +410,7 @@ dev.off()
 
 We censused longest leaf length $>1$ mm on 10 days (twice per week) between 12 May and 12 June (28 to 59 days after sowing). We ceased measuring leaf length once it appeared to asymptote and growth shifted to shoot elongation.  We also censused plant height on 7 days (twice per week) between 29 May and 20 June (45 to 67 days after sowing). Both leaf expansion and shoot elongation were modeled as a second-order polynomials of time with individual coefficients (separate for leaf and shoot growth) using empirical Bayes' estimates from linear mixed-effects models fit using the R package \pkg{lme4} version 1.1-7 \citep{Bates_etal_2014}.
 
-<<Leaf expansion rate>>=
+<<Leaf expansion rate, echo=FALSE, results='hide', warning=FALSE, message=FALSE>>=
 
   library(lme4)
   library(lmerTest)
@@ -424,7 +455,7 @@ We censused longest leaf length $>1$ mm on 10 days (twice per week) between 12 M
 @
 
 
-<<Shoot elongation rate>>=
+<<Shoot elongation rate, echo=FALSE, results='hide', warning=FALSE, message=FALSE>>=
 
   # Read in SER data
   SERdata <- read.csv(paste(pathDat, "/SERdata.csv", sep = ""))
@@ -462,7 +493,7 @@ We censused longest leaf length $>1$ mm on 10 days (twice per week) between 12 M
 \paragraph{Photosynthesis}
 During the week of 10 to 16 June (57 to 63 days after sowing), we measured daytime photosynthetic rate and stomatal conductance on a subset of \Sexpr{length(which(!is.na(master$Photo)))} plants evenly spread between treatments and families within populations. The youngest, fully-expanded leaf acclimated for 3 minutes to reach steady state in a 6 cm$^2$ chamber of a LI-COR 6400XT Portable Photosynthesis System (LI-COR Biosciences, Lincoln, Nebraska). All measurements were made at ambient light (400 $\mu$mol m$^{-2}$ s$^{-1}$), temperature, and moderate relative humidity. During this period, we suspended normal day-to-day temperature fluctuations and set daytime temperatures to its average for that period (Cool: 26.5$\degree$; Hot: 36.1$\degree$ \cdm{get exact temps used}) so that all plants within a temperature treatment were measured under the same conditions.
 
-<<Photosynthesis>>=
+<<Photosynthesis, echo=FALSE, results='hide', warning=FALSE, message=FALSE>>=
 
   # Photosynthetic rate
   mm <- lmer(Photo ~ PopID * TempTrt * WaterTrt + (1|Family),
@@ -481,7 +512,7 @@ During the week of 10 to 16 June (57 to 63 days after sowing), we measured dayti
 \paragraph{Mortality}
 We assayed mortality during twice-weekly growth measurements. We could not get GLMM with Family effects to converge, so we used GLM with a quasibinomial error structure and assessed signifiance using Type 2 Analysis of Deviance with the R package \pkg{car}. 
 
-<<Mortality>>=
+<<Mortality, echo=FALSE, results='hide', warning=FALSE, message=FALSE>>=
 
   library(car)
 
@@ -498,9 +529,9 @@ We assayed mortality during twice-weekly growth measurements. We could not get G
 For all traits (Table~\ref{table:Table_traits}) we tested for Population, Treatment, and Population $\times$ Treatment interactions. We interpreted significant Population effects to indicate intrinsic variation and Population by Treatment effects to indicate variation in plasticity. As mentioned above, we survival and GLM models for germination rate and mortality, respectively. For all other traits, we used mixed model ANOVAs with Family included as a random factor. Models were fit by restricted maximum likelihood using lmer from the R package \pkg{lme4} \citep{Bates_etal_2014}. Significant fixed effect terms were selected using a step-wise backward elimination procedure implemented with the step function in the R package \pkg{lmerTest} version 2.0-11 \citep{Kuznetsova_etal_2014}. Denominator degrees of freedom for $F$-tests were estimated using Satterthwaite's approximation. Significant Population effect indicate intrinsic trait differences; significant Population $\times$ Treatment effects indicate population differences in plasticity. For growth rate, we also accounted for differences in germination rate by including day of germination as a factor.
 
 \subsection*{Principal components of germination, growth, and photosynthesis}
-[maybe this goes in Results?]
-We summarized population-level coefficients, after factoring out Treatment and other effects, using principal components. 
-<<Principal Components>>=
+We summarized population-level coefficients, after factoring out Treatment and other effects, using principal components. The first principal component of these traits (Trait PC1) loaded positively with germination, growth, and photostynthetic rate, therefore we define this as a phenotypic axis dilineating fast and slow growing populations.
+
+<<Principal Components, echo=FALSE, results='hide', warning=FALSE, message=FALSE>>=
 
   popMeans <- data.frame(
     germ = c(coef(fitGerm)[1], coef(fitGerm)[1] + coef(fitGerm)[2:16]),
@@ -554,7 +585,7 @@ We summarized population-level coefficients, after factoring out Treatment and o
   #plot(focClim$bio16_cva, traitPC$x[, "PC1"])
 @
 
-<<thinnedOccClimate>>=
+<<thinnedOccClimate, echo=FALSE, results='hide', warning=FALSE>>=
 # R data.frame of 178 M. cardinalis occurrences, thinned to correct for sampling bias, and associated climate data
 load(paste(pathDat, "/thinnedOccClimate.RData", sep = ""))
 @
@@ -563,7 +594,7 @@ load(paste(pathDat, "/thinnedOccClimate.RData", sep = ""))
 
 As with previous studies in \textit{Mimulus} and many other species [CITES, \citep{Huey_etal}, mosquitoes, what else?], latitude \textit{per se} predicted trait variation more than many obvious environmental variables (e.g. temperature or precipitation) that covary with latitude. We used Random Forest regression \citep{Liaw_Wiener_2002} to identify putative climatic factors underlying trait-latitude associations in \textit{M. cardinalis}. We did this by looking for overlap between climatic variables that best predict latitude of \textit{M. cadinalis} occurence records and climatic variables that best predict trait variation across our 16 focal populations. For brevity, we refer to these as Climate-Latitude and Climate-Trait variables. We selected Climate-Latitude and Climate-Trait variables independently using Random Forest (VSURF algorithm in the R \pkg{VSURF} version 0.8.2 \citep{Genuer_etal_2014}). From VSURF models, we kept only variables selected for prediction, the most stringent criteria.
 
-<<VSURF>>=
+<<VSURF, echo=FALSE, results='hide', warning=FALSE, message=FALSE>>=
 
 library(VSURF)
   # Load VSURF results of climatic variables associated with latitude at cardinalis occurence points
@@ -658,6 +689,7 @@ library(VSURF)
 @
 
 For these analyses, we compiled a representative set of \Sexpr{nrow(thinnedOccClimate)} recent (since 2000) known \textit{M. cardinalis} occurences. These occurences were thinned by 50\% to correct for uneven sampling from a comprehensive set of herbarium records and an exhaustive field survey in 2010-11 \citep{Angert_ENM}. For each occurence, we used a 90m digital elevation model from HydroSHEDS \citep{Lehner_etal_2006} to extract elevation. Monthly interpolated climate layers were calculated using ClimateWNA \citep{Wang_etal_2012}, which accurately downscales climate data specifically for the rugged topography of western North America. For each occurence, we calculated bioclimatic variables using the biovars function in the R package \pkg{dismo} \citep{Hijmans_etal_2014}. In total, we included \Sexpr{length(climVars) / 2} cliamte variables, 9 from ClimateWNA and 15 bioclimatic variables (Table~\ref{table:TableS_ClimVars}). For each variable, we calculated both a 30-year normal by averging annual values between 1981 and 2010 and 30-year coefficient of variation, a standardized metric of interannual climatic variation. Temperatures were converted to Kelvin to be on a ratio scale appropriate for calculating the coefficient of variation. 
+
 %--------------------------------------------------
 % Results
 %--------------------------------------------------
@@ -674,11 +706,12 @@ Genetic differences between populations affecting originsmal function and perfor
 
 \begin{table}[ht]
    \centering
-   \topcaption{Population, treatment effects}
+   \topcaption[ANOVA summary]{Summary of Population, Treatment, and Population $\times$ Treatment effects. We used different statistical modeling for the diverse traits assayed -- glm: generalized linear model using R \citep{R}; lmer: linear mixed model using the R package \pkg{lme4} \citep{Bates_etal_2014}; survreg: survival regression using the R package \pkg{survival} \citep{Therneau_2015}. Note that temperature and water treatments were imposed after germination, hence are not application to this trait. Key to statistical significance: *$P < 0.05$; ** $P < 0.01$; *** $P < 0.001$}
+   \resizebox{6.5in}{!}{
    \begin{tabular}{@{} llllllll @{}}
       \toprule
-                                   & Germination & Leaf expansion & Shoot elongation & Photosynthesis & Intrin. Photo & Mortality \\
-                                   & survreg     & lmer           & lmer            & lmer           & lmer          & glm \\
+    {\raggedleft Trait}                          & Germination & Leaf expansion & Shoot elongation & Photosynthesis & Intrin. Photo & Mortality \\
+    Statistical model              & survreg     & lmer           & lmer            & lmer           & lmer          & glm \\
       \midrule
   Population                       &
     \Sexpr{sigStar(anova(fitGerm)["Pr(>Chi)"]["PopID",])}  &
@@ -730,7 +763,7 @@ Genetic differences between populations affecting originsmal function and perfor
     \Sexpr{sigStar(fitIntrnPhoto$anova.table["PopID:TempTrt:WaterTrt", "Pr(>F)"])} &     
     \Sexpr{sigStar(Anova(fitMort, type = 2)["PopID:TempTrt:WaterTrt", "Pr(>Chisq)"])} & \\
       \bottomrule
-   \end{tabular}
+   \end{tabular} }
    \label{table:Table_AnovaSummary}
 \end{table}
 
@@ -782,38 +815,16 @@ As long as environments vary and there exists genetic variation in fitness, why 
 
 Another possibility we could have seen is that southern populations, which appear to experience more frequent drought years (see next section), could have evolved the ability to tolerate drought better than northern populations, thereby expanding the fundamental niche of the species as a whole. We found no evidence for this; all populations responded to drought and temperature treatments similarly (Table~\ref{table:Table_AnovaSummary}). We hypothesize that evolution of the fundamental niche may be constrained by a combination of strong fitness tradeoffs, demographic asymmetry, and gene flow. Riparian habitats where \textit{M. cardinalis} live are highly heterogeneous at small spatial scales. Plants in the stream never have to tolerate drought whereas plants only a few meters away may experience extreme drought since there is little direct precipitation during the growing season in Meditteranean climates of Western North America. But alleles that confer greater drought tolerance may be quite costly in well-watered soils, and vice versa, leading to strong fitness tradeoffs. Such tradeoffs promote specialization to one soil type or another, thereby inhibiting the evolution of broad environmental tolerance within a population. Demography and gene flow may reinforce niche conservatism. A new mutant with increased drought tolerance that can survive at the resource-poor margin of a population will be demographically overwhelmed by the larger census populations that can be maintained in higher resource environments. Finally, gene flow, which is generally high among \textit{M. cardinalis} populations within the same ecoregion \citep{Paul_etal_2015}, will thwart local adaptation and reinforce specialization. Thus, the spatial grain of the environment, demographic asymmetry, and gene flow may conspire to constrain local adaptation via altered fundamental niche.
 
-4. Selective agent - unpredictability. Explain
-Reiterate result
-other supporting evidence: 
-- ENM models are better for habitat suitability for S pops when using data from <5 years; better for Northern populations using 30 yr (M. Bayly \& A. Angert, unpub. data)
-- greater variance in recruit size in S pops
--
+Based on the available data, interannual variation in annual or winter precipitation (these are closely correlated in Mediterranean climates) may be the selective agent driving variation in growth and photosynthesis. Variation in precipitation was best predicted latitude of recent \textit{M. cardinalis} occurences and trait variation along the fast-slow growth continuum (Fig.~\ref{fig:Fig_ClimVarImp}). A life history tradeoff between allocation to growth in the current year at the expense of future years could explain this pattern. In southern populations with more frequent droughts capable of killing rhizomes, a more annualized strategy could be favored. Conversely, in more predictable northern environments, lifetime fitness may be optimized when a significant fraction of assimilate is allocated below ground for future years. Although this hypothesis remains to be directly tested, a few indepdent lines of evidence are consistent with it. Preliminary surveys suggest that northern populations not only grow slower, but also produce greater numbers of rhizomes (C.D. Muir, unpub. data), suggesting an allocation tradeoff. Ecological niche models also show that occurence of southern populations is best predicted by recent climate (< 5 years), whereas northern occurences are best predicted by climate over the previous 30 years (M. Bayly \& A. Angert, unpub. data). Finally, demographic surveys of natural populations show greater variation in the size recruits in southern populations, suggesting higher maximum growth rates under natural conditions (M. Bayly \& A. Angert, unpub. data). There is a lot of interest in understanding how organisms will respond to changes in climatic variation, not just changes in the average climate. Our data indeed suggest that variation may be more important than the mean. 
 
-There is a lot of interest in understanding how organisms will respond to changes in climatic variation, not just changes in the average climate. Our data indeed suggest that variation may be more important than the mean. 
-
-But what we really need to understand is why certain types of traits are repeatedly targets of natural selection, whereas other traits are constrained.
-
-
-
-5. Future work and broad conclusions. Supports general conclusions that traits related to timing and growth are evolutionarily labile whereas those related to the fundamental niche are constrained (cites like \cite{Emery_etal_2012, Emery_Ackerly_2014}). Next, we are testing whether phenotypic variation and constraint can be predicted by the shape of tradeoffs, as predicted by evolutionary theory,
-
-% stuff about environmental grain
-How organisms adapt depends on the grain of the environment, ..., and gene flow between populations
-
-Possibilities:
-1. no trait variation: no environmental variation, high gene flow, generalist (convex)
-2. variation in mean:
-3. variation in plasticity: convex?,
-
-our data are most consistent with:
-- concave tradeoffs, fine-grained (coarse+concave would predict alt morphs), high gene flow
+[Future work and broad conclusions]. Supports general conclusions that traits related to timing and growth are evolutionarily labile whereas those related to the fundamental niche are constrained (cites like \cite{Emery_etal_2012, Emery_Ackerly_2014}). Next, we are testing whether phenotypic variation and constraint can be predicted by the shape of tradeoffs, as predicted by evolutionary theory. \cdm{I will work more on this once I am more comfortable with the rest of the discussion}.
 
 %--------------------------------------------------
 % Acknowledgements
 %--------------------------------------------------
 
 \section*{Acknowledgements}
-Erin Warkman and Lisa Lin helped collect data.
+Erin Warkman and Lisa Lin helped collect data. CDM was supported by a Biodiversity Postdoctoral Fellowship funded by the NSERC CREATE program. \cdm{Please fill in other relevant funding info}
 
 %--------------------------------------------------
 % References
@@ -825,9 +836,21 @@ Erin Warkman and Lisa Lin helped collect data.
 \bibliography{refs}
 \bibliographystyle{evolution}
 
+\clearpage
+
 %--------------------------------------------------
-% Supplementary Information
+% Supporting Information
 %--------------------------------------------------
+
+\section*{Supporting Information}
+
+% Modify and restart table/figure numbering for appendixes
+\renewcommand\thefigure{S\arabic{figure}}    
+\renewcommand\thetable{S\arabic{table}}    
+\renewcommand\theequation{S\arabic{equation}}    
+\setcounter{table}{0}    
+\setcounter{equation}{0}
+\setcounter{figure}{0}
 
 % DIC table for initial size (LLL on 5/12)
 \begin{table}[htbp]
