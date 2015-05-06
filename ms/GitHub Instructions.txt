@@ -1,11 +1,23 @@
-# Instructions for pushing to GitHub
-git add [FILES]
-git commit "[MESSAGE]"
-git push -u origin master
-
+# FIRST TIME ONLY
 # Cloning repo
 # In Termial, cd to directory where you want to save repo
 git clone https://github.com/cdmuir/CardAdapt
 
+# NORMAL USE: pull latest version, edit, push revised version
 # Instructions for pulling from GitHub
+# In Terminal cd to [your path]/CardAdapt
 git pull origin master
+
+# make revisions...
+
+# Instructions for pushing to GitHub
+git add [FILES]
+git commit -m "[MESSAGE]"
+git push -u origin master
+# You may have to enter your gitHub username and password
+
+# An easy example that will work for most situations:
+git add ms	# adds entire ms directory, but this is where all relevant files for working on manuscript are stored
+git commit -m "Edited manuscript."
+git push -u origin master
+
