@@ -1,28 +1,28 @@
-lost on page 11 - extracted and used climate variables
-Maybe reordering stuff on paragraph
-cartoon of whole procedure for climate variables
-figure showing correlation b/t bio12 and 
-state that VSURF importance is different scales in different models
-moved up three hypotheses part to introduction
-play up lack of GxE and ???
-** correct # of Pop x Treatment
+%lost on page 11 - extracted and used climate variables
+%Maybe reordering stuff on paragraph
+%cartoon of whole procedure for climate variables
+%figure showing correlation b/t bio12 and 
+%state that VSURF importance is different scales in different models
+%moved up three hypotheses part to introduction
+%play up lack of GxE and ???
+%** correct # of Pop x Treatment
 
-* delve into interactions - do they change cline?
+%* delve into interactions - do they change cline?
 
-* show figures of reaction norms
-* split plot, account for error variation in temp???
-* show PAR similarity
-* what CO2 concentration did I use?
-* some sites they are functionally annual
+%* show figures of reaction norms
+%* split plot, account for error variation in temp???
+%* show PAR similarity
+%* what CO2 concentration did I use?
+%* some sites they are functionally annual
 
-* hung up on specialization - clarify? where is ecological oppportunity, tradeoffs, specialization
-	- maybe temporal source-sink makes more sense
+%* hung up on specialization - clarify? where is ecological oppportunity, tradeoffs, specialization
+%	- maybe temporal source-sink makes more sense
 
-* check out matthew's blog on hydrology variables
+%* check out matthew's blog on hydrology variables
 
-* explain rhizomes
+%* explain rhizomes
 
-* put in biomass allocation cline
+%* put in biomass allocation cline
 % TO DO:
 % 1. Is water regime on figure 1 correct?
 % 2. Finalize Table 2
@@ -82,9 +82,10 @@ play up lack of GxE and ???
 
   # The path to the ms directory may need to be changed for different users
   # Manuscript files
-  pathMS <- "~/Google Drive/CardLocalAdaptation/ms" # Chris' MacBook
+  # pathMS <- "~/Google Drive/CardLocalAdaptation/ms" # Chris' MacBook
   # pathMS <- "~/Documents/CardAdapt/ms" # Chris' Linux laptop
-  
+  pathMS <- "/Users/amylauren/Desktop/CardAdapt/ms" # Amy's desktop
+
   # Data files for paper
   pathDat <- paste(pathMS, "/Data", sep = "")
 
@@ -181,19 +182,19 @@ Local adaptation is one of the most ubiquitous observations in nature: organisms
 % Local adaptation and clines
 Local adaptation within species is ubiquitous; populations generally have higher fitness in their native environment, but perform poorly outside it \citep{Schluter_2000, Hereford_2009}. Local adaptation also frequently leads to clines in both phenotypes and allele frequencies when selection varies over environmental gradients \citep{Huxley_1938, Endler_1977}. Phenotypic differences between populations along a cline most often have a genetic basis and can be studied in a common garden \citep{Turesson_1922, Clausen_etal_1940, Hiesey_etal_1942}. Despite a long history of studying local adaptation and clines, it remains to challegenging to identify exactly which traits are under selection and which differ for nonadaptive reasons. In particular, the role that physiological differences play in local adaptation is poorly understood, despite the fact that physiology is frequently assumed to explain adaptation to the abiotic environment. We need to understand physiological adaptations within species as a baseline for anticipating how organisms will respond to climate change. A related problem is identifying which features of the environment, abiotic factors like soil water availability or biotic interactions, cause spatially varying selective pressures. Here, we examine physiological trait variation and possible selective agents in the perennial herb \textit{Mimulus cardinalis} Douglas ex Benth. (Phrymaceae), a model system for local adaptation studies.
 
-% Intrinsic versus plastic variation
-There are two basic approaches one can use to identify candidate traits underlying local adaptation in a common garden. First, if genetically-based trait differences between populations vary clinally with environmental differences, this may point to traits important for local adaptation. Second, genotype by environment interactions could indicate that variation in plasticity mediates local adaptation. We distinguish between these signatures of local adaptation by referring to `intrinsic' and `plastic' trait variation, respectively. There are classic cases of adaptation involving both intrinsic and plastic trait variation. For example, intrinsic differences in critical photoperiod [CITE] and developmental rate \citep{Stinchcombe_etal_2004} allow organisms to properly time their life history with the local environment. Conversely, sun and shade plants do not have intrinsically higher or lower rates of carbon assimilation, but rather, genotype by environment interactions cause sun plants to assimilate more under high light and shade plants under low light \citep{Givnish_1988}. In plants especially, we know little about the prevalance and adaptive significance of variation in fundamental physiological traits like photosynthesis and their impact on plant performance.
+% Intrinsic versus plastic variation 
+When populations are locally adapted, reaction norms for fitness will cross, such that local genotypes have higher fitness than foreign genotypes and rank orders change across environments \citep{Kawecki_Ebert_2004} \ala{added citation - might give error}. The traits that underlie local adaptation, however, need not mirror this pattern. Populations can have fixed genetic differences conferring trait values that are adaptive at home but neutral or maladaptive away. Alternatively, genotype-by-environment interactions could indicate that variation in plasticity mediates local adaptation. We distinguish between these patterns of adaptive trait differences by referring to `intrinsic' and `plastic' trait variation, respectively. There are classic cases of adaptation involving both intrinsic and plastic trait variation. For example, intrinsic differences in critical photoperiod [CITE] and developmental rate \citep{Stinchcombe_etal_2004} allow organisms to properly time their life history with the local environment. Conversely, sun and shade plants do not have intrinsically higher or lower rates of carbon assimilation, but rather, genotype-by-environment interactions cause sun plants to assimilate more under high light and shade plants under low light \citep{Givnish_1988}. In plants especially, we know little about the prevalance and adaptive significance of variation in fundamental physiological traits like photosynthesis and their impact on plant performance.
 
-% Selective agents
-Either instrinsic and/or plastic variation should vary clinally along environmental gradients.\ala{this doesn't make sense given definitions above} Indeed, clines in ecologically important traits are widespread in nature \citep{Endler_1977} and often adaptive, but in most cases the selective agent is unknown. For example, in \textit{Drosophila} numerous latitudinal clines exist for traits like thermal tolerance \citep{Hoffmann_etal_2002}, body size (\cite{Coyne_Beecham_1987} and references therein), and life history \citep{Schmidt_etal_2005}. Some \textit{Drosophila} clines have evolved multiple times (\cite{Oakeshott_etal_1982, Huey_etal_2000}, see also \cite{Bradshaw_Holzapfel_2001}) or shifted in response to climate change \citep{Umina_etal_2005}, evincing climatic adaptation. Similarly, plant species exhibit latitudinal clines in traits like flowering time \citep{Stinchcombe_etal_2004}, cyanogenesis \citep{Kooyers_Olsen_2012}, and leaf morphology \citep{Hopkins_etal_2008} that likely relate to climatic variation. 
+% Selective agents (trait-enviro assoc)
+A basic approach one can use to identify candidate traits underlying local adaptation is to find associations between traits and environments. Either instrinsic and/or plastic variation should vary clinally along environmental gradients. Indeed, clines in ecologically important traits are widespread in nature \citep{Endler_1977} and often adaptive, but in most cases the selective agent is unknown. For example, in \textit{Drosophila} numerous latitudinal clines exist for traits like thermal tolerance \citep{Hoffmann_etal_2002}, body size (\cite{Coyne_Beecham_1987} and references therein), and life history \citep{Schmidt_etal_2005}. Some \textit{Drosophila} clines have evolved multiple times (\cite{Oakeshott_etal_1982, Huey_etal_2000}, see also \cite{Bradshaw_Holzapfel_2001}) or shifted in response to climate change \citep{Umina_etal_2005}, evincing climatic adaptation. Similarly, plant species exhibit latitudinal clines in traits like flowering time \citep{Stinchcombe_etal_2004}, cyanogenesis \citep{Kooyers_Olsen_2012}, and leaf morphology \citep{Hopkins_etal_2008} that likely relate to climatic variation. 
 
-Despite the fact that latitudinal clines in particular have been studied for a long time, latitude \textit{per se} cannot be a selective agent. Latitude may be strongly correlated with one or two key climatic variables, such as temperature, precipitation, or growing degree-days, such that latitude is an effective proxy for the underlying climatic driver but nonetheless the key climatic variable(s) with stronger relationships to traits are identifiable. Alternatively, latitude may be more strongly related to traits than any single climatic variable for two possible reasons. First, latitude may be correlated with several climatic agents of selection that are individually weak, but add up to a strong latitudinal cline. Alternatively, gene flow among neighboring populations could smooth out local climatic effects, since alleles will experience selection across populations linked by migration. For example, in mountainous regions average temperature at a given latitude varies widely, but in aggregate, a Southern set of populations will experience warmer climate than a Northern one. Thus, any particular Southern population would be warm-adapted, even if it was located in cooler (e.g. high elevation) site. Because many climatic factors vary latitudinally, and which climatic factors vary latitudinally changes over the earth's surface (e.g. coastal vs. continental), dissecting the evolution of latitudinal clines across many species will help biologists identify generalities, such as whether thermal tolerance maxima or seasonal timing is more important \citep{Bradshaw_Holzapfel_2008}. \ala{redo end sentence}
+Despite the fact that latitudinal clines in particular have been studied for a long time, latitude \textit{per se} cannot be a selective agent. Latitude may be strongly correlated with one or two key climatic variables, such as temperature, precipitation, or growing degree-days, such that latitude is an effective proxy for the underlying climatic driver but nonetheless  key climatic variable(s) with stronger relationships to traits exist. Alternatively, latitude may be more strongly related to traits than any single climatic variable for two possible reasons. First, latitude may be correlated with several climatic agents of selection that are individually weak, but add up to a strong latitudinal cline. Alternatively, gene flow among neighboring populations could smooth out local climatic effects, since alleles will experience selection across populations linked by migration. For example, in mountainous regions average temperature at a given latitude varies widely, but in aggregate, a Southern set of populations will experience warmer climate than a Northern one. Thus, any particular Southern population would be warm-adapted, even if it was located in cooler (e.g. high elevation) site. Because many climatic factors vary latitudinally, and which climatic factors vary latitudinally changes over the earth's surface (e.g. coastal vs. continental), dissecting the evolution of latitudinal clines across many species will help biologists identify generalities, such as whether thermal tolerance maxima or seasonal timing is more important \citep{Bradshaw_Holzapfel_2008}, or whether local or regionally-averaged variables are more predictive of trait change. \ala{added this last clause to try to encompass gene flow idea, but now maybe the sentence is too clunky}
 
 % For the most part, we know much more about selective agents responsible for clines for conspicuous things like colouration, such as in mice \citep{Sumner_1932, Mullen_Hoekstra_2008}
 
 % Motivate primary questions using Mimulus
 % might add that Anacker and Strauss 2014 showed ecological shifts important in Mim speciation and we would like to know driving forces behind this???
-In this study, we address these gaps by asking whether intrinsic or plastic physiological trait variation corresponds with latitude and what climatic factor(s) could plausibly be repsonsible for latitudinal clines in a focal species, \textit{Mimulus cardinalis}. We chose this species because linking physiological traits to potentially complex patterns of local adaptation requires integrating multiple lines of evidence from comparative, experimental, genomic studies under both lab and field conditions. Many classic and contemporary studies of local adaptation use species from genus \textit{Mimulus} because of its natural history, easy propogation, and genetic/genomic resources \citep{Clausen_etal_1940, Hiesey_etal_1971, Bradshaw_Schemske_2003, Wu_etal_2008, Lowry_Willis_2010, Wright_etal_2013}. Yet, there is a conspicuous deficieny of links between local adaptation and physiological mechanisms \citep{Angert_2006, Angert_etal_2008, Wu_etal_2010}. We measured genetic and genotype by environment variation in response to temperature and drought among 16 populations distributed over 10.7\textdegree of latitude. We found a latitudinal cline of intrinsic differences in photosynthesis and growth, but no evidence for variation in plasticity. Interannual variation in precipitation and/or precipitation seasonality is associated this axis of variation, suggesting that climatic variance rather than mean may be an important driver of local adaptation in \textit{M. cardinalis}. We place these findings in the context of life history theory and consider future directions in the Discussion.
+In this study, we address these gaps by asking whether intrinsic or plastic physiological trait variation corresponds with latitude and what climatic factor(s) could plausibly be repsonsible for latitudinal clines in a focal species, \textit{Mimulus cardinalis}. We chose this species because linking physiological traits to potentially complex patterns of local adaptation requires integrating multiple lines of evidence from comparative, experimental, and genomic studies under both lab and field conditions. Many classic and contemporary studies of local adaptation use species from genus \textit{Mimulus} because of its natural history, easy propogation, and genetic/genomic resources \citep{Clausen_etal_1940, Hiesey_etal_1971, Bradshaw_Schemske_2003, Wu_etal_2008, Lowry_Willis_2010, Wright_etal_2013}. Yet, there is a conspicuous deficieny of links between local adaptation and physiological mechanisms \citep{Angert_2006, Angert_etal_2008, Wu_etal_2010}. We measured genetic and genotype-by-environment variation in response to temperature and drought among 16 populations distributed over 10.7\textdegree of latitude. We found a latitudinal cline of intrinsic differences in photosynthesis and growth, but no evidence for variation in plasticity. Interannual variation in precipitation and/or precipitation seasonality is associated with this axis of variation, suggesting that climatic variance rather than mean may be an important driver of local adaptation in \textit{M. cardinalis}. We place these findings in the context of life history theory and consider future directions in the Discussion. \ala{wrap spatial buffer results into summary?}
 
 \section*{Methods}
 
@@ -425,8 +426,6 @@ dev.off()
 <<Germination rate, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
 
   library(survival)
-  pathMS <- "~/Google Drive/CardLocalAdaptation/ms"
-  pathDat <- paste(pathMS, "/Data", sep = "")
 
   master <- read.csv(paste(pathDat, "/MasterDatasheet_out.csv", sep = ""), 
     row.names = 1)
@@ -485,7 +484,7 @@ We censused leaf length twice per week from 12 May -- 12 June (28--59 days after
   # Mixed model ANOVA with family as random factor fit using step down procedure
 	master$Chamber <- substr(master$Block, 1, 3)
 	mm <- lmer(LER_AbsGrowth ~ AvgGermDay + PopID * TempTrt * WaterTrt + 
-						 	(1|Family) + (1|Chamber/Block), data = master)
+						 	(1|Family) + (1|Block), data = master)
 	fitLER <- step(mm, reduce.random = F) # includes pop, temp, h2o, population x water
 	# fitLER <- step(mm, ddf = "Kenward-Roger", reduce.random = F) # same result using Satterthwaite ddf
 
@@ -636,11 +635,12 @@ load(paste(pathDat, "/thinnedOccClimate.RData", sep = ""))
 
 \subsection*{Selective agents and environmental correlates}
 
-We found that a population's position along PC1 correlated strongly with the latitude or origin (see Results). Since latitude \textit{per se} cannot be a selective agent, we considered three possible explanations. First, latitude may be strongly correlated, in this species, with one or two climatic variables, such as temperature, precipitation, or growing degree-days. Second, latitude may be correlated with several climatic agents of selection that are individually weak, but add up to a strong latiduinal cline. Third, gene flow among neighboring populations could smooth out local climatic effects, since alleles will experience selection across populations linked by migration. For example, average temperature of \textit{M. cardinalis} populations at a given latitude varies widely, but in aggregate, a Southern metapopulation experiences warmer climate than a Northern one. Thus, any particular Southern population would be warm-adapted, even if it was located in cooler (e.g. high elevation) site. 
+We found that a population's position along PC1 correlated strongly with the latitude or origin (see Results) and next used Random Forest regression \citep{Liaw_Wiener_2002} to identify putative climatic factors underlying trait-latitude associations in \textit{M. cardinalis}. We looked for overlap between climatic variables that best predict latitude of \textit{M. cardinalis} occurrence records and a separate analysis of climatic variables that best predict trait variation across our 16 focal populations. For brevity, we refer to these as Climate-Latitude and Climate-Trait variables. We selected Climate-Latitude and Climate-Trait variables independently using Random Forest (VSURF algorithm in the R \pkg{VSURF} version 0.8.2 \citep{Genuer_etal_2014}). From VSURF models, we kept only variables selected for prediction, the most stringent criterion.
 
-To evaluate support for these hypotheses, we used Random Forest regression \citep{Liaw_Wiener_2002} to identify putative climatic factors underlying trait-latitude associations in \textit{M. cardinalis}. We looked for overlap between climatic variables that best predict latitude of \textit{M. cadinalis} occurence records and a separate analysis of climatic variables that best predict trait variation across our 16 focal populations. For brevity, we refer to these as Climate-Latitude and Climate-Trait variables. We selected Climate-Latitude and Climate-Trait variables independently using Random Forest (VSURF algorithm in the R \pkg{VSURF} version 0.8.2 \citep{Genuer_etal_2014}). From VSURF models, we kept only variables selected for prediction, the most stringent criterion.
+If latitude is strongly correlated with one or two climatic variables that are responsible for the cline, then there should be one or two climatic variables that are identified in both the Climate-Latitude and Climate-Trait analyses \ala{and the correlation magnitudes should be high? maybe this language is not technically correct (variable importance more accurate?) but the point is that this prediction needs something about count and the strength}. If latitude is correlated with several climatic agents of selection that are individually weak, but add up to a strong latitudinal cline, then several climatic variables should be weakly correlated \ala{fix this to mirror prior}.
 
-The first hypothesis predicts that there should be one or two Climate-Latitude and Climate-Trait associations that are strongly correlated, whereas the second hypothesis predicts that several climatic variables should be weakly correlated. To test the third hypothesis about gene flow smoothing out local climatic variation, we repeated the same procedure to identify Climate-Trait variables as above, except that we used spatially averaged climate variables. We sampled climate at 1000 random points (at 90-m resolition) within a 100-km buffer around focal populations. We chose this buffer size because neutral genetic differentiation increases slowly with geographic distance, indicating significant gene flow between nearby populations \citep{Paul_etal_2016}. Since \textit{M. cardinalis} is found exclusively in riparian areas, we only selected points along streams using the National Hydrogeoraphy Dataset \citep{NHD}. Climatic means and CVs were weighted by their climatic suitability as determined using a multimodel ensemble average of ecological niche models \citep{Angert_ENM}. For clarity, we distinguish between analyses where climate is inferred from a single point (`point estimated Climate-Trait') versus averaged across a 100-km buffer (`spatially averaged Climate-Trait'). 
+To test the third hypothesis about gene flow smoothing out local climatic variation, we repeated the same procedure to identify Climate-Trait variables as above, except that we used spatially averaged climate variables. \ala{what's the actual prediction? that spatially averaged Climate-Trait will have higher correlation than point estimated Climate-Trait?} We sampled climate at 1000 random points (at 90-m resolition) within a 100-km buffer around focal populations. We chose this buffer size because neutral genetic differentiation increases slowly with geographic distance, indicating significant gene flow between nearby populations \citep{Paul_etal_2016}. Since \textit{M. cardinalis} is found exclusively in riparian areas, we only selected points along streams using the National Hydrogeoraphy Dataset \citep{NHD}. Climatic means and CVs were weighted by their climatic suitability as determined using a multimodel ensemble average of ecological niche models \citep{Angert_ENM}. For clarity, we distinguish between analyses where climate is inferred from a single point (`point estimated Climate-Trait') versus averaged across a 100-km buffer (`spatially averaged Climate-Trait'). 
+
 
 <<VSURF, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
 
@@ -680,12 +680,12 @@ library(VSURF)
   vsurfPC1_SA <- VSURF(focClimSA[, climVars], focClimSA[, "PC1"])
 
 ##### WORKING ON STUFF HERE #####
-vsurfPC1_SA$imp.mean.dec
-x <- match(vsurfPC1$imp.mean.dec.ind, vsurfPC1_SA$imp.mean.dec.ind)
-plot(vsurfPC1$imp.mean.dec, vsurfPC1_SA$imp.mean.dec[x], type = "n")
-text(vsurfPC1$imp.mean.dec, vsurfPC1_SA$imp.mean.dec[x], 
-		 labels = climVars[vsurfPC1$imp.mean.dec.ind])
-cor.test(vsurfPC1$imp.mean.dec, vsurfPC1_SA$imp.mean.dec[x])
+#vsurfPC1_SA$imp.mean.dec
+#x <- match(vsurfPC1$imp.mean.dec.ind, vsurfPC1_SA$imp.mean.dec.ind)
+#plot(vsurfPC1$imp.mean.dec, vsurfPC1_SA$imp.mean.dec[x], type = "n")
+#text(vsurfPC1$imp.mean.dec, vsurfPC1_SA$imp.mean.dec[x], 
+#		 labels = climVars[vsurfPC1$imp.mean.dec.ind])
+#cor.test(vsurfPC1$imp.mean.dec, vsurfPC1_SA$imp.mean.dec[x])
 
   # Plot most important climatic predictor versus PC1
   pdf(paste(pathFig, "/Figure_bio16cva_v_Lat.pdf", sep = ""), 5, 5)
