@@ -82,9 +82,9 @@
 
   # The path to the ms directory may need to be changed for different users
   # Manuscript files
-  # pathMS <- "~/Google Drive/CardLocalAdaptation/ms" # Chris' MacBook
+  pathMS <- "~/Google Drive/CardAdapt/ms" # Chris' MacBook Air
   # pathMS <- "~/Documents/CardAdapt/ms" # Chris' Linux laptop
-  pathMS <- "/Users/amylauren/Desktop/CardAdapt/ms" # Amy's desktop
+  # pathMS <- "/Users/amylauren/Desktop/CardAdapt/ms" # Amy's desktop
 
   # Data files for paper
   pathDat <- paste(pathMS, "/Data", sep = "")
@@ -206,7 +206,7 @@ We used 16 populations from throughout the range of \textit{M. cardinalis} (Tabl
 # Read in climate data for 16 focal populations to use in making Table 1
 load(paste(pathDat, "/focClim.RData", sep = ""))
 
-# Read in spatially-averaged (10 km buffer) for 16 focal populations
+# Read in spatially-averaged (100 km buffer) for 16 focal populations
 load(paste(pathDat, "/focClimSA.RData", sep = ""))
 
 @
@@ -431,8 +431,8 @@ dev.off()
     row.names = 1)
 
   # Create Surv object
-	germ <- with(subset(master, !is.na(master$MinGermDay)), Surv(MinGermDay, MaxGermDay,	
-		type = "interval2"))
+	germ <- with(subset(master, !is.na(master$MinGermDay)), 
+	             Surv(MinGermDay, MaxGermDay,	type = "interval2"))
 
 	# lognormal produced best fit to data
 	fitGerm <- survreg(germ ~ PopID + frailty(Family, sparse = F), 
@@ -541,25 +541,27 @@ During the week of 10 to 16 June (57 to 63 days after sowing), we measured dayti
   # Removed one outlier (may change if data are rearranged!)
 	mm <- lmer(resPhoto ~ PopID * TempTrt * WaterTrt + (1|Family) + (1|Block),
     data = subset(master, !is.na(master$Photo))[-52, ])
-	fitIntrnPhoto <- step(mm, reduce.random = F)
+	fitIntrnPhoto <- step(mm, reduce.random = F) # only Pop
 
 @
 
 \paragraph{Mortality}
-We assayed mortality during twice-weekly growth measurements. We could not get GLMM with Family effects to converge, so we used GLM with a quasibinomial error structure and assessed signifiance using Type 2 Analysis of Deviance with the R package \pkg{car}. 
+We assayed mortality during twice-weekly growth measurements. We analyzed the probability of surviving until the end of the experiment as a function of population, treatment, and their interactions using a Generalized Linear Mixed Model (GLMM) assuming binomially distributed errors. As before, we included Family and Block as random factors. We assessed significance of fixed effects using Type 2 Analysis of Deviance with Wald \Chi$^2$ tests in the R package \pkg{car} \citep{Fox_Weisberg_2011}. 
 
 <<Mortality, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
 
   library(car)
 
-  fitMort <- glm(DiedFromStress ~ PopID * TempTrt * WaterTrt,
-    data = subset(master, !is.na(master$DiedFromStress)), 
-    family = "quasibinomial")
-
+	# Code for GLM (remove if satisfied with GLMER)
+  # fitMort <- glm(DiedFromStress ~ PopID * TempTrt * WaterTrt,
+  #  data = subset(master, !is.na(master$DiedFromStress)), 
+  #  family = "quasibinomial")
 
   fitMort <- glmer(DiedFromStress ~ PopID * TempTrt * WaterTrt + (1|Family) +
-  								 (1|Block), data = subset(master, !is.na(master$DiedFromStress)), family = "binomial")
-  Anova(fitMort, type = 2)
+  								 (1|Block), control = glmerControl(optimizer = "bobyqa"),
+  								 data = subset(master, !is.na(master$DiedFromStress)), 
+  								 family = "binomial")
+  # Anova(fitMort, type = 2)
 @
 
 \paragraph{Biomass at harvest} 
@@ -656,7 +658,7 @@ library(VSURF)
   # Figure of variable importance for latitude
   pdf(paste(pathFig, "/Figure_clim2lat_imp.pdf", sep = ""), 4, 5)
   par(mar = c(5, 6, 1, 1))
-  plot(0, 0, type = "n", xlim = c(0, ceiling(vsurfLat$ord.imp$x)[1]), 
+  plot(0, 0, type = "n", xlim = c(0, ceiling(vsurfLat$imp.mean.dec)[1]), 
 		ylim = c(1, length(vsurfLat$varselect.pred)), axes = F, frame.plot = T, 
 		xlab = "", ylab = "")
 	title(xlab = "Climate-Latitude\nImportance", line = 4, cex.lab = 1.5)
@@ -664,7 +666,7 @@ library(VSURF)
   {
      lines(x = c(-1, length(vsurfLat$varselect.pred)), y = c(i, i), col = "grey")
   }
-  points(vsurfLat$ord.imp$x[1:length(vsurfLat$varselect.pred)], 
+  points(vsurfLat$imp.mean.dec[1:length(vsurfLat$varselect.pred)], 
     length(vsurfLat$varselect.pred):1, pch = 21, col = "black", bg = "white", cex = 1.5)
 	# mtext(climVars[vsurfLat$varselect.pred], side = 2, 
     # at = length(vsurfLat$varselect.pred):1, las = 1, line = 1)
@@ -818,12 +820,12 @@ Using a common garden, we identified strong genetically-based trait differences 
 
 \begin{table}[ht]
    \centering
-   \topcaption[ANOVA summary]{Summary of Population, Treatment, and Population $\times$ Treatment effects. We used different statistical modeling for the diverse traits assayed -- glm: generalized linear model using R \citep{R}; lmer: linear mixed model using the R package \pkg{lme4} \citep{Bates_etal_2014}; survreg: survival regression using the R package \pkg{survival} \citep{Therneau_2015}. Note that temperature and water treatments were imposed after germination, hence are not application to this trait. Key to statistical significance: *$P < 0.05$; ** $P < 0.01$; *** $P < 0.001$}
+   \topcaption[ANOVA summary]{Summary of Population, Treatment, and Population $\times$ Treatment effects. We used different statistical modeling for the diverse traits assayed -- glmer: generalized linear mixed model using the R package \pkg{lme4} \citep{Bates_etal_2014}; lmer: linear mixed model using the R package \pkg{lme4} \citep{Bates_etal_2014}; survreg: survival regression using the R package \pkg{survival} \citep{Therneau_2015}. Note that temperature and water treatments were imposed after germination, hence are not application to this trait. Key to statistical significance: *$P < 0.05$; ** $P < 0.01$; *** $P < 0.001$}
    \resizebox{6.5in}{!}{
    \begin{tabular}{@{} llllllll @{}}
       \toprule
     {\raggedleft Trait}                          & Germination & Leaf expansion & Shoot elongation & Photosynthesis & Intrin. Photo & Mortality \\
-    Statistical model              & survreg     & lmer           & lmer            & lmer           & lmer          & glm \\
+    Statistical model              & survreg     & lmer           & lmer            & lmer           & lmer          & glmer \\
       \midrule
   Population                       &
     \Sexpr{sigStar(anova(fitGerm)["Pr(>Chi)"]["PopID",])}  &
