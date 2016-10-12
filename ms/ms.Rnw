@@ -207,11 +207,11 @@ In this study, we address these gaps by asking whether intrinsic or plastic phys
 We used 16 populations from throughout the range of \textit{M. cardinalis} (Table~\ref{table:Table_FocalPops}). Seeds were collected in the field from mature, undehisced fruit left open for 2-4 weeks to dry, then stored at room temperature.
 
 <<focClim, echo = FALSE, results=hide, warning=FALSE>>=
+
 # Read in climate data for 16 focal populations to use in making Table 1
 load(paste(pathDat, "/focClim.RData", sep = ""))
 
 # Read in spatially-averaged (62 km buffer) for 16 focal populations
-# *** still need to make this filer ***
 load(paste(pathDat, "/focClimSA_62km.RData", sep = ""))
 
 @
@@ -655,36 +655,116 @@ To test the third hypothesis about gene flow smoothing out local climatic variat
   load(paste(pathDat, "/clim2lat_fit_t1.RData", sep = "")) # fit_t1
   vsurfLat <- fit_t1
 
-	# Load climVars
-	load(paste(pathDat, "/ExploratoryClimateVariables.RData", sep = ""))
-
-  # Figure of variable importance for latitude
-  pdf(paste(pathFig, "/Figure_clim2lat_imp.pdf", sep = ""), 4, 5)
-  par(mar = c(5, 6, 1, 1))
-  plot(0, 0, type = "n", xlim = c(0, ceiling(vsurfLat$imp.mean.dec)[1]), 
-		ylim = c(1, length(vsurfLat$varselect.pred)), axes = F, frame.plot = T, 
-		xlab = "", ylab = "")
-	title(xlab = "Climate-Latitude\nImportance", line = 4, cex.lab = 1.5)
-  for (i in 1:length(vsurfLat$varselect.pred)) 
-  {
-     lines(x = c(-1, length(vsurfLat$varselect.pred)), y = c(i, i), 
-           col = "grey")
-  }
-  points(vsurfLat$imp.mean.dec[1:length(vsurfLat$varselect.pred)], 
-    length(vsurfLat$varselect.pred):1, pch = 21, col = "black", bg = "white",
-    cex = 1.5)
-	# mtext(climVars[vsurfLat$varselect.pred], side = 2, 
-  #   at = length(vsurfLat$varselect.pred):1, las = 1, line = 1)
-	axis(1, lwd = 0, lwd.ticks = 1)
-	dev.off()
-  
   # Variable selection using random forests (VSURF)
 	# Climate variables that predict PC1 (point and spatially averaged)
   set.seed(69648)
-  vsurfPC1 <- VSURF(focClim[, climVars], focClim[, "PC1"])
-  vsurfPC1_SA <- VSURF(focClimSA[, climVars], focClimSA[, "PC1"])
+  vsurfPC1 <- VSURF(focClim[, climVars], focClim[, "PC1"], parallel = TRUE,
+                    ncores = 3, ntree = 1e4)
+  climVars[vsurfPC1$varselect.pred]
+  vsurfPC1_SA <- VSURF(focClimSA[, climVars], focClimSA[, "PC1"], 
+                       parallel = TRUE, ncores = 3, ntree = 1e4)
+  climVars[vsurfPC1_SA$varselect.pred]
+  
+  imp1 <- climVars[vsurfLat$varselect.pred]
+  nImpLat <- length(imp1)
 
-##### WORKING ON STUFF HERE - can't finish until SA analysis with 62 km buffer finishes #####
+  imp2 <- climVars[vsurfPC1$varselect.pred]
+  nImpPC1 <- length(imp2)
+
+  imp3 <- climVars[vsurfPC1_SA$varselect.pred]
+  nImpPC1_SA <- length(imp3)
+
+	# Load climVars
+	load(paste(pathDat, "/ExploratoryClimateVariables.RData", sep = ""))
+
+	# Table of symbols for plotting climatic factor labels
+	clim2sym <- read.csv(paste(pathMS, "/climVar2plot.csv", sep = ""), 
+										   stringsAsFactors = F, row.names = 1)
+
+  # Figure of variable importance for latitude
+	
+	# Calculatins for plot dimensions
+	sw1a <- strwidth(s = clim2sym[imp1, "climFactor"], units = "inches")
+	sw2a <- strwidth(s = clim2sym[imp1, "tempScale"], units = "inches")
+	sw3a <- strwidth(s = parse(text = clim2sym[imp1, "what"]), units = "inches")
+
+	sw1b <- strwidth(s = clim2sym[imp2, "climFactor"], units = "inches")
+	sw2b <- strwidth(s = clim2sym[imp2, "tempScale"], units = "inches")
+	sw3b <- strwidth(s = parse(text = clim2sym[imp2, "what"]), units = "inches")
+
+	panelWidth <- 3
+	panelHeight <- 4
+	panelGap <- 0.1
+	yLabWidth <- 4 * panelGap + sum(max(c(sw1a, sw1b)), max(c(sw2a, sw2b)),
+	                                max(c(sw3a, sw3b)))
+  xLabHeight <- 1
+  
+  pdf(paste(pathFig, "/Figure_ClimVarImp.pdf", sep = ""), 
+      width = 2 * (yLabWidth + panelWidth) + panelGap, 
+      height = panelHeight + xLabHeight + panelGap)
+  par(mai = c(xLabHeight, yLabWidth, panelGap, panelGap / 2), mfrow = c(1, 2))
+  
+  # Panel A: Climate-Latitude
+  plot(0, 0, type = "n", xlim = c(0, ceiling(vsurfLat$imp.mean.dec)[1]), 
+		ylim = c(1, length(vsurfLat$varselect.pred)), axes = F, frame.plot = T, 
+		xlab = "", ylab = "")
+  abline(h = 1:nImpLat, col = "grey")
+  points(vsurfLat$imp.mean.dec[1:length(vsurfLat$varselect.pred)], 
+    length(vsurfLat$varselect.pred):1, pch = 21, col = "black", bg = "white",
+    cex = 1.5)
+
+  # X axis & labels
+	axis(1, lwd = 0, lwd.ticks = 1)
+  title(xlab = "Climate-Latitude\nImportance", line = 4, cex.lab = 1.5)
+
+  # Y labels
+	clip(grconvertX(0, from = "nfc", to = "user"), 
+	     grconvertX(1, from = "nfc", to = "user"),
+	     grconvertY(0, from = "nfc", to = "user"),
+	     grconvertY(1, from = "nfc", to = "user"))
+
+	text(grconvertX(panelGap / 2, from = "in", to = "user"), 
+	     nImpLat:1, pos = 4, labels = clim2sym[imp1, "climFactor"])
+  text(grconvertX(panelGap + max(c(sw1a, sw1b)), from = "in", to = "user"), 
+       nImpLat:1, pos = 4, labels = clim2sym[imp1, "tempScale"])
+	text(grconvertX(3 / 2 * panelGap + max(c(sw1a, sw1b)) + max(c(sw2a, sw2b)), 
+	                               from = "in", to = "user"), nImpLat:1, pos = 4,
+	                labels = parse(text = clim2sym[imp1, "what"]))
+
+	# Panel B: Climate-PC1
+	par(mai = c(xLabHeight, panelGap / 2, panelGap, yLabWidth))
+	plot(0, 0, type = "n", xlim = c(0, 0.2), ylim = c(1, nImpLat), 
+		axes = F, frame.plot = T, xlab = "", ylab = "")
+	abline(h = nImpLat:(nImpLat - nImpPC1 + 1), col = "grey") 
+	points(vsurfPC1$imp.mean.dec[1:nImpPC1], nImpLat:(nImpLat - nImpPC1 + 1), 
+		pch = 21, col = "black", bg = "white", cex = 1.5)
+
+	# X axis & labels
+	axis(1, lwd = 0, lwd.ticks = 1, at = seq(0, 0.2, 0.05))
+	title(xlab = "Climate-Trait PC1\nImportance", line = 4, cex.lab = 1.5)
+
+  # Y labels
+	clip(grconvertX(0, from = "nfc", to = "user"), 
+	     grconvertX(1, from = "nfc", to = "user"),
+	     grconvertY(0, from = "nfc", to = "user"),
+	     grconvertY(1, from = "nfc", to = "user"))
+
+	text(grconvertX(yLabWidth + 2 * panelWidth + 3 / 2 * panelGap, 
+	                from = "in", to = "user"), 
+	     nImpLat:(nImpLat - nImpPC1 + 1), pos = 4, 
+	     labels = clim2sym[imp2, "climFactor"])
+  text(grconvertX(yLabWidth + 2 * panelWidth + 5 / 2 * panelGap + 
+                    max(c(sw1a, sw1b)), from = "in", to = "user"), 
+       nImpLat:(nImpLat - nImpPC1 + 1), pos = 4, 
+       labels = clim2sym[imp2, "tempScale"])
+	text(grconvertX(yLabWidth + 2 * panelWidth + 5 / 2 * panelGap + 
+                    max(c(sw1a, sw1b)) + max(c(sw2a, sw2b)), from = "in", 
+	                to = "user"), nImpLat:(nImpLat - nImpPC1 + 1), pos = 4,
+	                labels = parse(text = clim2sym[imp2, "what"]))
+	
+	dev.off()
+  
+
 # x <- match(vsurfPC1$imp.mean.dec.ind, vsurfPC1_SA$imp.mean.dec.ind)
 # plot(vsurfPC1$imp.mean.dec, vsurfPC1_SA$imp.mean.dec[x], type = "n")
 # text(vsurfPC1$imp.mean.dec, vsurfPC1_SA$imp.mean.dec[x], 
@@ -719,55 +799,31 @@ To test the third hypothesis about gene flow smoothing out local climatic variat
          bg = "white", cex = 1.5, lwd = 2)
   dev.off()
 
-  # Overlap between latitude predictors and phenotype predictors (point measurements)
-  imp2 <- climVars[vsurfPC1$varselect.pred]
-  nImpPC1 <- length(imp2)
 
-  imp1 <- climVars[vsurfLat$varselect.pred]
-  nImpLat <- length(imp1)
-
-  # Figure of variable importance for traits (point measurements)
-	pdf(paste(pathFig, "/Figure_clim2pc1_imp.pdf", sep = ""), 4, 5)
-	par(mar = c(5, 1, 1, 6))
-	
-	plot(0, 0, type = "n", xlim = c(0, 0.2), ylim = c(1, nImpLat), 
-		axes = F, frame.plot = T, xlab = "", ylab = "")
-	title(xlab = "Climate-Trait PC1\nImportance", line = 4, cex.lab = 1.5)
-	for (i in (nImpLat:(nImpLat - nImpPC1 + 1))) 
-	{
-		lines(x = c(-100, 100), y = c(i, i), col = "grey")
-	}
-	points(vsurfPC1$imp.mean.dec[1:nImpPC1], nImpLat:(nImpLat - nImpPC1 + 1), 
-		pch = 21, col = "black", bg = "white", cex = 1.5)
-	mtext(climVars[vsurfPC1$varselect.pred], side = 4, las = 1, line = 1, 
-    at = nImpLat:(nImpLat - nImpPC1 + 1), 
-		font = ifelse(vsurfPC1$varselect.pred %in% vsurfLat$varselect.pred,	2, 1))
-	axis(1, lwd = 0, lwd.ticks = 1, at = seq(0, 0.2, 0.05))
-  dev.off()
+  
+  
+  
 
   # Overlap between latitude predictors and phenotype predictors (spatial aveage)
-  imp3 <- climVars[vsurfPC1_SA$varselect.pred]
-  nImpPC1_SA <- length(imp3)
 
-  imp1 <- climVars[vsurfLat$varselect.pred]
-  nImpLat <- length(imp1)
 
-  # Figure of variable importance for traits (point measurements)
+  # Figure of variable importance for traits (spatially averaged)
 	pdf(paste(pathFig, "/Figure_clim2pc1SA_imp.pdf", sep = ""), 4, 5)
 	par(mar = c(5, 1, 1, 6))
 	
 	plot(0, 0, type = "n", xlim = c(0, 0.3), ylim = c(1, nImpLat), 
 		axes = F, frame.plot = T, xlab = "", ylab = "")
 	title(xlab = "Climate-Trait PC1\nImportance", line = 4, cex.lab = 1.5)
-	for (i in (nImpLat:(nImpLat - nImpPC1 + 1))) 
+	for (i in (nImpLat:(nImpLat - nImpPC1_SA + 1))) 
 	{
 		lines(x = c(-100, 100), y = c(i, i), col = "grey")
 	}
-	points(vsurfPC1$imp.mean.dec[1:nImpPC1], nImpLat:(nImpLat - nImpPC1 + 1), 
-		pch = 21, col = "black", bg = "white", cex = 1.5)
-	# mtext(climVars[vsurfPC1$varselect.pred], side = 4, las = 1, line = 1, 
-  #  at = nImpLat:(nImpLat - nImpPC1 + 1), 
-	#	font = ifelse(vsurfPC1$varselect.pred %in% vsurfLat$varselect.pred,	2, 1))
+	points(vsurfPC1_SA$imp.mean.dec[1:nImpPC1_SA], 
+	       nImpLat:(nImpLat - nImpPC1_SA + 1), 
+	       pch = 21, col = "black", bg = "white", cex = 1.5)
+	mtext(climVars[vsurfPC1_SA$varselect.pred], side = 4, las = 1, line = 1, 
+    at = nImpLat:(nImpLat - nImpPC1_SA + 1), 
+		font = ifelse(vsurfPC1_SA$varselect.pred %in% vsurfLat$varselect.pred,	2, 1))
 	axis(1, lwd = 0, lwd.ticks = 1, at = seq(0, 0.3, 0.1))
   dev.off()
 
@@ -775,7 +831,6 @@ To test the third hypothesis about gene flow smoothing out local climatic variat
 
 clim2sym <- read.csv(paste(pathMS, "/climVar2plot.csv", sep = ""), 
 										 stringsAsFactors = F, row.names = 1)
-readLines(paste(pathMS, "/climVar2plot.csv", sep = ""))
 
 tableS <- file(paste(pathMS, "/Tables/TableS_ClimVarImp.txt", sep = ""), open = "w")
 for (i in 1:max(c(nImpLat, nImpPC1, nImpPC1_SA))) {
@@ -897,7 +952,7 @@ Using a common garden, we identified strong genetically-based trait differences 
 	\label{fig:Fig_PC1vLat}
 \end{figure}
 
-\subsection*{Remarkably little evidence for variation in plasticity}
+\subsection*{Little evidence for variation in plasticity}
 
 Genotype $\times$ environment interactions are also a common signature of local adaptation. For example, populations from more stressful environments may tradeoff reduced growth rate under benign conditions for the ability to tolerate stress by maintaining positive growth rates and/or surviving through adverse conditions. We found remarkably little evidence for this pattern in \textit{M. cardinalis}. There was only one statistically significant Population $\times$ Treatment interaction (Table~\ref{table:Table_AnovaSummary}), but this idiosyncratic result was weak and would not have survived correction for multiple testing. Otherwise, populations responded remarkably similarly to treatments: faster growth in the hot treatment, slower growth in the dry treatment, and high mortality in the hot, dry treatment (Table~\ref{table:Table_AnovaSummary}). Note that interactions were calculated after factoring out intrinsic trait differences, necessarily reducing statistical power to detect significant interactions relative to main effects. However, the fact that the Population and Treatment effects were highly significant ($P \ll 0.001$ in most cases) suggests that statistical power alone cannot explain why we failed to detect Population $\times$ Treatment interactions.
 
