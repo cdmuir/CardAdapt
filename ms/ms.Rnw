@@ -12,20 +12,17 @@
 %* show figures of reaction norms
 %* split plot, account for error variation in temp???
 %* show PAR similarity
-%* what CO2 concentration did I use?
 %* some sites they are functionally annual
 
 %* hung up on specialization - clarify? where is ecological oppportunity, tradeoffs, specialization
 %	- maybe temporal source-sink makes more sense
 
-%* check out matthew's blog on hydrology variables
-
 %* explain rhizomes
 
 %* put in biomass allocation cline
 % TO DO:
-% 1. Is water regime on figure 1 correct?
-% 2. Finalize Table 2
+% 1. Is water regime on figure 1 correct? (data is in office)
+
 % 3. Do anything with biomass data?
 % 4. Citations for latitudinal clines
 	% cases where clinal variation has 'obvious' selective source:
@@ -33,12 +30,9 @@
 	% Caicedo et al 2004?
 	% clines in phenotypic traits reviewed by Hedrick 2006, Schemske and Bier 2007
 % 5. Citations for GxE as signature of local adaptation
-% 6. Fix figure 2
 % 7. Supplemental Figure and Table captions
-% 8. Supplemental figure showing agreement between assigned to climatic variables from point estimated and spatially averaged analyses
+% 8. Supplemental figure showing comparison between assigned to climatic variables from point estimated and spatially averaged analyses
 % 9. new spatially averaged analysis
-% 10. new analysis with updated ENM
-% 11. mention using LER_AbsGrowth as predictor in fitSER
 % 12. For Figure_PC1vLat: plot axes could be range maps with areas highlighted (x-axis) and short to tall plants (y-axis)
 
 \documentclass[11pt, oneside]{article}
@@ -99,15 +93,9 @@
   # Tables for paper
   pathTab <- paste(pathMS, "/Tables", sep = "")
 
-  # Small function to make statistical significance asterisks
-  sigStar <- function(pvalue)
-  {
-    if (pvalue >= 0.05) return("")
-    if (pvalue < 0.05 & pvalue >= 0.01) return("*")
-    if (pvalue < 0.01 & pvalue >= 0.001) return("**")
-    if (pvalue < 0.001) return("***")
-  }
-
+  # Source custom functions
+  source(paste(pathMS, "/functions.R", sep = ""))
+  
   # Color palette
   # Primary color:
 
@@ -139,7 +127,7 @@
 % Title and authors
 %
 
-\title{Grow with the flow: faster growth is associated with more variable precipitation in a perennial herb}
+\title{Grow with the flow: a latitudinal cline in growth rate is associated with more variable precipitation in \textit{Mimulus cardinals}}
 \author{Christopher D. Muir$^{1,*}$ and Amy L. Angert$^1$}
 \date{}
 
@@ -154,16 +142,11 @@
 $^1$ Biodiversity Research Centre, University of British Columbia, Vancouver, BC, Canada \\
 $^*$corresponding author: Chris Muir, cdmuir@biodiversity.ubc.ca \\
 
-Original Article \\
+Running Head: Latitudinal cline and climate in \textit{Mimulus} \\
 
 Key words: local adaptation, cline, photosynthesis, growth rate, \textit{Mimulus} \\
 
-Word counts: TBA \\
-3 figures; 3 tables; ? supporting files \\
-Data will be archived on Dryad upon acceptance. \\
-
-\cdm{Chris' comments}\\
-\ala{Amy's comments}
+Data will be archived on Dryad upon publication. \\
 
 \clearpage
 
@@ -268,7 +251,7 @@ load(paste(pathDat, "/focClimSA_62km.RData", sep = ""))
 
 On 14 April, 2014, 3-5 seeds per family were sown directly on sand (Quikrete Play Sand, Georgia, USA) watered to field capacity in RLC4 Ray Leach cone-tainers placed in RL98 98-well trays (Stuewe \& Sons, Inc., Oregon, USA). We used pure sand both to facilitate root-washing and because \textit{M. cardinalis} typically grows in sandy, riparian soils (A. Angert, pers. obs.). Two jumbo-sized cotton balls at the bottom of cone-tainers prevented sand from washing out. Cone-tainers were continuously bottom-watered during germination by placing them in medium-sized flow trays (FLOWTMD, Stuewe \& Sons, Inc., Oregon, USA) filled part way with water, placed on benches in greenhouses at the University British Columbia campus in Vancouver, Canada (49\degree 15' N, 123\degree 15' W). Misters thoroughly wetted the top of the sand every two hours during the day. Most seeds germinated between 1 and 2 weeks, but we allowed 3 weeks before transferring seedlings to growth chambers. Germination was recorded daily from one to two weeks after sowing, and every few days thereafter. On 5 May (21 days after sowing), seedlings were transferred to one of two MODEL Growth Chambers (Conviron, Manitoba, Canada). We thinned seedlings to one plant per cone-tainer, leaving the center-most plant. 702 of 768 (91.4\%) had plants that could be used in the experiment. We allowed one week at constant, non stressful conditions (day: 20\celsius, night: 16\celsius) for plants to acclimate to growth chambers before starting treatments. The initial size of seedlings, measured as the length of the first true leaves, did not differ between populations, families, or treatments Table~\ref{table:TableS_InitialSize}.
     
-\subsection*{Treatments}
+\subsection*{Temperature and drought treatments}
 
 We imposed four treatments, a fully-factorial cross of two temperature levels and two watering levels. The temperature levels closely simulated an average growing season at the thermal extremes of the species range, which designate as Hot and Cool treatments. Watering levels contrasted a perennial and seasonal stream, which we refer to as Well-watered and Drought treatments. A detailed description of treatments is described in the Supplemental Information and summarized in Fig~\ref{fig:Fig_ExptlDes}. Because growth chambers cannot be subdivided, one chamber was assigned to the Hot treatment level and another to the Cool treatment level. Within each chamber, there were two Well-watered blocks and two Drought blocks.  The irradiance in both chambers was approximately 400 $\mu$mol quanta m$^{-2}$ s$^{-1}$. The growth chambers did not control humidity, but because of watering and high plant transpiration rates, the relative humidity was quite high in both temperature levels (data not shown). 
 
@@ -416,13 +399,13 @@ dev.off()
   Shoot elongation rate  &  mm or cm day$^{-1}$  \\
   Harvest dry mass &  g  \\
   Photosynthetic rate &  $\mu$mol CO$_2$ m$^{-2}$ s$^{-1}$\\
-  Mortality &  \cdm{Probability?}  \\
+  Mortality & probability of death  \\
 	    \bottomrule
    \end{tabular}
    \label{table:Table_traits}
 \end{table}
 
-\paragraph{Day of germination} We tested for population variation in germination rate, measured as Days to Germination, using a lognormal survival model fit using the survreg function in the R package \pkg{survival} version 2.38 \citep{Therneau_2015}. The model was fit with Population as a fixed effect and Family as random effect using a $\Gamma$ frailty function. The signifcance of the Population effect was determined using analysis of deviance.
+\paragraph{Day of germination} We tested for population variation in germination rate, measured as Days to Germination, using a lognormal survival model fit using the survreg function in the R package \pkg{survival} version 2.38 \citep{Therneau_2015}. The model was fit with Population as a fixed effect and Family as random effect using a $\Gamma$ frailty function. The signifcance of the Population effect was determined using analysis of deviance. Note that, unlike other traits discussed below, we did not include Block or Population $\times$ Treatment interactions because during germination plants had not been placed into blocks and treatments had not been applied.
 
 <<Germination rate, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
 
@@ -444,7 +427,7 @@ dev.off()
 
 \paragraph{Growth rate: leaf expansion and shoot elongation}
 
-We censused leaf length twice per week from 12 May -- 12 June (28--59 days after sowing), resulting in 10 measurements. We ceased measuring leaf length once it appeared to asymptote and growth shifted to shoot elongation.  We also censused plant height on 7 days (twice per week) between 29 May and 20 June (45 to 67 days after sowing). Both leaf expansion and shoot elongation were modeled as a second-order polynomials of time with individual coefficients (separate for leaf and shoot growth) using empirical Bayes' estimates from linear mixed-effects models fit using the R package \pkg{lme4} version 1.1-7 \citep{Bates_etal_2014}.
+We measured growth rate in two phases: leaf expansion as a rosette and shoot elongation after bolting. We censused leaf length twice per week from 12 May -- 12 June (28--59 days after sowing), resulting in 10 measurements. We ceased measuring leaf length once it appeared to asymptote and growth shifted to shoot elongation.  We also censused plant height on 7 days (twice per week) between 29 May and 20 June (45 to 67 days after sowing). Both leaf expansion and shoot elongation were modeled as second-order polynomials of time with individual coefficients (separate for leaf and shoot growth) using empirical Bayes' estimates from linear mixed-effects models fit using the R package \pkg{lme4} version 1.1-7 \citep{Bates_etal_2014}.
 
 <<Leaf expansion rate, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
 
@@ -530,11 +513,11 @@ We censused leaf length twice per week from 12 May -- 12 June (28--59 days after
                PopID * TempTrt * WaterTrt + (1|Family) + (1|Block), 
              data = master)
 	fitSER <- step(mm, reduce.random = F) #includes LER_AbsGrowth, pop, temp, h2o, and temp x h2o
-	
+
 @
 
 \paragraph{Photosynthesis}
-During the week of 10 to 16 June (57 to 63 days after sowing), we measured daytime photosynthetic rate and stomatal conductance on a subset of \Sexpr{length(which(!is.na(master$Photo)))} plants evenly spread between treatments and families within populations. The youngest, fully-expanded leaf \cdm{this is what I did...not sure exactly which node, as I didn't record that when I did measurements} acclimated for 3 minutes to reach steady state in a 6 cm$^2$ chamber of a LI-COR 6400XT Portable Photosynthesis System (LI-COR Biosciences, Lincoln, Nebraska). All measurements were made at ambient light (400 $\mu$mol m$^{-2}$ s$^{-1}$), atmospheric CO$_2$ (400 ppm), temperature, and moderate relative humidity. During this period, we suspended normal day-to-day temperature fluctuations and set daytime temperatures to its average for that period (Cool: 26.5$\degree$; Hot: 36.1$\degree$ so that all plants within a temperature level were measured under the same conditions.
+During the week of 10 to 16 June (57 to 63 days after sowing), we measured daytime photosynthetic rate and stomatal conductance on a subset of \Sexpr{length(which(!is.na(master$Photo)))} plants evenly spread between treatments and families within populations. The youngest, fully-expanded leaf acclimated for 3 minutes to reach steady state in a 6 cm$^2$ chamber of a LI-COR 6400XT Portable Photosynthesis System (LI-COR Biosciences, Lincoln, Nebraska). All measurements were made at ambient light (400 $\mu$mol m$^{-2}$ s$^{-1}$), atmospheric CO$_2$ (400 ppm), temperature, and moderate relative humidity. During this period, we suspended normal day-to-day temperature fluctuations and set daytime temperatures to its average for that period (Cool: 26.5$\degree$; Hot: 36.1$\degree$ so that all plants within a temperature level were measured under the same conditions. As expected, stomatal conductance was strongly correlated with photosynthetic rate (results not shown), but we found that treatment and population effects were more apparent when stomatal conductance was factored out. Therefore, we calculated the `intrinsic' photosynthetic rate for each individual as its residual deviance from the regression between stomoatal conductance and photosynthetic rate across all plants. We also removed one outlier.
 
 <<Photosynthesis, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
 
@@ -553,16 +536,11 @@ During the week of 10 to 16 June (57 to 63 days after sowing), we measured dayti
 @
 
 \paragraph{Mortality}
-We assayed mortality during twice-weekly growth measurements. We analyzed the probability of surviving until the end of the experiment as a function of population, treatment, and their interactions using a Generalized Linear Mixed Model (GLMM) assuming binomially distributed errors. As before, we included Family and Block as random factors. We assessed significance of fixed effects using Type 2 Analysis of Deviance with Wald \Chi$^2$ tests in the R package \pkg{car} \citep{Fox_Weisberg_2011}. 
+We assayed mortality during twice-weekly growth measurements. We analyzed the probability of surviving until the end of the experiment as a function of population, treatment, and their interactions using a Generalized Linear Mixed Model (GLMM) assuming binomially distributed errors. We included Family and Block as random effects. We assessed significance of fixed effects using Type 2 Analysis of Deviance with Wald \Chi$^2$ tests in the R package \pkg{car} \citep{Fox_Weisberg_2011}. 
 
 <<Mortality, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
 
   library(car)
-
-	# Code for GLM (remove if satisfied with GLMER)
-  # fitMort <- glm(DiedFromStress ~ PopID * TempTrt * WaterTrt,
-  #  data = subset(master, !is.na(master$DiedFromStress)), 
-  #  family = "quasibinomial")
 
   fitMort <- glmer(DiedFromStress ~ PopID * TempTrt * WaterTrt + (1|Family) +
   								 (1|Block), control = glmerControl(optimizer = "bobyqa"),
@@ -574,14 +552,14 @@ We assayed mortality during twice-weekly growth measurements. We analyzed the pr
 
 \paragraph{Biomass at harvest} 
 
-\cdm{show correlation between growth rate and biomass?}
+We harvested plants that survived until the end of the experiment from 3 to 16 July (80 to 93 days after sowing). We separated individual plants into three biomass fractions: leaves, shoots, and belowground (roots plus rhizomes). Belowground fractions were rinsed thoroughly in water to remove sand. After completely drying in a forced air oven (Shel Lab, Sheldon Manufacturing Inc., Oregon, USA), we weighed the dry mass of each fraction using an analytical balance.
 
 \subsection*{Intrinsic variation and plasticity}
 
-For all traits (Table~\ref{table:Table_traits}) we tested for Population, Treatment, and Population $\times$ Treatment interactions. We interpreted significant Population effects to indicate intrinsic variation and Population by Treatment effects to indicate variation in plasticity. As mentioned above, we survival and GLM models for germination rate and mortality, respectively. For all other traits, we used mixed model ANOVAs with Family included as a random factor. Models were fit by restricted maximum likelihood using lmer from the R package \pkg{lme4} \citep{Bates_etal_2014}. Significant fixed effect terms were selected using a step-wise backward elimination procedure implemented with the step function in the R package \pkg{lmerTest} version 2.0-11 \citep{Kuznetsova_etal_2014}. Denominator degrees of freedom for $F$-tests were estimated using Satterthwaite's approximation. Significant Population effect indicate intrinsic trait differences; significant Population $\times$ Treatment effects indicate population differences in plasticity. For growth rate, we also accounted for differences in germination rate by including day of germination as a factor.
+For all traits (Table~\ref{table:Table_traits}) except germination (see above), we tested for Population, Treatment, and Population $\times$ Treatment interactions. We interpreted significant Population effects to indicate intrinsic variation and Population $\times$ Treatment interactions to indicate variation in plasticity. As mentioned above, we used survival and GLMM models for germination rate and mortality, respectively. For all other traits, we used mixed model ANOVAs with Family and Block included as random factors. Models were fit by restricted maximum likelihood using lmer from the R package \pkg{lme4} \citep{Bates_etal_2014}. Significant fixed effect terms were selected using a step-wise backward elimination procedure implemented with the step function in the R package \pkg{lmerTest} version 2.0-11 \citep{Kuznetsova_etal_2014}. Denominator degrees of freedom for $F$-tests were estimated using Satterthwaite's approximation. To ensure that Population and Treatment effects were specific to a particular growth phase, we included earlier growth phases as a covariate. Specifically, we included germination day as a covariate in leaf expansion and shoot elongation analyses; we included germination day and leaf expansion rate as a covariate in shoot elongation analyses. 
 
 \subsection*{Principal components of germination, growth, and photosynthesis}
-For each single-trait model above, we extracted the Population coefficient (factoring out Treatment and other effects). The multivariate distribution of these coefficients was then summarized using principal components analysis (PCA). The first principal component of these traits (Trait PC1) loaded positively with germination, growth, and photostynthetic rate, therefore we define this as a phenotypic axis dilineating fast and slow growing populations.
+For each single-trait model above, we extracted the Population coefficient (factoring out Treatment and other effects). The multivariate distribution of these coefficients was then summarized using principal components analysis (PCA). The first principal component of these traits (Trait PC1) loaded positively with germination, growth, and photostynthetic rate, therefore we define this as a phenotypic axis dilineating fast to slow growth.
 
 <<Principal Components, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
 
@@ -640,11 +618,11 @@ load(paste(pathDat, "/thinnedOccClimate.RData", sep = ""))
 
 \subsection*{Selective agents and environmental correlates}
 
-We found that a population's position along PC1 correlated strongly with the latitude or origin (see Results) and next used Random Forest regression \citep{Liaw_Wiener_2002} to identify putative climatic factors underlying trait-latitude associations in \textit{M. cardinalis}. We looked for overlap between climatic variables that best predict latitude of \textit{M. cardinalis} occurrence records and a separate analysis of climatic variables that best predict trait variation across our 16 focal populations. For brevity, we refer to these as Climate-Latitude and Climate-Trait variables. We selected Climate-Latitude and Climate-Trait variables independently using Random Forest (VSURF algorithm in the R \pkg{VSURF} version 0.8.2 \citep{Genuer_etal_2014}). From VSURF models, we kept only variables selected for prediction, the most stringent criterion.
+We found that a population's position along PC1 correlated strongly with the latitude or origin (see Results) and next used Random Forest regression \citep{Liaw_Wiener_2002} to identify putative climatic factors underlying trait-latitude associations in \textit{M. cardinalis}. We looked for overlap between climatic variables that best predict latitude of \textit{M. cardinalis} occurrence records and a separate analysis of climatic variables that best predict trait variation across our 16 focal populations. For brevity, we refer to these as `Climate-Latitude' and `Climate-TraitPC1' variables. We selected Climate-Latitude and Climate-TraitPC1 variables independently with Variable Selection Using Random Forest (VSURF) algorithm in the R \pkg{VSURF} version 0.8.2 \citep{Genuer_etal_2014}. From VSURF models, we kept only variables selected for prediction, the most stringent criterion.
 
-If latitude is strongly correlated with one or two climatic variables that are responsible for the cline, then there should be one or two climatic variables that are identified in both the Climate-Latitude and Climate-Trait analyses \ala{and the correlation magnitudes should be high? maybe this language is not technically correct (variable importance more accurate?) but the point is that this prediction needs something about count and the strength}. If latitude is correlated with several climatic agents of selection that are individually weak, but add up to a strong latitudinal cline, then several climatic variables should be weakly correlated \ala{fix this to mirror prior}.
+If latitude is strongly correlated with one or two climatic variables that are responsible for the cline, then there should be one or two climatic variables that are identified in both the Climate-Latitude and Climate-TraitPC1 analyses \ala{and the correlation magnitudes should be high? maybe this language is not technically correct (variable importance more accurate?) but the point is that this prediction needs something about count and the strength}. If latitude is correlated with several climatic agents of selection that are individually weak, but add up to a strong latitudinal cline, then several climatic variables should be weakly correlated \ala{fix this to mirror prior}.
 
-To test the third hypothesis about gene flow smoothing out local climatic variation, we repeated the same procedure to identify Climate-Trait variables as above, except that we used spatially averaged climate variables. \ala{what's the actual prediction? that spatially averaged Climate-Trait will have higher correlation than point estimated Climate-Trait?} We sampled climate at 1000 random points (at 90-m resolition) within a 100-km buffer around focal populations. We chose this buffer size because neutral genetic differentiation increases slowly with geographic distance, indicating significant gene flow between nearby populations \citep{Paul_etal_2016}. Since \textit{M. cardinalis} is found exclusively in riparian areas, we only selected points along streams using the National Hydrogeoraphy Dataset \citep{NHD}. Climatic means and CVs were weighted by their climatic suitability as determined using a multimodel ensemble average of ecological niche models \citep{Angert_ENM}. For clarity, we distinguish between analyses where climate is inferred from a single point (`point estimated Climate-Trait') versus averaged across a 100-km buffer (`spatially averaged Climate-Trait'). 
+To test the third hypothesis about gene flow smoothing out local climatic variation, we repeated the same procedure to identify Climate-TraitPC1 variables as above, except that we used spatially averaged climate variables. \ala{what's the actual prediction? that spatially averaged Climate-TraitPC1 will have higher correlation than point estimated Climate-Trait?} We sampled climate at 1000 random points (at 90-m resolition) within a 62-km buffer around focal populations. We chose this buffer size because neutral genetic differentiation increases slowly with geographic distance, indicating significant gene flow between nearby populations \citep{Paul_etal_2016}. Significant spatial autocorrelation persisted for approximately 62 km. Since \textit{M. cardinalis} is found exclusively in riparian areas, we only selected points along streams using the National Hydrogeoraphy Dataset \citep{NHD}. Climatic means and CVs were weighted by their climatic suitability as determined using a multimodel ensemble average of ecological niche models \citep{Angert_ENM}. We distinguish between analyses where climate is inferred from a single point (`point estimated Climate-TraitPC1') versus averaged across a 62-km buffer (`spatially averaged Climate-TraitPC1'). 
 
 
 <<VSURF, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
@@ -684,13 +662,15 @@ To test the third hypothesis about gene flow smoothing out local climatic variat
   # Figure of variable importance for latitude
 	
 	# Calculatins for plot dimensions
-	sw1a <- strwidth(s = clim2sym[imp1, "climFactor"], units = "inches")
-	sw2a <- strwidth(s = clim2sym[imp1, "tempScale"], units = "inches")
-	sw3a <- strwidth(s = parse(text = clim2sym[imp1, "what"]), units = "inches")
+	sw1a <- strwidth(s = clim2sym[imp1, "climFactor"], units = "inches", font = 4)
+	sw2a <- strwidth(s = clim2sym[imp1, "tempScale"], units = "inches", font = 4)
+	sw3a <- strwidth(s = parse(text = clim2sym[imp1, "what"]), units = "inches",
+	                 font = 4)
 
-	sw1b <- strwidth(s = clim2sym[imp2, "climFactor"], units = "inches")
-	sw2b <- strwidth(s = clim2sym[imp2, "tempScale"], units = "inches")
-	sw3b <- strwidth(s = parse(text = clim2sym[imp2, "what"]), units = "inches")
+	sw1b <- strwidth(s = clim2sym[imp2, "climFactor"], units = "inches", font = 4)
+	sw2b <- strwidth(s = clim2sym[imp2, "tempScale"], units = "inches", font = 4)
+	sw3b <- strwidth(s = parse(text = clim2sym[imp2, "what"]), units = "inches",
+	                 font = 4)
 
 	panelWidth <- 3
 	panelHeight <- 4
@@ -724,12 +704,15 @@ To test the third hypothesis about gene flow smoothing out local climatic variat
 	     grconvertY(1, from = "nfc", to = "user"))
 
 	text(grconvertX(panelGap / 2, from = "in", to = "user"), 
-	     nImpLat:1, pos = 4, labels = clim2sym[imp1, "climFactor"])
+	     nImpLat:1, pos = 4, labels = clim2sym[imp1, "climFactor"],
+	     font = ifelse(imp1 %in% intersect(imp1, imp2), 2, 1))
   text(grconvertX(panelGap + max(c(sw1a, sw1b)), from = "in", to = "user"), 
-       nImpLat:1, pos = 4, labels = clim2sym[imp1, "tempScale"])
+       nImpLat:1, pos = 4, labels = clim2sym[imp1, "tempScale"],
+       font = ifelse(imp1 %in% intersect(imp1, imp2), 2, 1))
 	text(grconvertX(3 / 2 * panelGap + max(c(sw1a, sw1b)) + max(c(sw2a, sw2b)), 
-	                               from = "in", to = "user"), nImpLat:1, pos = 4,
-	                labels = parse(text = clim2sym[imp1, "what"]))
+	                               from = "in", to = "user"), nImpLat:1, pos = 4, 
+	     labels = parse(text = clim2sym[imp1, "what"]),
+	     font = ifelse(imp1 %in% intersect(imp1, imp2), 2, 1))
 
 	# Panel B: Climate-PC1
 	par(mai = c(xLabHeight, panelGap / 2, panelGap, yLabWidth))
@@ -752,15 +735,18 @@ To test the third hypothesis about gene flow smoothing out local climatic variat
 	text(grconvertX(yLabWidth + 2 * panelWidth + 3 / 2 * panelGap, 
 	                from = "in", to = "user"), 
 	     nImpLat:(nImpLat - nImpPC1 + 1), pos = 4, 
-	     labels = clim2sym[imp2, "climFactor"])
+	     labels = clim2sym[imp2, "climFactor"],
+	     font = ifelse(imp2 %in% intersect(imp1, imp2), 2, 1))
   text(grconvertX(yLabWidth + 2 * panelWidth + 5 / 2 * panelGap + 
                     max(c(sw1a, sw1b)), from = "in", to = "user"), 
        nImpLat:(nImpLat - nImpPC1 + 1), pos = 4, 
-       labels = clim2sym[imp2, "tempScale"])
+       labels = clim2sym[imp2, "tempScale"],
+       font = ifelse(imp2 %in% intersect(imp1, imp2), 2, 1))
 	text(grconvertX(yLabWidth + 2 * panelWidth + 5 / 2 * panelGap + 
                     max(c(sw1a, sw1b)) + max(c(sw2a, sw2b)), from = "in", 
-	                to = "user"), nImpLat:(nImpLat - nImpPC1 + 1), pos = 4,
-	                labels = parse(text = clim2sym[imp2, "what"]))
+	                to = "user"), nImpLat:(nImpLat - nImpPC1 + 1), 
+	     pos = 4, labels = parse(text = clim2sym[imp2, "what"]),
+	     font = ifelse(imp2 %in% intersect(imp1, imp2), 2, 1))
 	
 	dev.off()
   
@@ -860,7 +846,7 @@ close(tableS)
 
 @
 
-For these analyses, we compiled a representative set of \Sexpr{nrow(thinnedOccClimate)} recent (since 2000) known \textit{M. cardinalis} occurences. These occurences were thinned by 50\% to correct for uneven sampling from a comprehensive set of herbarium records and an exhaustive field survey in 2010-11 \citep{Angert_ENM}. For each occurence, we used a 90m digital elevation model from HydroSHEDS \citep{Lehner_etal_2006} to extract elevation. Monthly interpolated climate layers were calculated using ClimateWNA \citep{Wang_etal_2012}, which accurately downscales climate data specifically for the rugged topography of western North America. For each occurence, we calculated bioclimatic variables using the biovars function in the R package \pkg{dismo} \citep{Hijmans_etal_2014}. In total, we included \Sexpr{length(climVars) / 2} climate variables, 9 from ClimateWNA and 15 bioclimatic variables (Table~\ref{table:TableS_ClimVars}). The bioclimatic variables included all permutations of two climatic factors, temperature and precipitation, and six temporal scales (annual average, coldest quarter, warmest quarter, wettest quarter, driest quarter, or seasonality) as well as mean diurnal range, isothermality, annual temperature range. For each variable, we calculated both a 30-year normal by averging annual values between 1981 and 2010 and 30-year coefficient of variation, a standardized metric of interannual climatic variation. Temperatures were converted to Kelvin to be on a ratio scale appropriate for calculating the coefficient of variation. 
+For these analyses, we compiled a representative set of \Sexpr{nrow(thinnedOccClimate)} recent (since 2000) known \textit{M. cardinalis} occurences. These occurences were thinned by 50\% to correct for uneven sampling from a comprehensive set of herbarium records and an exhaustive field survey in 2010-11 \citep{Angert_ENM}. For each occurence, we used a 90-m digital elevation model from HydroSHEDS \citep{Lehner_etal_2006} to extract elevation. Monthly interpolated climate layers were calculated using ClimateWNA version 5.30 \citep{Wang_etal_2012}, which accurately downscales climate data specifically for the rugged topography of western North America. For each occurence, we calculated bioclimatic variables using the biovars function in the R package \pkg{dismo} \citep{Hijmans_etal_2014}. In total, we included \Sexpr{length(climVars) / 2} climate variables, 9 from ClimateWNA and 15 bioclimatic variables (Table~\ref{table:TableS_ClimVars}). The bioclimatic variables included all permutations of two climatic factors, temperature and precipitation, and six temporal scales (annual average, coldest quarter, warmest quarter, wettest quarter, driest quarter, or seasonality) as well as mean diurnal range, isothermality, annual temperature range. For each variable, we calculated both a 30-year normal by averging annual values between 1981 and 2010 and 30-year coefficient of variation, a standardized metric of interannual climatic variation. Temperatures were converted to Kelvin to be on a ratio scale appropriate for calculating the coefficient of variation. 
 
 %--------------------------------------------------
 % Results
@@ -870,15 +856,15 @@ For these analyses, we compiled a representative set of \Sexpr{nrow(thinnedOccCl
 
 \subsection*{A coordinated latitudinal cline in germination, growth, and photosynthesis}
 
-Using a common garden, we identified strong genetically-based trait differences in time to germination, growth, and photosynthetic rate among populations of \textit{M. cardinalis}, as evidenced by large and highly significant population effects (Table~\ref{table:Table_AnovaSummary}). A single principal component captured \Sexpr{gsub("%", "", pve)}\% of the trait variation among populations, defining an axis of variation from fast to slow growth (Fig~\ref{fig:Fig_PC1vLat}). As we explain below, intrinsic differences between populations in terms of plant function (photosynthesis) and performance (growth) contrasted greatly with little variation in plasticity.
+Using a common garden, we identified strong genetically-based trait differences in time to germination, growth, and photosynthetic rate among populations of \textit{M. cardinalis}, as evidenced by large and significant population effects (Table~\ref{table:Table_AnovaSummary}). A single principal component captured \Sexpr{gsub("%", "", pve)}\% of the trait variation among populations, defining an axis of variation from fast to slow growth (Fig~\ref{fig:Fig_PC1vLat}). As we explain below, intrinsic differences between populations in terms of plant function (photosynthesis) and performance (growth) contrasted with the low amount of variation in plasticity.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Table of Population, Treatment, Population x Treatment interactions for varies traits
+% Table of Population, Treatment, Population x Treatment interactions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{table}[ht]
    \centering
-   \topcaption[ANOVA summary]{Summary of Population, Treatment, and Population $\times$ Treatment effects. We used different statistical modeling for the diverse traits assayed -- glmer: generalized linear mixed model using the R package \pkg{lme4} \citep{Bates_etal_2014}; lmer: linear mixed model using the R package \pkg{lme4} \citep{Bates_etal_2014}; survreg: survival regression using the R package \pkg{survival} \citep{Therneau_2015}. Note that temperature and water treatments were imposed after germination, hence are not application to this trait. Key to statistical significance: *$P < 0.05$; ** $P < 0.01$; *** $P < 0.001$}
+   \topcaption[ANOVA summary]{Summary of Population, Treatment, and Population $\times$ Treatment effects. We used different statistical modeling for the diverse traits assayed -- glmer: generalized linear mixed model using the R package \pkg{lme4} \citep{Bates_etal_2014}; lmer: linear mixed model using the R package \pkg{lme4} \citep{Bates_etal_2014}; survreg: survival regression using the R package \pkg{survival} \citep{Therneau_2015}. Note that temperature and water treatments were imposed after germination, hence are not applicable to this trait. Complete analysis of variance/deviance tables for each trait are available in the Supporting Information. Key to statistical significance: *$P < 0.05$; ** $P < 0.01$; *** $P < 0.001$}
    \resizebox{6.5in}{!}{
    \begin{tabular}{@{} llllllll @{}}
       \toprule
@@ -948,13 +934,13 @@ Using a common garden, we identified strong genetically-based trait differences 
 	\usefont{T1}{phv}{m}{n}
 	\fontsize{10}{12}
 	\selectfont
-	\caption[Southern populations grow faster]{Trait variation, from fast to slow growth, is closely associated with latitude. Each point is a population, its latitude of origin a position along the slow to fast growth axis, defined as Principal Component 1 of five traits (see Methods). The line and 95\% confidence intervals were estimated using standard linear regression.}
+	\caption[Southern populations grow faster]{Trait variation, from fast to slow growth, is closely associated with latitude. Each point is a population's latitude of origin (x-axis) and position along the slow to fast growth axis (y-axis), defined as Principal Component 1 of five traits (see Methods). The line and 95\% confidence intervals were estimated using linear regression.}
 	\label{fig:Fig_PC1vLat}
 \end{figure}
 
 \subsection*{Little evidence for variation in plasticity}
 
-Genotype $\times$ environment interactions are also a common signature of local adaptation. For example, populations from more stressful environments may tradeoff reduced growth rate under benign conditions for the ability to tolerate stress by maintaining positive growth rates and/or surviving through adverse conditions. We found remarkably little evidence for this pattern in \textit{M. cardinalis}. There was only one statistically significant Population $\times$ Treatment interaction (Table~\ref{table:Table_AnovaSummary}), but this idiosyncratic result was weak and would not have survived correction for multiple testing. Otherwise, populations responded remarkably similarly to treatments: faster growth in the hot treatment, slower growth in the dry treatment, and high mortality in the hot, dry treatment (Table~\ref{table:Table_AnovaSummary}). Note that interactions were calculated after factoring out intrinsic trait differences, necessarily reducing statistical power to detect significant interactions relative to main effects. However, the fact that the Population and Treatment effects were highly significant ($P \ll 0.001$ in most cases) suggests that statistical power alone cannot explain why we failed to detect Population $\times$ Treatment interactions.
+Genotype $\times$ environment (G$\times$E) interactions are also a common signature of local adaptation. For example, populations from more stressful environments may tradeoff reduced growth rate under benign conditions for the ability to tolerate stress by maintaining positive growth rates and/or surviving through adverse conditions. We found little evidence G$\times$E in \textit{M. cardinalis}. \cdm{Is this result still correct after revising analysis?} There was only one statistically significant Population $\times$ Treatment interaction (Table~\ref{table:Table_AnovaSummary}), but this idiosyncratic result was weak and would not have survived correction for multiple testing. Otherwise, populations responded similarly to treatments: faster growth in the hot treatment, slower growth in the dry treatment, and high mortality in the hot, dry treatment (Table~\ref{table:Table_AnovaSummary}). Note that interactions were calculated after factoring out intrinsic trait differences, necessarily reducing statistical power to detect significant interactions relative to main effects. However, the fact that the Population and Treatment effects were highly significant ($P \ll 0.001$ in most cases) suggests that statistical power alone cannot explain why we failed to detect Population $\times$ Treatment interactions.
 
 \subsection*{Climatic variability best explains phenotypic divergence}
 
@@ -1115,6 +1101,18 @@ Erin Warkman and Lisa Lin helped collect data. CDM was supported by a Biodiversi
 \end{table}
 
 % ANOVA table for LER (need to label tables)
+
+<<TableS_fitLER, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
+	  source(paste(pathMS, "/functions.R", sep = ""))
+
+  ss <- sigDig(fitLER$anova.table$`Sum Sq`)
+  ms <- sigDig(fitLER$anova.table$`Mean Sq`)
+  df1 <- sigDig(fitLER$anova.table$NumDF)
+  df2 <- sigDig(fitLER$anova.table$DenDF)
+  fval <- sigDig(fitLER$anova.table$F.value)
+ pval <- pval2latex(fitLER$anova.table$`Pr(>F)`)
+@
+
 \begin{table}[htbp]
 	\usefont{T1}{phv}{m}{n}
 	\fontsize{10}{12}
@@ -1124,10 +1122,21 @@ Erin Warkman and Lisa Lin helped collect data. CDM was supported by a Biodiversi
 	\begin{tabular}{lcccccc}
 	\toprule
 
-	\input{Tables/Table_lllGrowthAnova.txt}
+                     & SS & MS & df1 & df2 & \em{F} & $P$ \\ \midrule
+  Day of Germination & 18.2 & 18.2 & 1 & 633.1 & 35.2 & 4.78 $\times10^{-9}$ \\
+mmLER
+
+Population & 22.3 & 1.5 & 15 & 121.5 & 4.3 & 2.57 $\times10^{-6}$ \\
+Temperature & 114.4 & 114.4 & 1 & 567.7 & 352.3 & 1.64 $\times10^{-61}$ \\
+Water & 4.2 & 4.2 & 1 & 567.7 & 12.6 & 4.12 $\times10^{-4}$ \\
+Population $\times$ Temperature & 3.1 & 0.2 & 15 & 553.3 & 0.6 & 0.86 \\
+Population $\times$ Water & 8.9 & 0.6 & 15 & 567.8 & 1.8 & 0.03 \\
+Temperature $\times$ Water & 0 & 0 & 1 & 550.5 & 0 & 0.99 \\
+Population $\times$ Temperature $\times$ Water & 4 & 0.3 & 15 & 535.4 & 0.8 & 0.69 \\
 
 	\bottomrule
 	\end{tabular}
+	\label{table:TableS_fitLER}
 	\end{center}
 \end{table}
 
