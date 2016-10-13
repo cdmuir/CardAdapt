@@ -27,8 +27,11 @@ sigDig <- function(x)
 # Text string for p-value in tables
 pval2latex <- function(x)
 {
+  stem <- x * 10 ^ -oom(x)
   ret <- ifelse(oom(x) > -3, 
                 sprintf("%.*f", 3, x), 
-                sprintf("%.*f $\times10^{%s}$", 1, stem, oom(x)))
+                sprintf("%.*f $\\\\times10^{%s}$", 1, stem, oom(x)))
   return(ret)
 }
+
+

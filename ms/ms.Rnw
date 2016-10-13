@@ -509,10 +509,17 @@ We measured growth rate in two phases: leaf expansion as a rosette and shoot elo
 	newdata$SER_AbsGrowth <- (newdata$SERend - newdata$SERstart) / 
 		ifelse(newdata$TempTrt == "Cool", 31, 24)
 
-  mm <- lmer(SER_AbsGrowth ~ AvgGermDay + LER_AbsGrowth + 
+	# Mixed model including LER_AbsGrowth as covariate
+  # mm <- lmer(SER_AbsGrowth ~ AvgGermDay + LER_AbsGrowth + 
+  #             PopID * TempTrt * WaterTrt + (1|Family) + (1|Block), 
+  #           data = master)
+	# fitSER <- step(mm, reduce.random = F) #includes LER_AbsGrowth, pop, temp, h2o, and temp x h2o
+
+	# Mixed model without LER_AbsGrowth as covariate
+  mm <- lmer(SER_AbsGrowth ~ AvgGermDay + 
                PopID * TempTrt * WaterTrt + (1|Family) + (1|Block), 
              data = master)
-	fitSER <- step(mm, reduce.random = F) #includes LER_AbsGrowth, pop, temp, h2o, and temp x h2o
+	fitSER <- step(mm, reduce.random = F) 
 
 @
 
@@ -521,10 +528,10 @@ During the week of 10 to 16 June (57 to 63 days after sowing), we measured dayti
 
 <<Photosynthesis, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
 
-  # Photosynthetic rate
+  # Photosynthetic rate (remove is satisfied w/ resPhoto analysis)
   mm <- lmer(Photo ~ PopID * TempTrt * WaterTrt + (1|Family) + (1|Block),
     data = subset(master, !is.na(master$Photo)))
-  fitPhoto <- step(mm, reduce.random = F)
+    fitPhoto <- step(mm, reduce.random = F)
   
   # Intrinsic photosynthetic rate
   # = residuals of Conductance - Photosynthesis regression
@@ -536,7 +543,7 @@ During the week of 10 to 16 June (57 to 63 days after sowing), we measured dayti
 @
 
 \paragraph{Mortality}
-We assayed mortality during twice-weekly growth measurements. We analyzed the probability of surviving until the end of the experiment as a function of population, treatment, and their interactions using a Generalized Linear Mixed Model (GLMM) assuming binomially distributed errors. We included Family and Block as random effects. We assessed significance of fixed effects using Type 2 Analysis of Deviance with Wald \Chi$^2$ tests in the R package \pkg{car} \citep{Fox_Weisberg_2011}. 
+We assayed mortality during twice-weekly growth measurements. We analyzed the probability of surviving until the end of the experiment as a function of population, treatment, and their interactions using a Generalized Linear Mixed Model (GLMM) assuming binomially distributed errors. We included Family and Block as random effects. We assessed significance of fixed effects using Type 2 Analysis of Deviance with Wald $\chi ^2$ tests in the R package \pkg{car} \citep{Fox_Weisberg_2011}. 
 
 <<Mortality, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
 
@@ -628,6 +635,10 @@ To test the third hypothesis about gene flow smoothing out local climatic variat
 <<VSURF, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
 
   library(VSURF)
+  
+	# Load climVars
+	load(paste(pathDat, "/ExploratoryClimateVariables.RData", sep = ""))
+
   # Load VSURF results of climatic variables associated with latitude at cardinalis occurence points
   # Note that occurences have been randomly thinned to account for variation in sampling effort
   load(paste(pathDat, "/clim2lat_fit_t1.RData", sep = "")) # fit_t1
@@ -651,9 +662,6 @@ To test the third hypothesis about gene flow smoothing out local climatic variat
 
   imp3 <- climVars[vsurfPC1_SA$varselect.pred]
   nImpPC1_SA <- length(imp3)
-
-	# Load climVars
-	load(paste(pathDat, "/ExploratoryClimateVariables.RData", sep = ""))
 
 	# Table of symbols for plotting climatic factor labels
 	clim2sym <- read.csv(paste(pathMS, "/climVar2plot.csv", sep = ""), 
@@ -1064,7 +1072,7 @@ Erin Warkman and Lisa Lin helped collect data. CDM was supported by a Biodiversi
    \topcaption{Climatic variables}
    \begin{tabular}{@{} ll @{}}
       \toprule
-  Climate variable & Abbreviation \\
+   Abbreviation & Climate variable \\
       \midrule
   % climateWNA VARIABLES:
 	DD\_0	& degree-days below 0\celsius (chilling degree-days)  \\
@@ -1074,8 +1082,7 @@ Erin Warkman and Lisa Lin helped collect data. CDM was supported by a Biodiversi
 	NFFD	& number of frost-free days                           \\
 	PAS	  & precipitation as snow (mm) between August in previous year and July in current  \\
 	Eref	& Hargreaves reference evaporation (mm) \\
-	CMD	  & Hargreaves climativ moisture deficit (mm) \\
-	MAR   &	mean annual solar radiation (NOTE: removing because too many missing values) \\
+	CMD	  & Hargreaves climatic moisture deficit (mm) \\
 	RH    &	mean annual relative humidity \\
   % BIOCLIM VARIABLES:
   bio1	&	Annual Mean Temperature	\\
@@ -1100,60 +1107,314 @@ Erin Warkman and Lisa Lin helped collect data. CDM was supported by a Biodiversi
    \label{table:TableS_ClimVars}
 \end{table}
 
-% ANOVA table for LER (need to label tables)
+% ANOVA table for LER
 
 <<TableS_fitLER, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
-	  source(paste(pathMS, "/functions.R", sep = ""))
+	
+  # this is sourced above. remove from here once testing is over  
+  source(paste(pathMS, "/functions.R", sep = ""))
 
-  ss <- sigDig(fitLER$anova.table$`Sum Sq`)
-  ms <- sigDig(fitLER$anova.table$`Mean Sq`)
-  df1 <- sigDig(fitLER$anova.table$NumDF)
-  df2 <- sigDig(fitLER$anova.table$DenDF)
-  fval <- sigDig(fitLER$anova.table$F.value)
- pval <- pval2latex(fitLER$anova.table$`Pr(>F)`)
+  # Convert numbers from R to LaTeX characters
+  lerTab <- data.frame(ss = sigDig(fitLER$anova.table$`Sum Sq`),
+                       ms = sigDig(fitLER$anova.table$`Mean Sq`),
+                       df1 = sigDig(fitLER$anova.table$NumDF),
+                       df2 = sigDig(fitLER$anova.table$DenDF),
+                       fval = sigDig(fitLER$anova.table$F.value),
+                       pval = pval2latex(fitLER$anova.table$`Pr(>F)`),
+                       stringsAsFactors = F)
+  rownames(lerTab) <- rownames(fitLER$anova.table)
+
 @
 
 \begin{table}[htbp]
 	\usefont{T1}{phv}{m}{n}
 	\fontsize{10}{12}
 	\selectfont
-	\caption[ANOVA table, leaf expansion rate]{CAPTION}
+	\caption[ANOVA table, leaf expansion rate]{Sum of squares (SS); Mean sum of squares (MS); Numerator degrees of freedom (df1); Denominator degrees of freedom (df2); }
 	\begin{center}
 	\begin{tabular}{lcccccc}
 	\toprule
 
-                     & SS & MS & df1 & df2 & \em{F} & $P$ \\ \midrule
-  Day of Germination & 18.2 & 18.2 & 1 & 633.1 & 35.2 & 4.78 $\times10^{-9}$ \\
-mmLER
-
-Population & 22.3 & 1.5 & 15 & 121.5 & 4.3 & 2.57 $\times10^{-6}$ \\
-Temperature & 114.4 & 114.4 & 1 & 567.7 & 352.3 & 1.64 $\times10^{-61}$ \\
-Water & 4.2 & 4.2 & 1 & 567.7 & 12.6 & 4.12 $\times10^{-4}$ \\
-Population $\times$ Temperature & 3.1 & 0.2 & 15 & 553.3 & 0.6 & 0.86 \\
-Population $\times$ Water & 8.9 & 0.6 & 15 & 567.8 & 1.8 & 0.03 \\
-Temperature $\times$ Water & 0 & 0 & 1 & 550.5 & 0 & 0.99 \\
-Population $\times$ Temperature $\times$ Water & 4 & 0.3 & 15 & 535.4 & 0.8 & 0.69 \\
-
+  & SS & MS & df1 & df2 & \em{F}-value & $P$-value \\ \midrule
+  Day to Germination & \Sexpr{lerTab["AvgGermDay", "ss"]} & 
+    \Sexpr{lerTab["AvgGermDay", "ms"]} & \Sexpr{lerTab["AvgGermDay", "df1"]} & 
+    \Sexpr{lerTab["AvgGermDay", "df2"]} & \Sexpr{lerTab["AvgGermDay", "fval"]} &
+    \Sexpr{lerTab["AvgGermDay", "pval"]} \\
+  Population & \Sexpr{lerTab["PopID", "ss"]} & \Sexpr{lerTab["PopID", "ms"]} & 
+    \Sexpr{lerTab["PopID", "df1"]} & \Sexpr{lerTab["PopID", "df2"]} & 
+    \Sexpr{lerTab["PopID", "fval"]} & \Sexpr{lerTab["PopID", "pval"]} \\
+  Temperature & \Sexpr{lerTab["TempTrt", "ss"]} & 
+    \Sexpr{lerTab["TempTrt", "ms"]} & \Sexpr{lerTab["TempTrt", "df1"]} &
+    \Sexpr{lerTab["TempTrt", "df2"]} & \Sexpr{lerTab["TempTrt", "fval"]} &
+    \Sexpr{lerTab["TempTrt", "pval"]} \\
+  Water & \Sexpr{lerTab["WaterTrt", "ss"]} & \Sexpr{lerTab["WaterTrt", "ms"]} & 
+    \Sexpr{lerTab["WaterTrt", "df1"]} & \Sexpr{lerTab["WaterTrt", "df2"]} & 
+    \Sexpr{lerTab["WaterTrt", "fval"]} & \Sexpr{lerTab["WaterTrt", "pval"]} \\
+  Population $\times$ Temperature & \Sexpr{lerTab["PopID:TempTrt", "ss"]} & 
+    \Sexpr{lerTab["PopID:TempTrt", "ms"]} & 
+    \Sexpr{lerTab["PopID:TempTrt", "df1"]} & 
+    \Sexpr{lerTab["PopID:TempTrt", "df2"]} & 
+    \Sexpr{lerTab["PopID:TempTrt", "fval"]} &
+    \Sexpr{lerTab["PopID:TempTrt", "pval"]} \\
+  Population $\times$ Water & \Sexpr{lerTab["PopID:WaterTrt", "ss"]} & 
+    \Sexpr{lerTab["PopID:WaterTrt", "ms"]} & 
+    \Sexpr{lerTab["PopID:WaterTrt", "df1"]} &
+    \Sexpr{lerTab["PopID:WaterTrt", "df2"]} &
+    \Sexpr{lerTab["PopID:WaterTrt", "fval"]} & 
+    \Sexpr{lerTab["PopID:WaterTrt", "pval"]} \\
+  Population $\times$ Temperature $\times$ Water & 
+    \Sexpr{lerTab["PopID:TempTrt:WaterTrt", "ss"]} & 
+    \Sexpr{lerTab["PopID:TempTrt:WaterTrt", "ms"]} & 
+    \Sexpr{lerTab["PopID:TempTrt:WaterTrt", "df1"]} & 
+    \Sexpr{lerTab["PopID:TempTrt:WaterTrt", "df2"]} & 
+    \Sexpr{lerTab["PopID:TempTrt:WaterTrt", "fval"]} & 
+    \Sexpr{lerTab["PopID:TempTrt:WaterTrt", "pval"]} \\
 	\bottomrule
 	\end{tabular}
 	\label{table:TableS_fitLER}
 	\end{center}
 \end{table}
 
-% ANOVA table for SER (need to label tables)
+% ANOVA table for SER
+
+<<TableS_fitSER, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
+	
+  # Convert numbers from R to LaTeX characters
+  serTab <- data.frame(ss = sigDig(fitSER$anova.table$`Sum Sq`),
+                       ms = sigDig(fitSER$anova.table$`Mean Sq`),
+                       df1 = sigDig(fitSER$anova.table$NumDF),
+                       df2 = sigDig(fitSER$anova.table$DenDF),
+                       fval = sigDig(fitSER$anova.table$F.value),
+                       pval = pval2latex(fitSER$anova.table$`Pr(>F)`),
+                       stringsAsFactors = F)
+  rownames(serTab) <- rownames(fitSER$anova.table)
+
+@
+
 \begin{table}[htbp]
 	\usefont{T1}{phv}{m}{n}
 	\fontsize{10}{12}
 	\selectfont
-	\caption[ANOVA table, shoot elongation rate]{CAPTION}
+	\caption[ANOVA table, shoot elongation rate]{Sum of squares (SS); Mean sum of squares (MS); Numerator degrees of freedom (df1); Denominator degrees of freedom (df2)}
 	\begin{center}
 	\begin{tabular}{lcccccc}
 	\toprule
 
-	\input{Tables/Table_heightGrowthAnova.txt}
-
+  & SS & MS & df1 & df2 & \em{F}-value & $P$-value \\ \midrule
+  Day to Germination & \Sexpr{serTab["AvgGermDay", "ss"]} & 
+    \Sexpr{serTab["AvgGermDay", "ms"]} & \Sexpr{serTab["AvgGermDay", "df1"]} & 
+    \Sexpr{serTab["AvgGermDay", "df2"]} & \Sexpr{serTab["AvgGermDay", "fval"]} &
+    \Sexpr{serTab["AvgGermDay", "pval"]} \\
+  Population & \Sexpr{serTab["PopID", "ss"]} & \Sexpr{serTab["PopID", "ms"]} & 
+    \Sexpr{serTab["PopID", "df1"]} & \Sexpr{serTab["PopID", "df2"]} & 
+    \Sexpr{serTab["PopID", "fval"]} & \Sexpr{serTab["PopID", "pval"]} \\
+  Temperature & \Sexpr{serTab["TempTrt", "ss"]} & 
+    \Sexpr{serTab["TempTrt", "ms"]} & \Sexpr{serTab["TempTrt", "df1"]} &
+    \Sexpr{serTab["TempTrt", "df2"]} & \Sexpr{serTab["TempTrt", "fval"]} &
+    \Sexpr{serTab["TempTrt", "pval"]} \\
+  Water & \Sexpr{serTab["WaterTrt", "ss"]} & \Sexpr{serTab["WaterTrt", "ms"]} & 
+    \Sexpr{serTab["WaterTrt", "df1"]} & \Sexpr{serTab["WaterTrt", "df2"]} & 
+    \Sexpr{serTab["WaterTrt", "fval"]} & \Sexpr{serTab["WaterTrt", "pval"]} \\
+  Population $\times$ Temperature & \Sexpr{serTab["PopID:TempTrt", "ss"]} & 
+    \Sexpr{serTab["PopID:TempTrt", "ms"]} & 
+    \Sexpr{serTab["PopID:TempTrt", "df1"]} & 
+    \Sexpr{serTab["PopID:TempTrt", "df2"]} & 
+    \Sexpr{serTab["PopID:TempTrt", "fval"]} &
+    \Sexpr{serTab["PopID:TempTrt", "pval"]} \\
+  Population $\times$ Water & \Sexpr{serTab["PopID:WaterTrt", "ss"]} & 
+    \Sexpr{serTab["PopID:WaterTrt", "ms"]} & 
+    \Sexpr{serTab["PopID:WaterTrt", "df1"]} &
+    \Sexpr{serTab["PopID:WaterTrt", "df2"]} &
+    \Sexpr{serTab["PopID:WaterTrt", "fval"]} & 
+    \Sexpr{serTab["PopID:WaterTrt", "pval"]} \\
+  Population $\times$ Temperature $\times$ Water & 
+    \Sexpr{serTab["PopID:TempTrt:WaterTrt", "ss"]} & 
+    \Sexpr{serTab["PopID:TempTrt:WaterTrt", "ms"]} & 
+    \Sexpr{serTab["PopID:TempTrt:WaterTrt", "df1"]} & 
+    \Sexpr{serTab["PopID:TempTrt:WaterTrt", "df2"]} & 
+    \Sexpr{serTab["PopID:TempTrt:WaterTrt", "fval"]} & 
+    \Sexpr{serTab["PopID:TempTrt:WaterTrt", "pval"]} \\
 	\bottomrule
 	\end{tabular}
+	\label{table:TableS_fitSER}
+	\end{center}
+\end{table}
+
+% ANOVA table for photosynthesis
+
+<<TableS_fitPhoto, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
+	
+  # Convert numbers from R to LaTeX characters
+  photoTab <- data.frame(ss = sigDig(fitPhoto$anova.table$`Sum Sq`),
+                         ms = sigDig(fitPhoto$anova.table$`Mean Sq`),
+                         df1 = sigDig(fitPhoto$anova.table$NumDF),
+                         df2 = sigDig(fitPhoto$anova.table$DenDF),
+                         fval = sigDig(fitPhoto$anova.table$F.value),
+                         pval = pval2latex(fitPhoto$anova.table$`Pr(>F)`),
+                         stringsAsFactors = F)
+  rownames(photoTab) <- rownames(fitPhoto$anova.table)
+
+@
+
+\begin{table}[htbp]
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[ANOVA table, photosynthesis]{Sum of squares (SS); Mean sum of squares (MS); Numerator degrees of freedom (df1); Denominator degrees of freedom (df2)}
+	\begin{center}
+	\begin{tabular}{lcccccc}
+	\toprule
+
+  & SS & MS & df1 & df2 & \em{F}-value & $P$-value \\ \midrule
+  Population & \Sexpr{photoTab["PopID", "ss"]} & 
+    \Sexpr{photoTab["PopID", "ms"]} & \Sexpr{photoTab["PopID", "df1"]} &
+    \Sexpr{photoTab["PopID", "df2"]} & \Sexpr{photoTab["PopID", "fval"]} &
+    \Sexpr{photoTab["PopID", "pval"]} \\
+  Temperature & \Sexpr{photoTab["TempTrt", "ss"]} & 
+    \Sexpr{photoTab["TempTrt", "ms"]} & \Sexpr{photoTab["TempTrt", "df1"]} &
+    \Sexpr{photoTab["TempTrt", "df2"]} & \Sexpr{photoTab["TempTrt", "fval"]} &
+    \Sexpr{photoTab["TempTrt", "pval"]} \\
+  Water & \Sexpr{photoTab["WaterTrt", "ss"]} & 
+    \Sexpr{photoTab["WaterTrt", "ms"]} & \Sexpr{photoTab["WaterTrt", "df1"]} &
+    \Sexpr{photoTab["WaterTrt", "df2"]} & \Sexpr{photoTab["WaterTrt", "fval"]} &
+    \Sexpr{photoTab["WaterTrt", "pval"]} \\
+  Population $\times$ Temperature & \Sexpr{photoTab["PopID:TempTrt", "ss"]} & 
+    \Sexpr{photoTab["PopID:TempTrt", "ms"]} & 
+    \Sexpr{photoTab["PopID:TempTrt", "df1"]} & 
+    \Sexpr{photoTab["PopID:TempTrt", "df2"]} & 
+    \Sexpr{photoTab["PopID:TempTrt", "fval"]} &
+    \Sexpr{photoTab["PopID:TempTrt", "pval"]} \\
+  Population $\times$ Water & \Sexpr{photoTab["PopID:WaterTrt", "ss"]} & 
+    \Sexpr{photoTab["PopID:WaterTrt", "ms"]} & 
+    \Sexpr{photoTab["PopID:WaterTrt", "df1"]} &
+    \Sexpr{photoTab["PopID:WaterTrt", "df2"]} &
+    \Sexpr{photoTab["PopID:WaterTrt", "fval"]} & 
+    \Sexpr{photoTab["PopID:WaterTrt", "pval"]} \\
+  Population $\times$ Temperature $\times$ Water & 
+    \Sexpr{photoTab["PopID:TempTrt:WaterTrt", "ss"]} & 
+    \Sexpr{photoTab["PopID:TempTrt:WaterTrt", "ms"]} & 
+    \Sexpr{photoTab["PopID:TempTrt:WaterTrt", "df1"]} & 
+    \Sexpr{photoTab["PopID:TempTrt:WaterTrt", "df2"]} & 
+    \Sexpr{photoTab["PopID:TempTrt:WaterTrt", "fval"]} & 
+    \Sexpr{photoTab["PopID:TempTrt:WaterTrt", "pval"]} \\
+	\bottomrule
+	\end{tabular}
+	\label{table:TableS_fitPhoto}
+	\end{center}
+\end{table}
+
+% ANOVA table for intrinsic photosynthetic rate
+
+<<TableS_fitIntrnPhoto, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
+	
+  # Convert numbers from R to LaTeX characters
+  intrnPhotoTab <- data.frame(ss = sigDig(fitIntrnPhoto$anova.table$`Sum Sq`),
+                              ms = sigDig(fitIntrnPhoto$anova.table$`Mean Sq`),
+                              df1 = sigDig(fitIntrnPhoto$anova.table$NumDF),
+                              df2 = sigDig(fitIntrnPhoto$anova.table$DenDF),
+                              fval = sigDig(fitIntrnPhoto$anova.table$F.value),
+                              pval = 
+                                pval2latex(fitIntrnPhoto$anova.table$`Pr(>F)`),
+                              stringsAsFactors = F)
+  rownames(intrnPhotoTab) <- rownames(fitIntrnPhoto$anova.table)
+
+@
+
+\begin{table}[htbp]
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[ANOVA table, photosynthesis]{Sum of squares (SS); Mean sum of squares (MS); Numerator degrees of freedom (df1); Denominator degrees of freedom (df2)}
+	\begin{center}
+	\begin{tabular}{lcccccc}
+	\toprule
+
+  & SS & MS & df1 & df2 & \em{F}-value & $P$-value \\ \midrule
+  Population & \Sexpr{photoTab["PopID", "ss"]} & 
+    \Sexpr{intrnPhotoTab["PopID", "ms"]} & 
+    \Sexpr{intrnPhotoTab["PopID", "df1"]} &
+    \Sexpr{intrnPhotoTab["PopID", "df2"]} & 
+    \Sexpr{intrnPhotoTab["PopID", "fval"]} &
+    \Sexpr{intrnPhotoTab["PopID", "pval"]} \\
+  Temperature & \Sexpr{intrnPhotoTab["TempTrt", "ss"]} & 
+    \Sexpr{intrnPhotoTab["TempTrt", "ms"]} & 
+    \Sexpr{intrnPhotoTab["TempTrt", "df1"]} &
+    \Sexpr{intrnPhotoTab["TempTrt", "df2"]} & 
+    \Sexpr{intrnPhotoTab["TempTrt", "fval"]} &
+    \Sexpr{intrnPhotoTab["TempTrt", "pval"]} \\
+  Water & \Sexpr{intrnPhotoTab["WaterTrt", "ss"]} & 
+    \Sexpr{intrnPhotoTab["WaterTrt", "ms"]} & 
+    \Sexpr{intrnPhotoTab["WaterTrt", "df1"]} &
+    \Sexpr{intrnPhotoTab["WaterTrt", "df2"]} & 
+    \Sexpr{intrnPhotoTab["WaterTrt", "fval"]} &
+    \Sexpr{intrnPhotoTab["WaterTrt", "pval"]} \\
+  Population $\times$ Temperature & 
+    \Sexpr{intrnPhotoTab["PopID:TempTrt", "ss"]} & 
+    \Sexpr{intrnPhotoTab["PopID:TempTrt", "ms"]} & 
+    \Sexpr{intrnPhotoTab["PopID:TempTrt", "df1"]} & 
+    \Sexpr{intrnPhotoTab["PopID:TempTrt", "df2"]} & 
+    \Sexpr{intrnPhotoTab["PopID:TempTrt", "fval"]} &
+    \Sexpr{intrnPhotoTab["PopID:TempTrt", "pval"]} \\
+  Population $\times$ Water & \Sexpr{intrnPhotoTab["PopID:WaterTrt", "ss"]} & 
+    \Sexpr{intrnPhotoTab["PopID:WaterTrt", "ms"]} & 
+    \Sexpr{intrnPhotoTab["PopID:WaterTrt", "df1"]} &
+    \Sexpr{intrnPhotoTab["PopID:WaterTrt", "df2"]} &
+    \Sexpr{intrnPhotoTab["PopID:WaterTrt", "fval"]} & 
+    \Sexpr{intrnPhotoTab["PopID:WaterTrt", "pval"]} \\
+  Population $\times$ Temperature $\times$ Water & 
+    \Sexpr{intrnPhotoTab["PopID:TempTrt:WaterTrt", "ss"]} & 
+    \Sexpr{intrnPhotoTab["PopID:TempTrt:WaterTrt", "ms"]} & 
+    \Sexpr{intrnPhotoTab["PopID:TempTrt:WaterTrt", "df1"]} & 
+    \Sexpr{intrnPhotoTab["PopID:TempTrt:WaterTrt", "df2"]} & 
+    \Sexpr{intrnPhotoTab["PopID:TempTrt:WaterTrt", "fval"]} & 
+    \Sexpr{intrnPhotoTab["PopID:TempTrt:WaterTrt", "pval"]} \\
+	\bottomrule
+	\end{tabular}
+	\label{table:TableS_fitIntrnPhoto}
+	\end{center}
+\end{table}
+
+% Analysis of deviance table for mortality
+
+<<TableS_fitPhoto, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
+	
+  # Convert numbers from R to LaTeX characters
+  tab <- Anova(fitMort, type = 2)
+  mortTab <- data.frame(chisq = sigDig(tab$Chisq), df = tab$Df,
+                         pval = pval2latex(tab$`Pr(>Chisq)`),
+                         stringsAsFactors = F)
+  rownames(mortTab) <- rownames(tab)
+
+@
+
+\begin{table}[htbp]
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[ANOVA table, mortality]{CAPTION}
+	\begin{center}
+	\begin{tabular}{lccc}
+	\toprule
+
+  & $\chi ^2$ & df & $P$-value \\ \midrule
+  Population & \Sexpr{mortTab["PopID", "chisq"]} & 
+    \Sexpr{mortTab["PopID", "df"]} & \Sexpr{mortTab["PopID", "pval"]} & \\
+  Temperature & \Sexpr{mortTab["TempTrt", "chisq"]} & 
+    \Sexpr{mortTab["TempTrt", "df"]} & \Sexpr{mortTab["TempTrt", "pval"]} & \\
+  Water & \Sexpr{mortTab["WaterTrt", "chisq"]} & 
+    \Sexpr{mortTab["WaterTrt", "df"]} & \Sexpr{mortTab["WaterTrt", "pval"]} & \\
+  Population $\times$ Temperature & \Sexpr{mortTab["PopID:TempTrt", "chisq"]} & 
+    \Sexpr{mortTab["PopID:TempTrt", "df"]} & 
+    \Sexpr{mortTab["PopID:TempTrt", "pval"]} & \\
+  Population $\times$ Water & \Sexpr{mortTab["PopID:WaterTrt", "chisq"]} & 
+    \Sexpr{mortTab["PopID:WaterTrt", "df"]} & 
+    \Sexpr{mortTab["PopID:WaterTrt", "pval"]} & \\
+  Population $\times$ Temperature $\times$ Water & 
+    \Sexpr{mortTab["PopID:TempTrt:WaterTrt", "chisq"]} & 
+    \Sexpr{mortTab["PopID:TempTrt:WaterTrt", "df"]} & 
+    \Sexpr{mortTab["PopID:TempTrt:WaterTrt", "pval"]} & \\	\bottomrule
+	\end{tabular}
+	\label{table:TableS_fitMort}
 	\end{center}
 \end{table}
 

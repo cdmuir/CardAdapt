@@ -1,10 +1,11 @@
 Precipitation of wettest quarter ($\sigma$) & Precipitation of wettest quarter ($\sigma$) & Precipitation seasonality ($\sigma$) \\
- Annual precipitation ($\sigma$) & Annual precipitation ($\sigma$) &  \\
-Mean temperature of coldest quarter ($\sigma$) & Precipitation seasonality ($\sigma$) &  \\
-Precipitation seasonality ($\mu$) & Precipitation of wettest quarter ($\mu$) &  \\
+ Annual precipitation ($\sigma$) & Annual precipitation ($\sigma$) & Mean diurnal range ($\sigma$) \\
+ Precipitation of coldest quarter ($\sigma$) & Precipitation of wettest quarter ($\mu$) & Precipitation of wettest quarter ($\sigma$) \\
+ Mean temperature of coldest quarter ($\sigma$) & Annual precipitation ($\mu$) &  \\
+Precipitation seasonality ($\mu$) &  &  \\
+Chilling degree-days ($\sigma$) &  &  \\
 Precipitation of warmest quarter ($\sigma$) &  &  \\
 Mean temperature of warmest quarter ($\sigma$) &  &  \\
-Precipitation of driest quarter ($\sigma$) &  &  \\
-Mean temperature of wettest quarter ($\sigma$) &  &  \\
-Annual precipitation ($\mu$) &  &  \\
 Temperature seasonality ($\mu$) &  &  \\
+Precipitation as snow ($\sigma$) &  &  \\
+Precipitation of driest quarter ($\mu$) &  &  \\

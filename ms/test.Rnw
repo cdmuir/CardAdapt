@@ -1,0 +1,9 @@
+\documentclass{article}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+\Sexpr{"$2 \\\\times 10^2$"}
+
+
+\end{document}
