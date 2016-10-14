@@ -1,0 +1,159 @@
+% Chunks/writing that I took out which may be useful for later
+
+% ANOVA table for intrinsic photosynthetic rate
+% Not including intrinsic photosynthetic rate for now
+<<TableS_fitIntrnPhoto, eval=FALSE, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
+	
+  # Convert numbers from R to LaTeX characters
+  intrnPhotoTab <- data.frame(ss = sigDig(fitIntrnPhoto$anova.table$`Sum Sq`),
+                              ms = sigDig(fitIntrnPhoto$anova.table$`Mean Sq`),
+                              df1 = sigDig(fitIntrnPhoto$anova.table$NumDF),
+                              df2 = sigDig(fitIntrnPhoto$anova.table$DenDF),
+                              fval = sigDig(fitIntrnPhoto$anova.table$F.value),
+                              pval = 
+                                pval2latex(fitIntrnPhoto$anova.table$`Pr(>F)`),
+                              stringsAsFactors = F)
+  rownames(intrnPhotoTab) <- rownames(fitIntrnPhoto$anova.table)
+
+@
+
+% \begin{table}[htbp]
+%	\usefont{T1}{phv}{m}{n}
+%	\fontsize{10}{12}
+%	\selectfont
+%	\caption[ANOVA table, intrinsic photosynthesic rate]{Analysis of varianace (ANOVA) table on intrinsic photosynthetic rate (the residual photosynthesis after removing the effect of stomatal conductance) using \pkg{lmerTest} \citep{Kuznetsova_etal_2016}. Family and Block were included as random effects. Abbreviations: SS = sum of squares; MS = mean sum of squares (SS / df1); df1 = numerator degrees of freedom; df2 = denominator degrees of freedom.}
+%	\begin{center}
+%	\begin{tabular}{lcccccc}
+%	\toprule
+
+%  & SS & MS & df1 & df2 & \em{F}-value & $P$-value \\ \midrule
+%  Population & \Sexpr{photoTab["PopID", "ss"]} & 
+%    \Sexpr{intrnPhotoTab["PopID", "ms"]} & 
+%    \Sexpr{intrnPhotoTab["PopID", "df1"]} &
+%    \Sexpr{intrnPhotoTab["PopID", "df2"]} & 
+%    \Sexpr{intrnPhotoTab["PopID", "fval"]} &
+%    \Sexpr{intrnPhotoTab["PopID", "pval"]} \\
+%  Temperature & \Sexpr{intrnPhotoTab["TempTrt", "ss"]} & 
+%    \Sexpr{intrnPhotoTab["TempTrt", "ms"]} & 
+%    \Sexpr{intrnPhotoTab["TempTrt", "df1"]} &
+%    \Sexpr{intrnPhotoTab["TempTrt", "df2"]} & 
+%    \Sexpr{intrnPhotoTab["TempTrt", "fval"]} &
+%    \Sexpr{intrnPhotoTab["TempTrt", "pval"]} \\
+%  Water & \Sexpr{intrnPhotoTab["WaterTrt", "ss"]} & 
+%    \Sexpr{intrnPhotoTab["WaterTrt", "ms"]} & 
+%    \Sexpr{intrnPhotoTab["WaterTrt", "df1"]} &
+%    \Sexpr{intrnPhotoTab["WaterTrt", "df2"]} & 
+%    \Sexpr{intrnPhotoTab["WaterTrt", "fval"]} &
+%    \Sexpr{intrnPhotoTab["WaterTrt", "pval"]} \\
+%  Temperature $\times$ Water & 
+%    \Sexpr{intrnPhotoTab["TempTrt:WaterTrt", "ss"]} & 
+%    \Sexpr{intrnPhotoTab["TempTrt:WaterTrt", "ms"]} & 
+%    \Sexpr{intrnPhotoTab["TempTrt:WaterTrt", "df1"]} & 
+%    \Sexpr{intrnPhotoTab["TempTrt:WaterTrt", "df2"]} & 
+%    \Sexpr{intrnPhotoTab["TempTrt:WaterTrt", "fval"]} &
+%    \Sexpr{intrnPhotoTab["TempTrt:WaterTrt", "pval"]} \\
+%  Population $\times$ Temperature & 
+%    \Sexpr{intrnPhotoTab["PopID:TempTrt", "ss"]} & 
+%    \Sexpr{intrnPhotoTab["PopID:TempTrt", "ms"]} & 
+%    \Sexpr{intrnPhotoTab["PopID:TempTrt", "df1"]} & 
+%    \Sexpr{intrnPhotoTab["PopID:TempTrt", "df2"]} & 
+%    \Sexpr{intrnPhotoTab["PopID:TempTrt", "fval"]} &
+%    \Sexpr{intrnPhotoTab["PopID:TempTrt", "pval"]} \\
+%  Population $\times$ Water & \Sexpr{intrnPhotoTab["PopID:WaterTrt", "ss"]} & 
+%    \Sexpr{intrnPhotoTab["PopID:WaterTrt", "ms"]} & 
+%    \Sexpr{intrnPhotoTab["PopID:WaterTrt", "df1"]} &
+%    \Sexpr{intrnPhotoTab["PopID:WaterTrt", "df2"]} &
+%    \Sexpr{intrnPhotoTab["PopID:WaterTrt", "fval"]} & 
+%    \Sexpr{intrnPhotoTab["PopID:WaterTrt", "pval"]} \\
+%  Population $\times$ Temperature $\times$ Water & 
+%    \Sexpr{intrnPhotoTab["PopID:TempTrt:WaterTrt", "ss"]} & 
+%    \Sexpr{intrnPhotoTab["PopID:TempTrt:WaterTrt", "ms"]} & 
+%    \Sexpr{intrnPhotoTab["PopID:TempTrt:WaterTrt", "df1"]} & 
+%    \Sexpr{intrnPhotoTab["PopID:TempTrt:WaterTrt", "df2"]} & 
+%    \Sexpr{intrnPhotoTab["PopID:TempTrt:WaterTrt", "fval"]} & 
+%    \Sexpr{intrnPhotoTab["PopID:TempTrt:WaterTrt", "pval"]} \\
+%	\bottomrule
+%	\end{tabular}
+%	\label{table:TableS_fitIntrnPhoto}
+%	\end{center}
+% \end{table}
+
+% Not including Intrinsic Photo for now
+<<FigS_IntrnPhotoLat, eval=FALSE, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
+
+	pdf(paste(pathFig, "/FigureS_IntrnPhotoLat.pdf", sep = ""), 5.5, 5)
+	par(mai = c(1, 1.5, 0.1, 0.1))
+	plot(focClim$Latitude, fitIntrnPhoto$lsmeans.table[1:16, "Estimate"], 
+	     xlim = c(30, 45), ylim = c(-0.3, 0.3), xlab = "Latitude of Origin", 
+	     ylab = "Intrinsic photosynthetic rate\n(residuals of photo ~ stom cond)", 
+	     las = 1, cex.lab = 1.5, type = "n", axes = F, frame.plot = T)
+	arrows(focClim$Lat, fitIntrnPhoto$lsmeans.table[1:16, "Lower CI"], 
+	       focClim$Lat, fitIntrnPhoto$lsmeans.table[1:16, "Upper CI"], 
+	       angle = 90, length = 0.05, code = 3)
+	points(focClim$Lat, fitIntrnPhoto$lsmeans.table[1:16, "Estimate"], 
+	       col = "white", bg = "black", pch = 21, cex = 1.5)
+	
+	axis(1, at = seq(30, 45, 5), lwd = 0, lwd.ticks = 1,
+	     labels = expression(30*degree, 35*degree, 40*degree, 45*degree))	
+	axis(2, lwd = 0, lwd.ticks = 1, las = 1)	
+	
+	fit <- lm(fitIntrnPhoto$lsmeans.table[1:16, "Estimate"] ~ Latitude, 
+	          data = focClim)
+
+	points(range(focClim$Latitude), 
+	       predict(fit, new = data.frame(Latitude = range(focClim$Latitude))),
+	       type = "l", lwd = 2)
+
+	text(grconvertX(0.95, "npc"), grconvertY(0.95, "npc"), adj = c(1, 1),
+	     labels = bquote(italic(P) == .(round(summary(fit)[[4]][2, 4], 3))))
+	
+	dev.off()
+	
+@
+
+% \begin{figure}[h!]
+%	\centerline{\includegraphics[width=0.5\textwidth]{Figures/FigureS_Photolat.pdf}}
+%	\usefont{T1}{phv}{m}{n}
+%	\fontsize{10}{12}
+%	\selectfont
+%	\caption[Southern populations photosynthesize faster.]{Southern populations photosynthesize faster. Each point is a population of \textit{M. cardinalis} showing its latitude of origin (x-axis) and model-predicted instantaneous photosynthetic rate. Bars around each point are 95\% confidence intervals. Predicted photosynthetic rates based least-square mean estimates and confidence intervals were calculated from linear mixed models (see Materials and Materials). The line is the linear regression of model-predicated photosynthetic rate ~ latitude. The $P$-value of the regression is given in the upper right corner.}
+%	\label{fig:FigS_SERlat}
+% \end{figure}
+
+% Not using biomass data for now
+% \paragraph{Biomass at harvest} 
+
+% We harvested plants that survived until the end of the experiment from 3 to 16 July (80 to 93 days after sowing). We separated individual plants into three biomass fractions: leaves, shoots, and belowground (roots plus rhizomes). Belowground fractions were rinsed thoroughly in water to remove sand. After completely drying in a forced air oven (Shel Lab, Sheldon Manufacturing Inc., Oregon, USA), we weighed the dry mass of each fraction using an analytical balance.
+
+% Keeping this code in case I want to use it later
+<<Root Allometry, eval = FALSE, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
+
+master$logRootsDW_g <- log(master$RootsDW_g)
+master$logBiomass <- log(master$Biomass)
+
+mmRoot <- lmer(logRootsDW_g ~ PopID * TempTrt * logBiomass + (1|Family) +
+                 (1|Block), data = subset(master, master$WaterTrt == "Wet"))
+fitRoot <- step(mmRoot, reduce.random = F) # includes ?
+fitRoot$anova.table
+
+# correlation with intercept
+plot(focClim$Latitude, fitRoot$lsmeans.table[1:16, "Estimate"])
+cor.test(focClim$Latitude, fitRoot$lsmeans.table[1:16, "Estimate"])
+
+# correlation with slope
+tmp <- grep("PopID[A-Z]*:logBiomass", names(fixef(fitRoot$model)))
+x <- c(fixef(fitRoot$model)["logBiomass"], 
+       fixef(fitRoot$model)["logBiomass"] + fixef(fitRoot$model)[tmp])
+
+plot(focClim$Latitude, x)
+cor.test(focClim$Latitude, x)
+
+@
+
+% From Discussion
+% The observation that populations are locally adapted to their environment is old and well-documented in many species. New frontiers in local adaptation research seek a general explanation for why local adaptation often suceeds but sometimes fails, why certain traits respond to selection whereas others are constrained, and what environmental drivers are most important [CITES such as Kawecki]. Understanding why and how populations have adapted to different environments in the past is especially significant now as a scientific basis for predicting how species' ranges will shift under climate change [CITES, \citep{Catullo_etal_2015}]. 
+
+% could be useful in Discussion???
+
+% move to Discussion (EDITTTT!!!)
+Overlap between Climate-Latitude and point estimated Climate-TraitPC1 variables suggests that interannual variation in precipitation is an important selective agent in \textit{M. cardinalis}. Specifically, we hypothesize that more frequent droughts (greater precipitation cv) in Southern populations selects for an `annual-ized' life history, as we detail in the Discussion. Even though the spatially averaged Climate-TraitPC1 variable was not among the Climate-Latitude variables, it points to a similar conclusion. Specifically, this analysis showed that greater interannual variation in precipitation seasonality, which is also driven by precipitation variability (i.e. more frequent drought years) in Southern California, is associated with faster growth in southern populations. We must qualify these results because our analysis obviously cannot rule out that alternative variables not included in the analysis may be more important.
