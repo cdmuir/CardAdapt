@@ -2,8 +2,8 @@ Precipitation of wettest quarter ($\sigma$) & Precipitation of wettest quarter (
  Annual precipitation ($\sigma$) & Annual precipitation ($\sigma$) & Mean temperature of coldest quarter ($\sigma$) \\
  Precipitation of coldest quarter ($\sigma$) & Chilling degree-days ($\sigma$) & Precipitation seasonality ($\sigma$) \\
  Mean temperature of coldest quarter ($\sigma$) & Annual mean relative humidity ($\sigma$) & Hargreaves climatic moisture deficit ($\mu$) \\
- Precipitation seasonality ($\mu$) & Precipitation seasonality ($\sigma$) &  \\
-Chilling degree-days ($\sigma$) &  &  \\
+ Precipitation seasonality ($\mu$) & Precipitation seasonality ($\sigma$) & Temperature annual range ($\sigma$) \\
+ Chilling degree-days ($\sigma$) &  &  \\
 Precipitation of warmest quarter ($\sigma$) &  &  \\
 Mean temperature of warmest quarter ($\sigma$) &  &  \\
 Temperature seasonality ($\mu$) &  &  \\
