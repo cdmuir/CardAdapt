@@ -1,10 +1,5 @@
 %lost on page 11 - extracted and used climate variables
 %cartoon of whole procedure for climate variables
-%figure showing correlation b/t bio12 and 
-%state that VSURF importance is different scales in different models
-%moved up three hypotheses part to introduction
-%play up lack of GxE and ???
-%** correct # of Pop x Treatment
 % model of growth chamber
 % need to explain 'importance'
 
@@ -20,7 +15,6 @@
 
 %* put in biomass allocation cline
 % TO DO:
-% 1. Is water regime on figure 1 correct? (data is in office)
 % 2. Double check spatially averaged analysis
 % 3. For Figure_PC1vLat: plot axes could be range maps with areas highlighted (x-axis) and short to tall plants (y-axis)
 % 4. Do anything with biomass data? Currently, NO.
@@ -266,12 +260,23 @@ For each single-trait model above, we extracted the Population coefficient (fact
 
 \subsection*{Identifying putative selective agents}
 
-We found that a population's position along TraitPC1 correlated strongly with the latitude or origin (see Results) and next used Random Forest regression \citep{Liaw_Wiener_2002} to identify putative climatic factors underlying trait-latitude associations in \textit{M. cardinalis}. Hypothesis 1: if a single climatic factor explained more trait variation than latitude alone, this would suggest that that factor is a selective agent underlying the latitudinal cline in our 16 focal populations. Hypothesis 2: if multiple climatic factors together explained trait variation,  we interpreted this as evidence that multiple climatic factors together have generated the latitudinal cline. We hereafter refer to factors identified in this analysis as `Climate-TraitPC1' variables. In addition, to help eliminate potentially spurious correlations between TraitPC1 and climate, we tested for overlap between climatic variables that best predict latitude of all \textit{M. cardinalis} occurrence records, not just the 16 focial populations. We refer to these climatic factors as `Climate-Latitude' variables. The logic is that climatic factors associated with both TraitPC1 and latitude for all populations are more likely to be important selective agents than climatic factors that happen to correlate with TraitPC1 but do not covary with latitude throughout the \textit{M. cardinalis} range. We selected Climate-Latitude and Climate-TraitPC1 variables independently with Variable Selection Using Random Forest (VSURF) algorithm in the R package \pkg{VSURF} version 1.0.3 \citep{Genuer_etal_2016}. VSURF ranks variables by their importance over regression trees in the forest. We kept only variables selected for prediction, the most stringent criterion.
-
-% This is now stated above.
-%If latitude is strongly correlated with one or two climatic variables that are responsible for the cline, then there should be one or two climatic variables that are identified in both the Climate-Latitude and Climate-TraitPC1 analyses \ala{and the correlation magnitudes should be high? maybe this language is not technically correct (variable importance more accurate?) but the point is that this prediction needs something about count and the strength}. If latitude is correlated with several climatic agents of selection that are individually weak, but add up to a strong latitudinal cline, then several climatic variables should be weakly correlated \ala{fix this to mirror prior}.
+We found that a population's position along TraitPC1 correlated strongly with the latitude or origin (see Results) and next used Random Forest regression \citep{Liaw_Wiener_2002} to identify putative climatic factors underlying trait-latitude associations in \textit{M. cardinalis}. Hypothesis 1: if a single climatic factor explained more trait variation than latitude alone, this would suggest that that factor is a selective agent underlying the latitudinal cline in our 16 focal populations. Hypothesis 2: if multiple climatic factors together explained trait variation,  we interpreted this as evidence that multiple climatic factors together have generated the latitudinal cline. We hereafter refer to factors identified in this analysis as `Climate-TraitPC1' variables. In addition, to help eliminate potentially spurious correlations between TraitPC1 and climate, we tested for overlap between climatic variables that best predict latitude of all \textit{M. cardinalis} occurrence records, not just the 16 focial populations. We refer to these climatic factors as `Climate-Latitude' variables. The logic is that climatic factors associated with both TraitPC1 and latitude for all populations are more likely to be important selective agents than climatic factors that happen to correlate with TraitPC1 but do not covary with latitude throughout the \textit{M. cardinalis} range. We selected Climate-Latitude and Climate-TraitPC1 variables independently with Variable Selection Using Random Forest (VSURF) algorithm in the R package \pkg{VSURF} version 1.0.3 \citep{Genuer_etal_2016}. VSURF ranks variables by their importance over regression trees in the forest. We kept only variables selected for prediction, the most stringent criterion. A visual overview of how we selected climatic variables is depicted in Fig~\ref{fig:Fig_VarSelect}.
 
 To test the third hypothesis about climatic neighborhoods driving selection, we repeated the same procedure to identify Climate-TraitPC1 variables as above, except that we used spatially averaged climate variables. We sampled climate at 1000 random points (at 90-m resolution) within a 62-km buffer around the 16 focal populations. We chose this buffer size because neutral genetic differentiation increases slowly with geographic distance, indicating significant gene flow between nearby populations \citep{Paul_etal_2016}. Significant spatial autocorrelation persisted for approximately 62 km. Since \textit{M. cardinalis} is found exclusively in riparian areas, we only selected points along streams using the National Hydrogeoraphy Dataset \citep{NHD}. Climatic means and CVs were weighted by their climatic suitability as determined using a multimodel ensemble average of ecological niche models \citep{Angert_ENM}. We distinguish between analyses where climate is inferred from a single point (`point estimated Climate-TraitPC1') versus averaged across a 62-km climatic neighborhood (`spatially averaged Climate-TraitPC1'). 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Figure of variable selection algorithm
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[h!]
+	\centerline{\includegraphics[width=1\textwidth]{Figures/Figure_VarSelectBase.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Climatic variable selection]{Overview of process for identifying putative climatic selective drivers underlying latitudinal cline. We looked for climate variables that explained both the latitude of 356 \textit{M. cardinalis} occurences (`Climate-Latitude variables') and with traits (`Climate-Trait variables'). (A) For Climate-Latitude variables we extracted climate data from the specific location where a population was collected ($x_{i,0}$) throughout California and Oregon, USA (shown in map). For Climate-Trait variables, we extracted climatic data in two ways, but only for the 16 focal populations. (B) For point-estimated Climate-Trait variables, we extracted climate only from where a population was collected ($x_{i,0}$). (C) For spatially averaged Climate-Trait variables, we averaged over 1000 points in a 62-km radius climatic neighborhood ($x_{i,1}, x_{i,2}, \dots$), but only along stream habitats as \textit{M. cardinalis} is riparian.}
+	\label{fig:Fig_VarSelect}
+\end{figure}
 
 
 For Climate-Latitude analyses, we compiled a representative set of 356 recent (since 2000) known \textit{M. cardinalis} occurences. These occurences were thinned by 50\% to correct for uneven sampling from a comprehensive set of herbarium records and an exhaustive field survey in 2010-11 \citep{Angert_ENM}. For both Climate-TraitPC1 analyses (16 focal populations) and Climate-Latitude (many populations), we used a 90-m digital elevation model from HydroSHEDS \citep{Lehner_etal_2006} to extract elevation. Monthly interpolated climate layers were calculated using ClimateWNA version 5.30 \citep{Wang_etal_2012}, which accurately downscales climate data specifically for the rugged topography of western North America. For each occurence, we calculated bioclimatic variables using the biovars function in the R package \pkg{dismo} version 1.1-1 \citep{Hijmans_etal_2016}. In total, we included 24 climate variables, 9 from ClimateWNA and 15 bioclimatic variables (Table~\ref{table:TableS_ClimVars}). The bioclimatic variables included all permutations of two climatic factors, temperature and precipitation, and six temporal scales (annual average, coldest quarter, warmest quarter, wettest quarter, driest quarter, or seasonality) as well as mean diurnal range, isothermality, annual temperature range. For each variable, we calculated both a 30-year normal by averging annual values between 1981 and 2010 and 30-year coefficient of variation, a standardized metric of interannual climatic variation. Temperatures were converted to Kelvin to be on a ratio scale appropriate for calculating the coefficient of variation. 
