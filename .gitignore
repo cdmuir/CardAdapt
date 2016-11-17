@@ -6,6 +6,9 @@ Extraneous/*
 Field Data 2014/*
 GBS/*
 Methods/*
+ms/Data/UpdateClimateFiles.R
+ms/Comments/*
+ms/extra.txt
 
 # GIS files
 *.asc
