@@ -1,0 +1,11 @@
+---
+title: "Readme for Muir and Angert"
+author: "Chris Muir and Amy Angert"
+output: html_document
+---
+
+This repository contains the source for the paper Muir CD and Angert AL. Grow with the flow: a latitudinal cline in physiology is associated with more variable precipitation in *Mimulus cardinalis*.
+
+See the Sweave file 'ms/ms.Rnw' for code chunks. If you have R packages installed, you should be able to recreate the manuscript locally.
+
+A preprint of this paper is available on biorxiv: http://dx.doi.org/10.1101/080952
