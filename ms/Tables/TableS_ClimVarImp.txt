@@ -1,11 +1,16 @@
-Precipitation of wettest quarter ($\sigma$) & Precipitation of wettest quarter ($\sigma$) & Mean diurnal range ($\sigma$) \\
- Annual precipitation ($\sigma$) & Annual precipitation ($\sigma$) & Mean temperature of coldest quarter ($\sigma$) \\
- Precipitation of coldest quarter ($\sigma$) & Chilling degree-days ($\sigma$) & Precipitation seasonality ($\sigma$) \\
- Mean temperature of coldest quarter ($\sigma$) & Annual mean relative humidity ($\sigma$) &  \\
-Precipitation seasonality ($\mu$) & Precipitation seasonality ($\sigma$) &  \\
-Chilling degree-days ($\sigma$) &  &  \\
-Precipitation of warmest quarter ($\sigma$) &  &  \\
-Mean temperature of warmest quarter ($\sigma$) &  &  \\
-Temperature seasonality ($\mu$) &  &  \\
-Precipitation as snow ($\sigma$) &  &  \\
-Precipitation of driest quarter ($\mu$) &  &  \\
+Precipitation of wettest quarter ($\sigma$, neighborhood) & Mean diurnal range ($\sigma$, neighborhood) \\
+Annual precipitation ($\mu$, neighborhood) & Mean temperature of coldest quarter ($\sigma$, neighborhood) \\
+Precipitation of wettest quarter ($\mu$, neighborhood) & Precipitation seasonality ($\sigma$, neighborhood) \\
+Mean temperature of coldest quarter ($\sigma$, neighborhood) &  \\
+Annual precipitation ($\sigma$, neighborhood) &  \\
+Precipitation of driest quarter ($\mu$, neighborhood) &  \\
+Precipitation of coldest quarter ($\sigma$, neighborhood) &  \\
+Hargreaves climatic moisture deficit ($\mu$, neighborhood) &  \\
+Precipitation of warmest quarter ($\mu$, neighborhood) &  \\
+Precipitation seasonality ($\mu$, neighborhood) &  \\
+Precipitation of warmest quarter ($\sigma$, neighborhood) &  \\
+Heating degree-days ($\sigma$, neighborhood) &  \\
+Precipitation of driest quarter ($\sigma$, neighborhood) &  \\
+Number of frost-free days ($\sigma$, neighborhood) &  \\
+Mean temperature of wettest quarter ($\sigma$, neighborhood) &  \\
+Precipitation as snow ($\sigma$, neighborhood) &  \\
