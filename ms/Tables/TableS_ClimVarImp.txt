@@ -1,6 +1,6 @@
 Precipitation of wettest quarter ($\sigma$, neighborhood) & Mean diurnal range ($\sigma$, neighborhood) \\
-Annual precipitation ($\mu$, neighborhood) & Mean temperature of coldest quarter ($\sigma$, neighborhood) \\
-Precipitation of wettest quarter ($\mu$, neighborhood) & Precipitation seasonality ($\sigma$, neighborhood) \\
+Annual precipitation ($\mu$, neighborhood) & Precipitation seasonality ($\sigma$, neighborhood) \\
+Precipitation of wettest quarter ($\mu$, neighborhood) & Mean temperature of coldest quarter ($\sigma$, neighborhood) \\
 Mean temperature of coldest quarter ($\sigma$, neighborhood) &  \\
 Annual precipitation ($\sigma$, neighborhood) &  \\
 Precipitation of driest quarter ($\mu$, neighborhood) &  \\
