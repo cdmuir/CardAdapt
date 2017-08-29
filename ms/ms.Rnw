@@ -48,8 +48,8 @@
   pathTab <- paste(pathMS, "/Tables", sep = "")
 
   # Source custom functions
-  #source(paste(pathMS, "/functions.R", sep = ""))
-  source("functions.R")
+  source("functions.R") # for sweave
+  # source(paste(pathMS, "/functions.R", sep = "")) # for debugging
   
   # Color palette
   # Primary color:
