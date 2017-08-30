@@ -1,0 +1,797 @@
+kd$x1[diff(ifelse(kd$x1 <= as.numeric(X[1]), 0, 1)) == 1]
+as.numeric(X[1])
+diff(ifelse(kd$x1 <= as.numeric(X[1]), 0, 1)) == 1
+kd$x1[which(diff(ifelse(kd$x1 <= as.numeric(X[1]), 0, 1)) == 1)]
+kd$x1[which(diff(ifelse(kd$x1 <= as.numeric(X[1]), 0, 1)) == 1) + 1]
+dim(kd$fhat)
+length(kd$x1)
+range(kd$x1)
+range(out2$long)
+kf$fhat[1,]
+kd$fhat[1,]
+kd$fhat[51,]
+range(kd$fhat[51,])
+range(kd$fhat[1,])
+bkde2D
+kd$x1[which(diff(ifelse(kd$x1 <= as.numeric(X[1]), 0, 1)) == 1)]
+kd$x1[which(diff(ifelse(kd$x1 <= as.numeric(X[1]), 0, 1)) == 1)]
+which(diff(ifelse(kd$x1 <= as.numeric(X[1]), 0, 1)) == 1)
+out2[, "long"]
+sapply(out2[, "long"], function(X) which(diff(ifelse(kd$x1 <= as.numeric(X), 0, 1)) == 1))
+sapply(out2[, "lat"], function(X) which(diff(ifelse(kd$x2 <= as.numeric(X), 0, 1)) == 1))
+kd$fhat[sapply(out2[, "long"], function(X) which(diff(ifelse(kd$x1 <= as.numeric(X), 0, 1)) == 1)), sapply(out2[, "lat"], function(X) which(diff(ifelse(kd$x2 <= as.numeric(X), 0, 1)) == 1))]
+col <- sapply(out2[, "lat"], function(X) which(diff(ifelse(kd$x2 <= as.numeric(X), 0, 1)) == 1))]
+row <- sapply(out2[, "long"], function(X) which(diff(ifelse(kd$x1 <= as.numeric(X), 0, 1)) == 1))
+col <- sapply(out2[, "lat"], function(X) which(diff(ifelse(kd$x2 <= as.numeric(X), 0, 1)) == 1))
+mapply(function(X1, X2) kf$fhat[X1, X2], row, col)
+mapply(function(X1, X2) kd$fhat[X1, X2], row, col)
+plot(out2[, c("long", "lat")], col = grey(mapply(function(X1, X2) kd$fhat[X1, X2], row, col)))
+plot(out2[, c("long", "lat")], col = grey(mapply(function(X1, X2) kd$fhat[X1, X2], row, col)), pch = 19)
+row <- sapply(out2[, "long"], function(X) which(diff(ifelse(kd$x1 <= as.numeric(X), 0, 1)) == 1) + 1)#
+	col <- sapply(out2[, "lat"], function(X) which(diff(ifelse(kd$x2 <= as.numeric(X), 0, 1)) == 1) + 1)#
+	plot(out2[, c("long", "lat")], col = grey(mapply(function(X1, X2) kd$fhat[X1, X2], row, col)), pch = 19)
+kd <- bkde2D(out2[, c("long", "lat")], c(1, 0.75))#
+	contour(kd$x1, kd$x2, kd$fhat)#
+	points(out2$long, out2$lat)#
+	X <- out2[1, c("long", "lat")]#
+	row <- sapply(out2[, "long"], function(X) which(diff(ifelse(kd$x1 <= as.numeric(X), 0, 1)) == 1) + 1)#
+	col <- sapply(out2[, "lat"], function(X) which(diff(ifelse(kd$x2 <= as.numeric(X), 0, 1)) == 1) + 1)#
+	plot(out2[, c("long", "lat")], col = grey(mapply(function(X1, X2) kd$fhat[X1, X2], row, col)), pch = 19)
+kd <- bkde2D(out2[, c("long", "lat")], c(0.5, 0.55))#
+	contour(kd$x1, kd$x2, kd$fhat)#
+	points(out2$long, out2$lat)#
+	X <- out2[1, c("long", "lat")]#
+	row <- sapply(out2[, "long"], function(X) which(diff(ifelse(kd$x1 <= as.numeric(X), 0, 1)) == 1) + 1)#
+	col <- sapply(out2[, "lat"], function(X) which(diff(ifelse(kd$x2 <= as.numeric(X), 0, 1)) == 1) + 1)#
+	plot(out2[, c("long", "lat")], col = grey(mapply(function(X1, X2) kd$fhat[X1, X2], row, col)), pch = 19)
+PART 2: Thin occurences#
+	kd <- bkde2D(out2[, c("long", "lat")], c(0.1, 0.075))#
+	contour(kd$x1, kd$x2, kd$fhat)#
+	points(out2$long, out2$lat)#
+	X <- out2[1, c("long", "lat")]#
+	row <- sapply(out2[, "long"], function(X) which(diff(ifelse(kd$x1 <= as.numeric(X), 0, 1)) == 1) + 1)#
+	col <- sapply(out2[, "lat"], function(X) which(diff(ifelse(kd$x2 <= as.numeric(X), 0, 1)) == 1) + 1)#
+	plot(out2[, c("long", "lat")], col = grey(mapply(function(X1, X2) kd$fhat[X1, X2], row, col)), pch = 19)
+contour(kd$x1, kd$x2, kd$fhat)
+points(out2[, c("long", "lat")], col = grey(mapply(function(X1, X2) kd$fhat[X1, X2], row, col)), pch = 19)
+contour(kd$x1, kd$x2, kd$fhat)
+row <- sapply(out2[, "long"], function(X) which(diff(ifelse(kd$x1 <= as.numeric(X), 0, 1)) == 1))#
+	col <- sapply(out2[, "lat"], function(X) which(diff(ifelse(kd$x2 <= as.numeric(X), 0, 1)) == 1))#
+	points(out2[, c("long", "lat")], col = grey(mapply(function(X1, X2) kd$fhat[X1, X2], row, col)), pch = 19)
+prob <- mapply(function(X1, X2) kd$fhat[X1, X2], row, col))
+prob <- mapply(function(X1, X2) kd$fhat[X1, X2], row, col)
+sample(nrow(out2), ceiling(nrow(out2), 2), prob = prob)
+sample(nrow(out2), ceiling(nrow(out2) / 2), prob = prob)
+s1 <- sample(nrow(out2), ceiling(nrow(out2) / 2), prob = prob)
+plot(out2$long[s1], out2$lat[s1])
+points(out2$long, out2$lat)
+s1 <- sample(nrow(out2), floor(nrow(out2) / 2), prob = prob)
+plot(out2$long[-s1], out2$lat[-s1])
+set.seed(82285054)#
+	kd <- bkde2D(out2[, c("long", "lat")], c(0.1, 0.075))	#
+	row <- sapply(out2[, "long"], function(X) which(diff(ifelse(kd$x1 <= #
+		as.numeric(X), 0, 1)) == 1))#
+	col <- sapply(out2[, "lat"], function(X) which(diff(ifelse(kd$x2 <= #
+		as.numeric(X), 0, 1)) == 1))#
+	s1 <- sample(nrow(out2), floor(nrow(out2) / 2), prob = prob)
+s1
+setwd(path.dat)#
+	timeSer1 <- read.csv(file = 'climateWNA/climateWNA_input1_1901-2012MSYT.csv')#
+	timeSer2 <- read.csv(file = 'climateWNA/climateWNA_input2_1901-2012MSYT.csv')#
+#
+	# Focal Populations#
+	tmax1 <- as.matrix(timeSer1[, paste("Tmax", paste(ifelse(1:12 < 10, "0", ""), #
+		as.character(1:12), sep = ""), sep = "")], ncol = 12)#
+#
+	tmin1 <- as.matrix(timeSer1[, paste("Tmin", paste(ifelse(1:12 < 10, "0", ""), #
+		as.character(1:12), sep = ""), sep = "")], ncol = 12)#
+#
+	prec1 <- as.matrix(timeSer1[, paste("PPT", paste(ifelse(1:12 < 10, "0", ""), #
+		as.character(1:12), sep = ""), sep = "")], ncol = 12)#
+#
+	bio1 <- biovars(prec1, tmin1, tmax1)#
+#
+	# Add biovars to data.frame#
+	timeSer1 <- cbind(timeSer1, bio1)#
+	# Replace values of -9999 with NA#
+	timeSer1[timeSer1 == -9999] <- NA#
+#
+	# Average by site for 30 year normal (1981 - 2010)#
+#
+	yearmin <- 1981#
+	yearmax <- 2010#
+	timeSer1 <- subset(timeSer1, timeSer1$Year >= yearmin & timeSer1$Year <= yearmax)#
+#
+	# Change all temperatures to Kelvin#
+	tempColumns <- c(grep("T[max|min|ave]", colnames(timeSer1)), which(colnames(timeSer1) #
+		%in% c("bio1", "bio5", "bio6", "bio8", "bio9", "bio10", "bio11")))#
+	timeSer1[, colnames(timeSer1)[tempColumns]] <- timeSer1[, #
+		colnames(timeSer1)[tempColumns]] + 273.16#
+	# 30-year mean#
+	foc.avg30 <- as.data.frame(apply(timeSer1[, 4:ncol(timeSer1)], 2, function(X) tapply(X,#
+		timeSer1$ID2, mean, na.rm = TRUE)))#
+	foc.avg30$ID <- rownames(foc.avg30)#
+	# 30-year variance#
+	foc.var30 <- as.data.frame(apply(timeSer1[, 4:ncol(timeSer1)], 2, function(X) tapply(X, #
+		timeSer1$ID2, var, na.rm = TRUE)))#
+	foc.var30[, c("Latitude", "Longitude", "Elevation")] <- foc.avg30[, c("Latitude", #
+		"Longitude", "Elevation")]#
+	foc.var30$ID <- rownames(foc.var30)#
+#
+	# 30-year coefficient of variation#
+	foc.cva30 <- as.data.frame(apply(timeSer1[, 4:ncol(timeSer1)], 2, function(X) tapply(X, #
+		timeSer1$ID2, function(X) sd(X, na.rm = TRUE) / mean(X, na.rm = TRUE))))#
+	foc.cva30[, c("Latitude", "Longitude", "Elevation")] <- foc.avg30[, c("Latitude", #
+		"Longitude", "Elevation")]#
+	foc.cva30$ID <- rownames(foc.cva30)#
+#
+	# Adjust column names#
+	x <- which(colnames(foc.avg30) %in% c("Latitude", "Longitude", "Elevation", "ID")) #
+	colnames(foc.avg30)[-x] <- paste(colnames(foc.avg30)[-x], "_avg", sep = "")#
+	colnames(foc.var30)[-x] <- paste(colnames(foc.var30)[-x], "_var", sep = "")#
+	colnames(foc.cva30)[-x] <- paste(colnames(foc.cva30)[-x], "_cva", sep = "")#
+#
+	save(timeSer1, file = paste(path.obj, "/FocalOcc_timeSer.RData", sep = ""))#
+	save(foc.avg30, file = paste(path.obj, "/FocalOcc_avg1981-2010.RData", sep = ""))#
+	save(foc.var30, file = paste(path.obj, "/FocalOcc_var1981-2010.RData", sep = ""))#
+	save(foc.cva30, file = paste(path.obj, "/FocalOcc_cva1981-2010.RData", sep = ""))#
+#
+	# All Populations
+tmax2 <- as.matrix(timeSer2[, paste("Tmax", paste(ifelse(1:12 < 10, "0", ""), #
+		as.character(1:12), sep = ""), sep = "")], ncol = 12)#
+#
+	tmin2 <- as.matrix(timeSer2[, paste("Tmin", paste(ifelse(1:12 < 10, "0", ""), #
+		as.character(1:12), sep = ""), sep = "")], ncol = 12)#
+#
+	prec2 <- as.matrix(timeSer2[, paste("PPT", paste(ifelse(1:12 < 10, "0", ""), #
+		as.character(1:12), sep = ""), sep = "")], ncol = 12)#
+#
+	bio2 <- biovars(prec2, tmin2, tmax2)#
+#
+	# Add biovars to data.frame#
+	timeSer2 <- cbind(timeSer2, bio2)#
+#
+	# Replace values of -9999 with NA#
+	timeSer2[timeSer2 == -9999] <- NA#
+#
+	# Average by site for 30 year normal (1981 - 2010)#
+#
+	yearmin <- 1981#
+	yearmax <- 2010#
+#
+	timeSer2 <- subset(timeSer2, timeSer2$Year >= yearmin & timeSer2$Year <= yearmax)#
+#
+	# Change all temperatures to Kelvin#
+	tempColumns <- c(grep("T[max|min|ave]", colnames(timeSer2)), which(colnames(timeSer2) #
+		%in% c("bio1", "bio5", "bio6", "bio8", "bio9", "bio10", "bio11")))#
+	timeSer2[, colnames(timeSer2)[tempColumns]] <- timeSer2[, #
+		colnames(timeSer2)[tempColumns]] + 273.16#
+#
+	# 30-year mean#
+	all.avg30 <- as.data.frame(apply(timeSer2[, 4:ncol(timeSer2)], 2, function(X) tapply(X, #
+		timeSer2$ID1, mean, na.rm = TRUE)))#
+	all.avg30$ID <- rownames(all.avg30)#
+#
+	# 30-year variance#
+	all.var30 <- as.data.frame(apply(timeSer2[, 4:ncol(timeSer2)], 2, function(X) tapply(X, #
+		timeSer2$ID1, var, na.rm = TRUE)))#
+	all.var30[, c("Latitude", "Longitude", "Elevation")] <- all.avg30[, c("Latitude", #
+		"Longitude", "Elevation")]#
+	all.var30$ID <- rownames(all.var30)#
+#
+	# 30-year coefficient of variation#
+	all.cva30 <- as.data.frame(apply(timeSer2[, 4:ncol(timeSer2)], 2, function(X) tapply(X, #
+		timeSer2$ID1, function(X) sd(X, na.rm = TRUE) / mean(X, na.rm = TRUE))))#
+	all.cva30[, c("Latitude", "Longitude", "Elevation")] <- all.avg30[, c("Latitude", #
+		"Longitude", "Elevation")]#
+	all.cva30$ID <- rownames(all.cva30)#
+#
+	# Adjust column names#
+	x <- which(colnames(all.avg30) %in% c("Latitude", "Longitude", "Elevation", "ID")) #
+	colnames(all.avg30)[-x] <- paste(colnames(all.avg30)[-x], "_avg", sep = "")#
+	colnames(all.var30)[-x] <- paste(colnames(all.var30)[-x], "_var", sep = "")#
+	colnames(all.cva30)[-x] <- paste(colnames(all.cva30)[-x], "_cva", sep = "")#
+#
+	save(timeSer2, file = paste(path.obj, "/AllOcc_timeSer.RData", sep = ""))#
+	save(all.avg30, file = paste(path.obj, "/AllOcc_avg1981-2010.RData", sep = ""))#
+	save(all.var30, file = paste(path.obj, "/AllOcc_var1981-2010.RData", sep = ""))#
+	save(all.cva30, file = paste(path.obj, "/AllOcc_cva1981-2010.RData", sep = ""))
+colnames(out2)
+out2$ID1
+head(timeSer2)
+levels(timeSer2$ID1)
+out2$ID1
+levels(out2$ID1)
+unique(out2$ID1)
+unique(timeSer2$ID1)
+unique(out2$ID1) == unique(timeSer2$ID1)
+as.character(unique(out2$ID1)) == as.character(unique(timeSer2$ID1))
+unique(out2$ID1)
+unique(timeSer2$ID1)
+head(all.avg30)
+rownames(all.avg30)
+as.character(unique(out2$ID1))
+head(all.avg30)
+all.avg30[, c("Longitude", "Latitude")]
+kd <- bkde2D(all.avg30[, c("Longitude", "Latitude")], c(0.1, 0.075))
+row <- sapply(out2[, "long"], function(X) which(diff(ifelse(kd$x1 <= #
+		as.numeric(X), 0, 1)) == 1))#
+	col <- sapply(out2[, "lat"], function(X) which(diff(ifelse(kd$x2 <= #
+		as.numeric(X), 0, 1)) == 1))#
+	s1 <- sample(nrow(out2), floor(nrow(out2) / 2), prob = prob)
+dim(all.avg30)
+dim(all.avg30[-s1, ])
+set.seed(82285054)#
+	kd <- bkde2D(all.avg30[, c("Longitude", "Latitude")], c(0.1, 0.075))	#
+	row <- sapply(out2[, "long"], function(X) which(diff(ifelse(kd$x1 <= #
+		as.numeric(X), 0, 1)) == 1))#
+	col <- sapply(out2[, "lat"], function(X) which(diff(ifelse(kd$x2 <= #
+		as.numeric(X), 0, 1)) == 1))#
+	s1 <- sample(nrow(out2), floor(nrow(out2) / 2), prob = prob)#
+#
+	save(all.avg30[-s1, ], file = paste(path.obj, "/AllOcc_avg1981-2010_thinned1.RData", #
+		sep = ""))#
+	save(all.var30[-s1, ], file = paste(path.obj, "/AllOcc_var1981-2010_thinned1.RData", #
+		sep = ""))#
+	save(all.cva30[-s1, ], file = paste(path.obj, "/AllOcc_cva1981-2010_thinned1.RData", #
+		sep = ""))
+setwd(path.dat)#
+	timeSer1 <- read.csv(file = 'climateWNA/climateWNA_input1_1901-2012MSYT.csv')#
+	timeSer2 <- read.csv(file = 'climateWNA/climateWNA_input2_1901-2012MSYT.csv')#
+#
+	# Focal Populations#
+	tmax1 <- as.matrix(timeSer1[, paste("Tmax", paste(ifelse(1:12 < 10, "0", ""), #
+		as.character(1:12), sep = ""), sep = "")], ncol = 12)#
+#
+	tmin1 <- as.matrix(timeSer1[, paste("Tmin", paste(ifelse(1:12 < 10, "0", ""), #
+		as.character(1:12), sep = ""), sep = "")], ncol = 12)#
+#
+	prec1 <- as.matrix(timeSer1[, paste("PPT", paste(ifelse(1:12 < 10, "0", ""), #
+		as.character(1:12), sep = ""), sep = "")], ncol = 12)#
+#
+	bio1 <- biovars(prec1, tmin1, tmax1)#
+#
+	# Add biovars to data.frame#
+	timeSer1 <- cbind(timeSer1, bio1)#
+	# Replace values of -9999 with NA#
+	timeSer1[timeSer1 == -9999] <- NA#
+#
+	# Average by site for 30 year normal (1981 - 2010)#
+#
+	yearmin <- 1981#
+	yearmax <- 2010#
+	timeSer1 <- subset(timeSer1, timeSer1$Year >= yearmin & timeSer1$Year <= yearmax)#
+#
+	# Change all temperatures to Kelvin#
+	tempColumns <- c(grep("T[max|min|ave]", colnames(timeSer1)), which(colnames(timeSer1) #
+		%in% c("bio1", "bio5", "bio6", "bio8", "bio9", "bio10", "bio11")))#
+	timeSer1[, colnames(timeSer1)[tempColumns]] <- timeSer1[, #
+		colnames(timeSer1)[tempColumns]] + 273.16#
+	# 30-year mean#
+	foc.avg30 <- as.data.frame(apply(timeSer1[, 4:ncol(timeSer1)], 2, function(X) tapply(X,#
+		timeSer1$ID2, mean, na.rm = TRUE)))#
+	foc.avg30$ID <- rownames(foc.avg30)#
+	# 30-year variance#
+	foc.var30 <- as.data.frame(apply(timeSer1[, 4:ncol(timeSer1)], 2, function(X) tapply(X, #
+		timeSer1$ID2, var, na.rm = TRUE)))#
+	foc.var30[, c("Latitude", "Longitude", "Elevation")] <- foc.avg30[, c("Latitude", #
+		"Longitude", "Elevation")]#
+	foc.var30$ID <- rownames(foc.var30)#
+#
+	# 30-year coefficient of variation#
+	foc.cva30 <- as.data.frame(apply(timeSer1[, 4:ncol(timeSer1)], 2, function(X) tapply(X, #
+		timeSer1$ID2, function(X) sd(X, na.rm = TRUE) / mean(X, na.rm = TRUE))))#
+	foc.cva30[, c("Latitude", "Longitude", "Elevation")] <- foc.avg30[, c("Latitude", #
+		"Longitude", "Elevation")]#
+	foc.cva30$ID <- rownames(foc.cva30)#
+#
+	# Adjust column names#
+	x <- which(colnames(foc.avg30) %in% c("Latitude", "Longitude", "Elevation", "ID")) #
+	colnames(foc.avg30)[-x] <- paste(colnames(foc.avg30)[-x], "_avg", sep = "")#
+	colnames(foc.var30)[-x] <- paste(colnames(foc.var30)[-x], "_var", sep = "")#
+	colnames(foc.cva30)[-x] <- paste(colnames(foc.cva30)[-x], "_cva", sep = "")#
+#
+	save(timeSer1, file = paste(path.obj, "/FocalOcc_timeSer.RData", sep = ""))#
+	save(foc.avg30, file = paste(path.obj, "/FocalOcc_avg1981-2010.RData", sep = ""))#
+	save(foc.var30, file = paste(path.obj, "/FocalOcc_var1981-2010.RData", sep = ""))#
+	save(foc.cva30, file = paste(path.obj, "/FocalOcc_cva1981-2010.RData", sep = ""))#
+#
+	# All Populations#
+	tmax2 <- as.matrix(timeSer2[, paste("Tmax", paste(ifelse(1:12 < 10, "0", ""), #
+		as.character(1:12), sep = ""), sep = "")], ncol = 12)#
+#
+	tmin2 <- as.matrix(timeSer2[, paste("Tmin", paste(ifelse(1:12 < 10, "0", ""), #
+		as.character(1:12), sep = ""), sep = "")], ncol = 12)#
+#
+	prec2 <- as.matrix(timeSer2[, paste("PPT", paste(ifelse(1:12 < 10, "0", ""), #
+		as.character(1:12), sep = ""), sep = "")], ncol = 12)#
+#
+	bio2 <- biovars(prec2, tmin2, tmax2)#
+#
+	# Add biovars to data.frame#
+	timeSer2 <- cbind(timeSer2, bio2)#
+#
+	# Replace values of -9999 with NA#
+	timeSer2[timeSer2 == -9999] <- NA#
+#
+	# Average by site for 30 year normal (1981 - 2010)#
+#
+	yearmin <- 1981#
+	yearmax <- 2010#
+#
+	timeSer2 <- subset(timeSer2, timeSer2$Year >= yearmin & timeSer2$Year <= yearmax)#
+#
+	# Change all temperatures to Kelvin#
+	tempColumns <- c(grep("T[max|min|ave]", colnames(timeSer2)), which(colnames(timeSer2) #
+		%in% c("bio1", "bio5", "bio6", "bio8", "bio9", "bio10", "bio11")))#
+	timeSer2[, colnames(timeSer2)[tempColumns]] <- timeSer2[, #
+		colnames(timeSer2)[tempColumns]] + 273.16#
+#
+	# 30-year mean#
+	all.avg30 <- as.data.frame(apply(timeSer2[, 4:ncol(timeSer2)], 2, function(X) tapply(X, #
+		timeSer2$ID1, mean, na.rm = TRUE)))#
+	all.avg30$ID <- rownames(all.avg30)#
+#
+	# 30-year variance#
+	all.var30 <- as.data.frame(apply(timeSer2[, 4:ncol(timeSer2)], 2, function(X) tapply(X, #
+		timeSer2$ID1, var, na.rm = TRUE)))#
+	all.var30[, c("Latitude", "Longitude", "Elevation")] <- all.avg30[, c("Latitude", #
+		"Longitude", "Elevation")]#
+	all.var30$ID <- rownames(all.var30)#
+#
+	# 30-year coefficient of variation#
+	all.cva30 <- as.data.frame(apply(timeSer2[, 4:ncol(timeSer2)], 2, function(X) tapply(X, #
+		timeSer2$ID1, function(X) sd(X, na.rm = TRUE) / mean(X, na.rm = TRUE))))#
+	all.cva30[, c("Latitude", "Longitude", "Elevation")] <- all.avg30[, c("Latitude", #
+		"Longitude", "Elevation")]#
+	all.cva30$ID <- rownames(all.cva30)#
+#
+	# Adjust column names#
+	x <- which(colnames(all.avg30) %in% c("Latitude", "Longitude", "Elevation", "ID")) #
+	colnames(all.avg30)[-x] <- paste(colnames(all.avg30)[-x], "_avg", sep = "")#
+	colnames(all.var30)[-x] <- paste(colnames(all.var30)[-x], "_var", sep = "")#
+	colnames(all.cva30)[-x] <- paste(colnames(all.cva30)[-x], "_cva", sep = "")#
+#
+	save(timeSer2, file = paste(path.obj, "/AllOcc_timeSer.RData", sep = ""))#
+	save(all.avg30, file = paste(path.obj, "/AllOcc_avg1981-2010.RData", sep = ""))#
+	save(all.var30, file = paste(path.obj, "/AllOcc_var1981-2010.RData", sep = ""))#
+	save(all.cva30, file = paste(path.obj, "/AllOcc_cva1981-2010.RData", sep = ""))#
+#
+	# Thin occurences (may need to do multiple times)#
+	set.seed(82285054)#
+	kd <- bkde2D(all.avg30[, c("Longitude", "Latitude")], c(0.1, 0.075))	#
+	row <- sapply(out2[, "long"], function(X) which(diff(ifelse(kd$x1 <= #
+		as.numeric(X), 0, 1)) == 1))#
+	col <- sapply(out2[, "lat"], function(X) which(diff(ifelse(kd$x2 <= #
+		as.numeric(X), 0, 1)) == 1))#
+	s1 <- sample(nrow(out2), floor(nrow(out2) / 2), prob = prob)#
+#
+	save(all.avg30[-s1, ], file = paste(path.obj, "/AllOcc_avg1981-2010_thinned1.RData", #
+		sep = ""))#
+	save(all.var30[-s1, ], file = paste(path.obj, "/AllOcc_var1981-2010_thinned1.RData", #
+		sep = ""))#
+	save(all.cva30[-s1, ], file = paste(path.obj, "/AllOcc_cva1981-2010_thinned1.RData", #
+		sep = ""))
+dim(all.var30)
+paste(path.obj, "/AllOcc_avg1981-2010_thinned1.RData", #
+		sep = "")
+s1
+dim(all.avg30[-s1, ])
+all.avg30[-s1, ]
+save(all.avg30[-s1, ], file = paste(path.obj, "/AllOcc_avg1981-2010_thinned1.RData", #
+		sep = ""))
+save(all.avg30_thinned1, file = paste(path.obj, "/AllOcc_avg1981-2010_thinned1.RData", #
+		sep = ""))#
+	save(all.var30_thinned1, file = paste(path.obj, "/AllOcc_var1981-2010_thinned1.RData", #
+		sep = ""))#
+	save(all.cva30_thinned1, file = paste(path.obj, "/AllOcc_cva1981-2010_thinned1.RData", #
+		sep = ""))
+all.avg30_thinned1 <- all.avg30[-s1, ]#
+	all.var30_thinned1 <- all.var30[-s1, ]#
+	all.cva30_thinned1 <- all.cva30[-s1, ]#
+	save(all.avg30_thinned1, file = paste(path.obj, "/AllOcc_avg1981-2010_thinned1.RData", #
+		sep = ""))#
+	save(all.var30_thinned1, file = paste(path.obj, "/AllOcc_var1981-2010_thinned1.RData", #
+		sep = ""))#
+	save(all.cva30_thinned1, file = paste(path.obj, "/AllOcc_cva1981-2010_thinned1.RData", #
+		sep = ""))
+path.root <- "~/Google Drive/CardLocalAdaptation" #
+setwd(path.root)#
+source("Data/Climate/Rcode/1_Setup_directories.R")#
+library("VSURF")#
+#
+#########################################################
+## Source bioclimatic data from M. cardinalis occurences #
+## Last updated by Chris Muir: February 24, 2015#
+#########################################################
+#
+# H1: Latitude is multivariate ting#
+	setwd(path.dat)#
+	# occurences are not thinned yet...#
+	# Average yearly climate#
+	load(paste(path.obj, "/AllOcc_avg1981-2010.RData", sep = "")) # all.avg30#
+#
+	# Coefficient of variation (on a year to year basis) in climate#
+	load(paste(path.obj, "/AllOcc_cva1981-2010.RData", sep = "")) # all.cva30#
+#
+	# Combine climate average and variance data.frames together#
+	all30 <- cbind(all.avg30, all.cva30[, which(!colnames(all.cva30) %in% #
+		colnames(all.avg30))])
+load(paste(path.obj, "/AllOcc_avg1981-2010_thinned1.RData", sep = "")) # all.avg30_thinned1
+load(paste(path.obj, "/AllOcc_cva1981-2010_thinned1.RData", sep = "")) # all.cva30_thinned1
+climVars <- c("DD_0", "DD5", "DD_18", "DD18", "NFFD", "PAS", "Eref", "CMD", "RH", "bio1", "bio2", "bio3", "bio4", "bio5", "bio6", "bio7", "bio8", "bio9", "bio10", "bio11", "bio12", "bio15", "bio16", "bio17", "bio18", "bio19")#
+	climVars <- c(paste(climVars, "_avg", sep = ""), paste(climVars, "_cva", sep = ""))#
+	save(climVars, file = paste(path.obj, "/Exploratory_climate_variables.RData", sep = ""))#
+	# Remove NAs
+all30_thinned1 <- cbind(all.avg30_thinned1, all.avg30_thinned1[, #
+		which(!colnames(all.avg30_thinned1) %in% colnames(all.avg30_thinned1))])
+noNA <- which(!apply(all30_thinned1[, climVars], 1, function(X) any(is.na(X))))
+climVars <- c("DD_0", "DD5", "DD_18", "DD18", "NFFD", "PAS", "Eref", "CMD", "RH", "bio1", "bio2", "bio3", "bio4", "bio5", "bio6", "bio7", "bio8", "bio9", "bio10", "bio11", "bio12", "bio15", "bio16", "bio17", "bio18", "bio19")#
+	climVars <- c(paste(climVars, "_avg", sep = ""), paste(climVars, "_cva", sep = ""))#
+	save(climVars, file = paste(path.obj, "/Exploratory_climate_variables.RData", sep = ""))#
+	# Remove NAs (only from PAS_cva)#
+	# noNA <- which(!apply(all30[, climVars], 1, function(X) any(is.na(X))))#
+	noNA <- which(!apply(all30_thinned1[, climVars], 1, function(X) any(is.na(X))))
+all30_thinned1
+all30_thinned1[, climVars]
+climVars
+colnames(all30_thinned1)
+colnames(all30_thinned1) == colnames(all30)
+all30_thinned1 <- cbind(all.avg30_thinned1, all.cva30_thinned1[, #
+		which(!colnames(all.avg30_thinned1) %in% colnames(all.avg30_thinned1))])
+climVars <- c("DD_0", "DD5", "DD_18", "DD18", "NFFD", "PAS", "Eref", "CMD", "RH", "bio1", "bio2", "bio3", "bio4", "bio5", "bio6", "bio7", "bio8", "bio9", "bio10", "bio11", "bio12", "bio15", "bio16", "bio17", "bio18", "bio19")#
+	climVars <- c(paste(climVars, "_avg", sep = ""), paste(climVars, "_cva", sep = ""))#
+	save(climVars, file = paste(path.obj, "/Exploratory_climate_variables.RData", sep = ""))#
+	# Remove NAs (only from PAS_cva)#
+	# noNA <- which(!apply(all30[, climVars], 1, function(X) any(is.na(X))))#
+	noNA <- which(!apply(all30_thinned1[, climVars], 1, function(X) any(is.na(X))))
+H1: Latitude is multivariate ting#
+	setwd(path.dat)#
+	# occurences are not thinned yet...#
+	# Average yearly climate#
+	load(paste(path.obj, "/AllOcc_avg1981-2010.RData", sep = "")) # all.avg30#
+	load(paste(path.obj, "/AllOcc_avg1981-2010_thinned1.RData", sep = "")) # all.avg30_thinned1#
+#
+	# Coefficient of variation (on a year to year basis) in climate#
+	load(paste(path.obj, "/AllOcc_cva1981-2010.RData", sep = "")) # all.cva30#
+	load(paste(path.obj, "/AllOcc_cva1981-2010_thinned1.RData", sep = "")) # all.cva30_thinned1#
+#
+	# Combine climate average and variance data.frames together#
+	all30 <- cbind(all.avg30, all.cva30[, which(!colnames(all.cva30) %in% #
+		colnames(all.avg30))])#
+	all30_thinned1 <- cbind(all.avg30_thinned1, all.cva30_thinned1[, #
+		which(!colnames(all.avg30_thinned1) %in% colnames(all.avg30_thinned1))])
+all30_thinned1 <- cbind(all.avg30_thinned1, all.cva30_thinned1[, #
+		which(!colnames(all.cva30_thinned1) %in% colnames(all.avg30_thinned1))])
+noNA <- which(!apply(all30_thinned1[, climVars], 1, function(X) any(is.na(X))))
+climVars[fit$varselect.pred]
+with(all30, plot(Latitude, bio6_cva))
+with(all30_thinned, plot(Latitude, bio6_cva))
+with(all30_thinned1, plot(Latitude, bio6_cva))
+climVars[fit_t1$varselect.pred]
+load("~/Google Drive/CardLocalAdaptation/Data/Climate/Robjects/Exploratory_climate_variables.RData") #climVars
+load(file = paste(path.obj, "/clim2lat_fit_t1.RData", sep = "")) # fit_t1
+impVars <- climVars[fit_t1$varselect.pred]#
+	nImpLat <- length(fit_t1$varselect.pred)#
+	nImpDoG <- length(fitDoG$varselect.pred)#
+	nImpLER <- length(fitLER$varselect.pred)#
+	nImpSER <- length(fitSER$varselect.pred)
+plot(0, 0, type = "n", xlim = c(0, fitDoG$ord.imp$x[1] * 1000), ylim = c(1, nImpLat), #
+		axes = F, frame.plot = T, xlab = "Importance", ylab = "", cex.lab = 1.5)#
+	for (i in (nImpLat:(nImpLat - nImpDoG + 1))) lines(x = c(-100, 100), y = c(i, i), #
+		col = "grey")
+nImpLat
+plot(0, 0, type = "n", xlim = c(0, fitDoG$ord.imp$x[1] * 1000), ylim = c(1, nImpLat), #
+		axes = F, frame.plot = T, xlab = "Importance", ylab = "", cex.lab = 1.5)#
+	for (i in (nImpLat:(nImpLat - nImpDoG + 1))) lines(x = c(-100, 100), y = c(i, i), #
+		col = "grey")#
+	points(1000 * fitDoG$ord.imp$x[1:nImpDoG], nImpLat:(nImpLat - nImpDoG + 1), pch = 21, #
+		col = "black", bg = "white", cex = 1.5)#
+	mtext(climVars[fitDoG$varselect.pred], side = 4, at = nImpLat:(nImpLat - nImpDoG + 1), #
+		las = 1, line = 1, font = ifelse(fitDoG$varselect.pred %in% fit$varselect.pred,#
+		2, 1))#
+	axis(1, lwd = 0, lwd.ticks = 1, labels = seq(0, 2, 0.5) / 1e3, at = seq(0, 2, 0.5))
+par(mar = c(5, 1, 1, 6))#
+	# Day of Germination#
+	plot(0, 0, type = "n", xlim = c(0, fitDoG$ord.imp$x[1] * 1000), ylim = c(1, nImpLat), #
+		axes = F, frame.plot = T, xlab = "Importance", ylab = "", cex.lab = 1.5)#
+	for (i in (nImpLat:(nImpLat - nImpDoG + 1))) lines(x = c(-100, 100), y = c(i, i), #
+		col = "grey")#
+	points(1000 * fitDoG$ord.imp$x[1:nImpDoG], nImpLat:(nImpLat - nImpDoG + 1), pch = 21, #
+		col = "black", bg = "white", cex = 1.5)#
+	mtext(climVars[fitDoG$varselect.pred], side = 4, at = nImpLat:(nImpLat - nImpDoG + 1), #
+		las = 1, line = 1, font = ifelse(fitDoG$varselect.pred %in% fit$varselect.pred,#
+		2, 1))#
+	axis(1, lwd = 0, lwd.ticks = 1, labels = seq(0, 2, 0.5) / 1e3, at = seq(0, 2, 0.5))
+nImpDoG
+par(mar = c(5, 1, 1, 6))#
+	# Day of Germination#
+	plot(0, 0, type = "n", xlim = c(0, fitDoG$ord.imp$x[1] * 1000), ylim = c(1, nImpLat), #
+		axes = F, frame.plot = T, xlab = "Importance", ylab = "", cex.lab = 1.5)#
+	for (i in (nImpLat:(nImpLat - nImpDoG + 1))) lines(x = c(-100, 100), y = c(i, i), #
+		col = "grey")#
+	points(1000 * fitDoG$ord.imp$x[1:nImpDoG], nImpLat:(nImpLat - nImpDoG + 1), pch = 21, #
+		col = "black", bg = "white", cex = 1.5)#
+	mtext(climVars[fitDoG$varselect.pred], side = 4, at = nImpLat:(nImpLat - nImpDoG + 1), #
+		las = 1, line = 1, font = ifelse(fitDoG$varselect.pred %in% fit_t1$varselect.pred,#
+		2, 1))#
+	axis(1, lwd = 0, lwd.ticks = 1, labels = seq(0, 2, 0.5) / 1e3, at = seq(0, 2, 0.5))
+nImpDoG
+climVars
+load("~/Google Drive/CardLocalAdaptation/Data/Climate/Robjects/Exploratory_climate_variables.RData") #climVars
+Run VSURF#
+	set.seed(022918)#
+	linmod.DoG <- as.formula(paste("DoG ~ ", paste(climVars, collapse = " + "), sep = ""))#
+	linmod.LER <- as.formula(paste("LER ~ ", paste(climVars, collapse = " + "), sep = ""))#
+	linmod.SER <- as.formula(paste("SER ~ ", paste(climVars, collapse = " + "), sep = ""))#
+	fitDoG <- VSURF.parallel(linmod.DoG, data = focClim[, c("DoG", climVars)], ncores = 3)#
+	fitLER <- VSURF.parallel(linmod.LER, data = focClim[, c("LER", climVars)], ncores = 3)#
+	fitSER <- VSURF.parallel(linmod.SER, data = focClim[, c("SER", climVars)], ncores = 3)#
+	climVars[fitDoG$varselect.pred]#
+	climVars[fitLER$varselect.pred]#
+	climVars[fitSER$varselect.pred]
+save(fitDoG, file = "Analysis/clim2DoG_fit.RData")
+setwd("~/Google Drive/CardLocalAdaptation")
+save(fitDoG, file = "Analysis/clim2DoG_fit.RData")
+save(fitDoG, file = "Analysis/clim2DoG_fit.RData")
+save(fitLER, file = "Analysis/clim2LER_fit.RData")
+save(fitSER, file = "Analysis/clim2SER_fit.RData")
+load(file = "Analysis/clim2DoG_fit.RData")#
+	load(file = "Analysis/clim2LER_fit.RData")#
+	load(file = "Analysis/clim2SER_fit.RData")
+load(file = paste(path.obj, "/clim2lat_fit.RData", sep = "")) # fit#
+	load(file = paste(path.obj, "/clim2lat_fit_t1.RData", sep = "")) # fit_t1#
+	# Important climatic variables for predicting latitude#
+	impVars <- climVars[fit_t1$varselect.pred]#
+	nImpLat <- length(fit_t1$varselect.pred)#
+	nImpDoG <- length(fitDoG$varselect.pred)#
+	nImpLER <- length(fitLER$varselect.pred)#
+	nImpSER <- length(fitSER$varselect.pred)
+Day of Germination#
+	plot(0, 0, type = "n", xlim = c(0, fitDoG$ord.imp$x[1] * 1000), ylim = c(1, nImpLat), #
+		axes = F, frame.plot = T, xlab = "Importance", ylab = "", cex.lab = 1.5)#
+	for (i in (nImpLat:(nImpLat - nImpDoG + 1))) lines(x = c(-100, 100), y = c(i, i), #
+		col = "grey")#
+	points(1000 * fitDoG$ord.imp$x[1:nImpDoG], nImpLat:(nImpLat - nImpDoG + 1), pch = 21, #
+		col = "black", bg = "white", cex = 1.5)#
+	mtext(climVars[fitDoG$varselect.pred], side = 4, at = nImpLat:(nImpLat - nImpDoG + 1), #
+		las = 1, line = 1, font = ifelse(fitDoG$varselect.pred %in% fit_t1$varselect.pred,#
+		2, 1))#
+	axis(1, lwd = 0, lwd.ticks = 1, labels = seq(0, 2, 0.5) / 1e3, at = seq(0, 2, 0.5))
+nImpDoG
+impVars <- climVars[fit_t1$varselect.pred]#
+	nImpLat <- length(fit_t1$varselect.pred)#
+	nImpDoG <- length(fitDoG$varselect.pred)#
+	nImpLER <- length(fitLER$varselect.pred)#
+	nImpSER <- length(fitSER$varselect.pred)
+fitDoG$varselect.pred
+plot(0, 0, type = "n", xlim = c(0, fitDoG$ord.imp$x[1] * 1000), ylim = c(1, nImpLat), #
+		axes = F, frame.plot = T, xlab = "Importance", ylab = "", cex.lab = 1.5)#
+	for (i in (nImpLat:(nImpLat - nImpDoG + 1))) lines(x = c(-100, 100), y = c(i, i), #
+		col = "grey")#
+	points(1000 * fitDoG$ord.imp$x[1:nImpDoG], nImpLat:(nImpLat - nImpDoG + 1), pch = 21, #
+		col = "black", bg = "white", cex = 1.5)#
+	mtext(climVars[fitDoG$varselect.pred], side = 4, at = nImpLat:(nImpLat - nImpDoG + 1), #
+		las = 1, line = 1, font = ifelse(fitDoG$varselect.pred %in% fit_t1$varselect.pred,#
+		2, 1))#
+	axis(1, lwd = 0, lwd.ticks = 1, labels = seq(0, 2, 0.5) / 1e3, at = seq(0, 2, 0.5))
+Leaf expansion rate#
+	plot(0, 0, type = "n", xlim = c(0, fitLER$ord.imp$x[1] * 1000), ylim = c(1, nImpLat), #
+		axes = F, frame.plot = T, xlab = "Importance", ylab = "", cex.lab = 1.5)#
+	for (i in (nImpLat:(nImpLat - nImpLER + 1))) lines(x = c(-100, 100), y = c(i, i), #
+		col = "grey")#
+	points(1000 * fitLER$ord.imp$x[1:nImpLER], nImpLat:(nImpLat - nImpLER + 1), pch = 21, #
+		col = "black", bg = "white", cex = 1.5)#
+	mtext(climVars[fitLER$varselect.pred], side = 4, at = nImpLat:(nImpLat - nImpLER + 1), #
+		las = 1, line = 1, font = ifelse(fitLER$varselect.pred %in% fit_t1$varselect.pred,#
+		2, 1))#
+	axis(1, lwd = 0, lwd.ticks = 1, labels = seq(0, 1.5, 0.5) / 1e3, at = seq(0, 1.5, 0.5))
+Stem elongation rate#
+	plot(0, 0, type = "n", xlim = c(0, fitSER$ord.imp$x[1] * 1000), ylim = c(1, nImpLat), #
+		axes = F, frame.plot = T, xlab = "Importance", ylab = "", cex.lab = 1.5)#
+	for (i in (nImpLat:(nImpLat - nImpSER + 1))) lines(x = c(-100, 100), y = c(i, i), #
+		col = "grey")#
+	points(1000 * fitSER$ord.imp$x[1:nImpSER], nImpLat:(nImpLat - nImpSER + 1), pch = 21, #
+		col = "black", bg = "white", cex = 1.5)#
+	mtext(climVars[fitSER$varselect.pred], side = 4, at = nImpLat:(nImpLat - nImpSER + 1), #
+		las = 1, line = 1, font = ifelse(fitSER$varselect.pred %in% fit_t1$varselect.pred,#
+		2, 1))#
+	axis(1, lwd = 0, lwd.ticks = 1, labels = seq(0, 3, 0.5) / 1e3, at = seq(0, 3, 0.5))
+Figure of variable importance#
+	pdf("~/Google Drive/CardLocalAdaptation/ms/Figures/Figure_clim2traits_imp.pdf", 4, 5)#
+	par(mar = c(5, 1, 1, 6))#
+	# Day of Germination#
+	plot(0, 0, type = "n", xlim = c(0, fitDoG$ord.imp$x[1] * 1000), ylim = c(1, nImpLat), #
+		axes = F, frame.plot = T, xlab = "Importance", ylab = "", cex.lab = 1.5)#
+	for (i in (nImpLat:(nImpLat - nImpDoG + 1))) lines(x = c(-100, 100), y = c(i, i), #
+		col = "grey")#
+	points(1000 * fitDoG$ord.imp$x[1:nImpDoG], nImpLat:(nImpLat - nImpDoG + 1), pch = 21, #
+		col = "black", bg = "white", cex = 1.5)#
+	mtext(climVars[fitDoG$varselect.pred], side = 4, at = nImpLat:(nImpLat - nImpDoG + 1), #
+		las = 1, line = 1, font = ifelse(fitDoG$varselect.pred %in% fit_t1$varselect.pred,#
+		2, 1))#
+	axis(1, lwd = 0, lwd.ticks = 1, labels = seq(0, 2, 0.5) / 1e3, at = seq(0, 2, 0.5))#
+#
+	# Leaf expansion rate#
+	plot(0, 0, type = "n", xlim = c(0, fitLER$ord.imp$x[1] * 1000), ylim = c(1, nImpLat), #
+		axes = F, frame.plot = T, xlab = "Importance", ylab = "", cex.lab = 1.5)#
+	for (i in (nImpLat:(nImpLat - nImpLER + 1))) lines(x = c(-100, 100), y = c(i, i), #
+		col = "grey")#
+	points(1000 * fitLER$ord.imp$x[1:nImpLER], nImpLat:(nImpLat - nImpLER + 1), pch = 21, #
+		col = "black", bg = "white", cex = 1.5)#
+	mtext(climVars[fitLER$varselect.pred], side = 4, at = nImpLat:(nImpLat - nImpLER + 1), #
+		las = 1, line = 1, font = ifelse(fitLER$varselect.pred %in% fit_t1$varselect.pred,#
+		2, 1))#
+	axis(1, lwd = 0, lwd.ticks = 1, labels = seq(0, 1.5, 0.5) / 1e3, at = seq(0, 1.5, 0.5))#
+#
+	# Stem elongation rate#
+	plot(0, 0, type = "n", xlim = c(0, fitSER$ord.imp$x[1] * 1000), ylim = c(1, nImpLat), #
+		axes = F, frame.plot = T, xlab = "Importance", ylab = "", cex.lab = 1.5)#
+	for (i in (nImpLat:(nImpLat - nImpSER + 1))) lines(x = c(-100, 100), y = c(i, i), #
+		col = "grey")#
+	points(1000 * fitSER$ord.imp$x[1:nImpSER], nImpLat:(nImpLat - nImpSER + 1), pch = 21, #
+		col = "black", bg = "white", cex = 1.5)#
+	mtext(climVars[fitSER$varselect.pred], side = 4, at = nImpLat:(nImpLat - nImpSER + 1), #
+		las = 1, line = 1, font = ifelse(fitSER$varselect.pred %in% fit_t1$varselect.pred,#
+		2, 1))#
+	axis(1, lwd = 0, lwd.ticks = 1, labels = seq(0, 3, 0.5) / 1e3, at = seq(0, 3, 0.5))#
+#
+	dev.off()
+binom.test(5, 5)
+binom.test(c(0, 10))
+binom.test(c(1, 9))
+binom.test(c(2, 8))
+climVars[fit_t1$varselect.pred]
+wFine <- function(z, s2, zOpt, sig2)#
+{#
+	exp(-(z - zOpt) ^ 2 / (2 * s2)) / (sqrt(s2) * sqrt(1 / sig2))#
+}
+s2 <- seq(0, 10, l = 1e2)
+plot(s2, wFine(0, s2, 0, 1))
+plot(s2, wFine(0, s2, 0, 1), type = "l")
+s2 <- seq(-1, 10, l = 1e2)
+plot(s2, wFine(0, s2, 0, 1), type = "l")
+s2 <- seq(0, 10, l = 1e2)
+s2 <- seq(0, 100, l = 1e2)
+plot(s2, wFine(0, s2, 0, 1), type = "l")
+s2 <- seq(0, 1, l = 1e2)
+plot(s2, wFine(0, s2, 0, 1), type = "l")
+plot(s2, wFine(0, s2, 0, 10), type = "l")
+wFine <- function(z, s2, zOpt, sig2)#
+{#
+	exp(-(z - zOpt) ^ 2 / (2 * s2)) / (sqrt(s2))#
+}#
+#
+s2 <- seq(0, 1, l = 1e2)#
+plot(s2, wFine(0, s2, 0, 10), type = "l")
+wFine <- function(z, s2, zOpt, sig2)#
+{#
+	exp(-(z - zOpt) ^ 2 / (2 * s2))#
+}#
+#
+s2 <- seq(0, 1, l = 1e2)#
+plot(s2, wFine(0, s2, 0, 10), type = "l")
+wFine <- function(z, s2, zOpt, sig2)#
+{#
+	exp(-(z - zOpt) ^ 2 / (2 * s2)) / sqrt(s2)#
+}#
+#
+s2 <- seq(0, 1, l = 1e2)#
+plot(s2, wFine(0, s2, 0, 10), type = "l")
+wFine <- function(z, s2, zOpt, sig2)#
+{#
+	exp(-(z - zOpt) ^ 2 / (2 * s2)) / sqrt(s2)#
+}#
+#
+s2 <- seq(0, 1, l = 1e2)#
+plot(s2, wFine(0, s2, 0, 1), type = "l")
+plot(x, -(x - 0) ^ 2)
+x <- seq(-3, 3, l = 1e2)
+plot(x, -(x - 0) ^ 2)
+wFine <- function(z, s2, zOpt, sig2)#
+{#
+	dnorm(zOpt, sig2) * dnorm(z, s2)#
+}
+fn <- integrate(wFine, -Inf, Inf, z = 0, s2 = 1, zOpt = 0, sig2 = 1)
+wFine <- function(z, s2, zOpt, sig2)#
+{#
+	dnorm(zOpt, sig2) * dnorm(z, s2)#
+}#
+#
+fn <- integrate(wFine, -Inf, Inf, z = 0, s2 = 1, zOpt = 0, sig2 = 1)
+wFine <- function(x, z, s2, zOpt, sig2)#
+{#
+	dnorm(x, zOpt, sig2) * dnorm(z, zOpt, s2)#
+}#
+#
+fn <- integrate(wFine, -Inf, Inf, z = 0, s2 = 1, zOpt = 0, sig2 = 1)
+fn
+fn <- function(s2opt) integrate(wFine, -Inf, Inf, z = 0, s2 = s2opt, zOpt = 0, sig2 = 1)
+fn
+integrate(wFine, -Inf, Inf, z = 0, s2 = 1, zOpt = 0, sig2 = 1)
+integrate(wFine, -Inf, Inf, z = 0, s2 = 1, zOpt = 0, sig2 = 1)$value
+fn <- function(s2opt) integrate(wFine, -Inf, Inf, z = 0, s2 = s2opt, zOpt = 0, sig2 = 1)$value
+optim(1, fn, maximize = T)
+optim(1, fn, maximize = T, method = "Brent", lower = 0, upper = 10)
+optim(1, fn, maximum = T, method = "Brent", lower = 0, upper = 10)
+optimize(fn, lower = 0, upper = 10, maximum = T)
+md <- read.csv("~/Documents/Reviews/Mason and Donovan Evolution/Dataset_S2.csv")
+md <- read.csv("~/Documents/Reviews/Mason and Donovan Evolution/Dataset_S2.csv")
+md$LDMC <- md$DryMass / md$WetMass
+md$DryMass
+md$WetMass
+md$LDMC <- md$DryMass / md$FreshMass
+md$ThickVile <- md$LMA / md$LDMC
+md$ThickVile
+md$Thickness
+with(md, plot(md$LaminaThickness))
+with(md, plot(md$LaminaThickness, md$ThickVile))
+with(md, plot(md$LaminaThickness, md$ThickVile, log = "xy"))
+with(md, plot(md$LaminaThickness * 1000, md$ThickVile, log = "xy"))
+abline(0, 1)
+with(md, plot(md$LaminaThickness * 1000, md$ThickVile, log = "xy", pch = 19, col = md$Species))
+with(md, cor.test(md$LaminaThickness * 1000, md$ThickVile, log = "xy"))
+0.6744281^2
+head(md)
+with(md, plot(PC1_Area, PC1_Mass))
+with(md, plot(LESPC1_Area, LESPC1_Mass))
+with(md, cor.test(LESPC1_Area, LESPC1_Mass))
+pcArea <- with(md, prcomp(cbind(Aarea, Rarea, LMA, LL, Narea, Parea), scale. = T))
+with(md, cbind(Aarea, Rarea, LMA, LL, Narea, Parea))
+pcArea <- with(md, prcomp(na.omit(cbind(Aarea, Rarea, LMA, LL, Narea, Parea)), scale. = T))
+pcArea
+summary(pcArea)
+pcArea <- with(md, prcomp(na.omit(cbind(Aarea, Rarea, LMA, LL, Narea, Parea)), scale. = F))
+summary(pcArea)
+pcArea <- with(md, prcomp(na.omit(cbind(Amas, Rmass, LMA, LL, Nmass, Pmass)), scale. = T))
+pcMass <- with(md, prcomp(na.omit(cbind(Amas, Rmass, LMA, LL, Nmass, Pmass)), scale. = T))
+summary(pcMass)
+plot(pcArea$x)
+pcArea$x
+plot(pcArea$x[, 1])
+plot(pcArea$x[, 1], md$LESPC1_Area)
+plot(pcArea$x[, 1], md$LESPC1_Area[1:83])
+plot(pcMass$x[, 1], md$LESPC1_Mass[1:83])
+plot(pcArea$x[, 1], md$LESPC1_Area[1:83])
+pcArea <- with(md, prcomp(na.omit(cbind(Aarea, Rarea, LMA, LL, Narea, Parea)), scale. = T))
+summary(pcArea)
+plot(pcArea$x[, 1], md$LESPC1_Area[1:83])
+summary(pcArea)
+summary(pcMass)
+plot(pcMass)
+biplot(pcMass)
+biplot(pcArea)
+pcArea <- with(md, prcomp(na.omit(cbind(Aarea, Rarea, LMA, LL, Narea, Parea)), scale. = T, center = TRUE))
+summary(pcArea)
+with(md, cor.test(LESPC1_Area, LESPC1_Mass))
+0.3166038^2
+with(md, cor.test(LESPC1_Area, LESPC1_Mass))
+qnorm(0, 0, 1)
+pnorm(0, 0, 1)
+pt(2.9854, 80)
+1 - pt(2.9854, 80)
+1 - pt(2.9854, 80, lower.trail = F)
+1 - pt(2.9854, 80, lower.tail = F)
+pt(2.9854, 80, lower.tail =
+T)
+pt(2.9854, 80, lower.tail = F)
+pt(2.9854, 80, lower.tail = F) * 2
+tstat <- function(r, n) {r * sqrt((n - 2) / (1 - r ^ 2))}
+tstat <- function(r, n) {r * sqrt((n - 2) / (1 - r ^ 2))}
+with(md, cor.test(LESPC1_Area, LESPC1_Mass))
+tstat(0.003757, 80)
+tstat(0.3166038, 80)
+tstat(0.3166038, 81)
+tstat(0.3166038, 82)
+pt(tstat(0.3166038, 82), 80, lower.tail = F)
+pt(tstat(0.3166038, 82), 80, lower.tail = F) * 2
+pt(tstat(0.16, 82), 80, lower.tail = F) * 2
+sqrt(0.16)
+pt(tstat(sqrt(0.16), 82), 80, lower.tail = F) * 2
+with(md, cor.test(LESPC1_Area, LESPC1_Mass))
+with(md, plot(LESPC1_Area, LESPC1_Mass))
+range(md$LESPC1_Area)
+range(md$LESPC1_Area, na.rm = TRUE)
+which.max(md$LESPC1_Area, na.rm = TRUE)
+which.max(md$LESPC1_Area)
+md[81, ]
