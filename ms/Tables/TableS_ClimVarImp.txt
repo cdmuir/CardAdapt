@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Precipitation of wettest quarter ($\sigma$, neighborhood) & Mean diurnal range ($\sigma$, neighborhood) \\
 Annual precipitation ($\mu$, neighborhood) & Mean temperature of coldest quarter ($\sigma$, neighborhood) \\
 Precipitation of wettest quarter ($\mu$, neighborhood) & Precipitation seasonality ($\sigma$, neighborhood) \\
@@ -14,3 +15,5 @@ Precipitation of driest quarter ($\sigma$, neighborhood) &  \\
 Number of frost-free days ($\sigma$, neighborhood) &  \\
 Mean temperature of wettest quarter ($\sigma$, neighborhood) &  \\
 Precipitation as snow ($\sigma$, neighborhood) &  \\
+=======
+>>>>>>> 9c3904cfc8482e75f8d22cc6e4603dce691bfb90

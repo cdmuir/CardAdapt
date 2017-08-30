@@ -1,4 +1,5 @@
 # Ignore everything except what is in ms folder
+ms/Cover*
 Data/*
 Analysis/*
 demography hobo data/*

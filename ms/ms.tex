@@ -30,9 +30,7 @@
 % Package command for citing R packages
 \newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}} 
 
-%
-% Where to find files
-%
+% Setup
 
 
 %
@@ -240,6 +238,7 @@ To help eliminate potentially spurious correlations between TraitPC1 and climate
 
 We selected Climate-Latitude and Climate-TraitPC1 variables independently using Variable Selection Using Random Forest (VSURF) algorithm in the R package \pkg{VSURF} version 1.0.3 \citep{Genuer_etal_2016}. Random Forest regression is useful for cases like ours when the number of potential predictors is similar to or greater than the number of observations (`high $p$, low $n$' problem). VSURF is a multistip algorithm that progressively retains or eliminates variables based on their importance over regression trees in the forest. Variable importance is defined as the average amount a climate variable reduces mean-squared error in the predicted response (TraitPC1 or Latitude), compared to a randomly permuted dataset, across all trees in the random forest (see \citeauthor{Genuer_etal_2015} [\citeyear{Genuer_etal_2015}] for further detail). Hence, VSURF automatically eliminates unimportant and redundant variables based on the data without having to arbitrarily choose among colinear climate variables before the analysis. We kept only variables selected for prediction, the most stringent criterion. A visual overview of how we selected climatic variables is depicted in Fig~\ref{fig:Fig_VarSelect}. 
 
+<<<<<<< HEAD
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Figure of variable selection algorithm
@@ -836,3 +835,5 @@ We simulated typical growing season (June 1 - August 15) air temperatures at the
 For watering treatments, we simulated two extreme types of streams where \textit{E. cardinalis} grows. In the well-watered treatment, we simulated a large stream that never goes dry during the summer growing season. In the drought treatment, we simulated a small stream that has ample flow at the beginning of the season due to rain and snow melt, but gradually dries down through the summer. In both treatments, plants were bottom-watered using  water chilled to 7.5\celsius. Plants in the well-watered treatment were fully saturated every two hours during the day. Watering in the drought treatment gradually declined from every two hours to every day between May 20 (36 days after sowing) and 10 June (57 days after sowing). Simultaneously, the amount of bottom-watering per flood decreased, such that only the bottom of the cone-tainers were wetted by the end of the experiment.
 
 \end{document}
+=======
+>>>>>>> 9c3904cfc8482e75f8d22cc6e4603dce691bfb90

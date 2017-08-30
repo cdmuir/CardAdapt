@@ -30,18 +30,21 @@
 % Package command for citing R packages
 \newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}} 
 
-%
-% Where to find files
-%
+% Setup
 
 <<Setup, echo=FALSE, results=hide>>=
 
-  # The path to the ms directory may need to be changed for different users
   # Manuscript files
+<<<<<<< HEAD
   pathMS <- "~/Google Drive/CardAdapt/ms" # Chris' MacBook Air
   # pathMS <- "~/Documents/Temporary/ms" # Chris' Poisson laptop
   # pathMS <- "/Users/amylauren/Desktop/CardAdapt/ms" # Amy's desktop
 
+=======
+  pathMS <- getwd() # for sweave
+  # pathMS <- "ms" # for debugging
+  
+>>>>>>> 9c3904cfc8482e75f8d22cc6e4603dce691bfb90
   # Data files for paper
   pathDat <- paste(pathMS, "/Data", sep = "")
 
@@ -52,7 +55,8 @@
   pathTab <- paste(pathMS, "/Tables", sep = "")
 
   # Source custom functions
-  source(paste(pathMS, "/functions.R", sep = ""))
+  source("functions.R") # for sweave
+  # source(paste(pathMS, "/functions.R", sep = "")) # for debugging
   
   # Color palette
   # Primary color:
@@ -158,7 +162,8 @@ We examined these questions in \textit{Erythranthe cardinalis} (formerly \textit
   famTab <- tapply(master$Family, list(master$PopID), function(X) length(unique(X)))
   
   # Individuals per population per treatment
-  indPerPop <- tapply(master$indiv, list(master$TempTrt, master$WaterTrt, master$PopID), length)
+  indPerPop <- tapply(master$indiv, list(master$TempTrt, master$WaterTrt, 
+                                         master$PopID), length)
   
 @
 
@@ -248,9 +253,10 @@ mtext(expression(paste("Temperature (", phantom()*degree, "C)")), 2,
 	cex = 1.5, line = 4, las = 3)
 
 # Watering axis
-axis(4, at = c(0, 40), lwd = 0, lwd.ticks = 1, las = 1, labels = c(1, 12), cex.axis = 1.5)
-mtext(expression(paste("Watering Freq (no. Day", phantom()^-1, ")")), 4, 
-	cex = 1.5, line = 5, las = 3)
+axis(4, at = c(0, 40), lwd = 0, lwd.ticks = 1, las = 1, labels = c(1, 12), 
+     cex.axis = 1.5)
+mtext(expression(paste("Watering Freq (no. Day", phantom()^-1, ")")), 4,
+      cex = 1.5, line = 5, las = 3)
 
 # Axis of time on top
 mtext("Days after sowing", side = 3, line = 5, cex = 1.5)
@@ -461,19 +467,21 @@ We measured growth rate during two phases: leaf expansion and stem elongation. G
                 list(newdata$Population, newdata$WaterTrt, newdata$TempTrt), mean)
   pdf(paste(pathFig, "/FigureS_LERrxnNorm.pdf", sep = ""), 4, 4, useDingbats = F)
   par(mai = c(0.5, 1, 0.5, 0.25))
-  plot(0, 0, type = "n", xlab = "", ylab = "", axes = F, frame.plot = T, xlim = c(1, 4), 
-       ylim = c(1, 3.5))
+  plot(0, 0, type = "n", xlab = "", ylab = "", axes = F, frame.plot = T, 
+       xlim = c(1, 4), ylim = c(1, 3.5))
   abline(v = 2.5)
   mtext(side = 3, c("Cool", "Hot"), at = c(1.625, 3.375))
   mtext(side = 1, c("Wet", "Dry", "Wet", "Dry"), at = c(1, 2.25, 2.75, 4))
   mtext(side = 1, "Water Treatment", font = 2, cex = 1.25, line = 1.5)
   mtext(side = 3, "Temperature Treatment", font = 2, cex = 1.25, line = 1.5)
   axis(2, lwd = 0, lwd.ticks = 1, las = 1)
-  title(ylab = expression(paste("Leaf expansion rate (mm ", day ^-1, ")")), cex.lab = 1.5)
+  title(ylab = expression(paste("Leaf expansion rate (mm ", day ^-1, ")")), 
+        cex.lab = 1.5)
 
   for(i in 1:dim(tab)[1]) {
     lines(c(1, 2.75), c(tab[i, "Wet", "Cool"], tab[i, "Wet", "Hot"]), col = "grey")
-    lines(c(2.25, 4), c(tab[i, "Dry", "Cool"], tab[i, "Dry", "Hot"]), col = "grey", lty = 2)
+    lines(c(2.25, 4), c(tab[i, "Dry", "Cool"], tab[i, "Dry", "Hot"]), col = "grey",
+          lty = 2)
   }
 
   for(i in 1:dim(tab)[1]) {
@@ -534,22 +542,25 @@ We measured growth rate during two phases: leaf expansion and stem elongation. G
 
 	# Figure of reaction norms
   tab <- tapply(newdata$SER_AbsGrowth, 
-                list(newdata$Population, newdata$WaterTrt, newdata$TempTrt), mean, na.rm = T)
+                list(newdata$Population, newdata$WaterTrt, newdata$TempTrt), mean, 
+                na.rm = T)
   pdf(paste(pathFig, "/FigureS_SERrxnNorm.pdf", sep = ""), 4, 4, useDingbats = F)
   par(mai = c(0.5, 1, 0.5, 0.25))
-  plot(0, 0, type = "n", xlab = "", ylab = "", axes = F, frame.plot = T, xlim = c(1, 4), 
-       ylim = c(0.15, 0.50))
+  plot(0, 0, type = "n", xlab = "", ylab = "", axes = F, frame.plot = T, 
+       xlim = c(1, 4), ylim = c(0.15, 0.50))
   abline(v = 2.5)
   mtext(side = 3, c("Cool", "Hot"), at = c(1.625, 3.375))
   mtext(side = 1, c("Wet", "Dry", "Wet", "Dry"), at = c(1, 2.25, 2.75, 4))
   mtext(side = 1, "Water Treatment", font = 2, cex = 1.25, line = 1.5)
   mtext(side = 3, "Temperature Treatment", font = 2, cex = 1.25, line = 1.5)
   axis(2, lwd = 0, lwd.ticks = 1, las = 1)
-  title(ylab = expression(paste("Stem elongation rate (cm ", day ^-1, ")")), cex.lab = 1.5)
+  title(ylab = expression(paste("Stem elongation rate (cm ", day ^-1, ")")), 
+        cex.lab = 1.5)
 
   for(i in 1:dim(tab)[1]) {
     lines(c(1, 2.75), c(tab[i, "Wet", "Cool"], tab[i, "Wet", "Hot"]), col = "grey")
-    lines(c(2.25, 4), c(tab[i, "Dry", "Cool"], tab[i, "Dry", "Hot"]), col = "grey", lty = 2)
+    lines(c(2.25, 4), c(tab[i, "Dry", "Cool"], tab[i, "Dry", "Hot"]), col = "grey",
+          lty = 2)
   }
 
   for(i in 1:dim(tab)[1]) {
@@ -575,7 +586,8 @@ During the week of 10 to 16 June (57 to 63 days after sowing), we measured dayti
 
   # Figure of reaction norms
   tab <- tapply(master$Photo, 
-                list(master$Population, master$WaterTrt, master$TempTrt), mean, na.rm = T)
+                list(master$Population, master$WaterTrt, master$TempTrt), mean, 
+                na.rm = T)
   pdf(paste(pathFig, "/FigureS_PhotoRxnNorm.pdf", sep = ""), 4, 4, useDingbats = F)
   par(mai = c(0.5, 1, 0.5, 0.25))
   plot(0, 0, type = "n", xlab = "", ylab = "", axes = F, frame.plot = T, xlim = c(1, 4), 
@@ -624,8 +636,8 @@ We assayed mortality during twice-weekly growth measurements. We analyzed the pr
                 function(X) 1 - length(which(X)) / length(X))
   pdf(paste(pathFig, "/FigureS_MortRxnNorm.pdf", sep = ""), 4, 4, useDingbats = F)
   par(mai = c(0.5, 1, 0.5, 0.25))
-  plot(0, 0, type = "n", xlab = "", ylab = "", axes = F, frame.plot = T, xlim = c(1, 4), 
-       ylim = c(0, 1))
+  plot(0, 0, type = "n", xlab = "", ylab = "", axes = F, frame.plot = T, 
+       xlim = c(1, 4), ylim = c(0, 1))
   abline(v = 2.5)
   mtext(side = 3, c("Cool", "Hot"), at = c(1.625, 3.375))
   mtext(side = 1, c("Wet", "Dry", "Wet", "Dry"), at = c(1, 2.25, 2.75, 4))
@@ -636,7 +648,8 @@ We assayed mortality during twice-weekly growth measurements. We analyzed the pr
 
   for(i in 1:dim(tab)[1]) {
     lines(c(1, 2.75), c(tab[i, "Wet", "Cool"], tab[i, "Wet", "Hot"]), col = "grey")
-    lines(c(2.25, 4), c(tab[i, "Dry", "Cool"], tab[i, "Dry", "Hot"]), col = "grey", lty = 2)
+    lines(c(2.25, 4), c(tab[i, "Dry", "Cool"], tab[i, "Dry", "Hot"]), col = "grey",
+          lty = 2)
   }
 
   for(i in 1:dim(tab)[1]) {
@@ -649,6 +662,7 @@ We assayed mortality during twice-weekly growth measurements. We analyzed the pr
   dev.off()
   
   ##### TEMPORARY: CODE TO EXPORT FIGURE FOR TALK #####
+<<<<<<< HEAD
   d <- subset(master, !is.na(master$DiedFromStress))
   x <- tapply(d$DiedFromStress, list(d$PopID, d$WaterTrt, d$TempTrt), function(X) 1 - length(which(X)) / length(X))
 
@@ -665,6 +679,24 @@ We assayed mortality during twice-weekly growth measurements. We analyzed the pr
   axis(2, lwd = 0, lwd.ticks = 1, las = 1)
   #dev.off()
   
+=======
+  # d <- subset(master, !is.na(master$DiedFromStress))
+  # x <- tapply(d$DiedFromStress, list(d$PopID, d$WaterTrt, d$TempTrt), function(X) 1 - length(which(X)) / length(X))
+  # 
+  # pdf("~/Google Drive/Talks/JobTalk/3_Mimulus/DroughtResponse.pdf", w = 5.5, h = 5, useDingbats = F)
+  # par(mai = c(1, 1.5, 0.25, 0.25))
+  # 
+  # plot(focClim$bio16_avg, x[, "Dry", "Hot"] / x[, "Wet", "Hot"], axes = F, frame.plot = T,
+  #      pch = 21, col = "black", bg = primShade0, cex = 2, type = "n",
+  #      xlab = "Precipitation of Wettest Quarter (mm)", 
+  #      ylab = "Relative Survivorship\n(Hot/Dry : Hot/Wet)", cex.lab = 1.5)
+  # points(focClim$bio16_avg, x[, "Dry", "Hot"] / x[, "Wet", "Hot"], pch = 21, col = "black", 
+  #        bg = primShade0, cex = 1.5, lwd = 2)
+  # axis(1, lwd = 0, lwd.ticks = 1)
+  # axis(2, lwd = 0, lwd.ticks = 1, las = 1)
+  # dev.off()
+  # 
+>>>>>>> 9c3904cfc8482e75f8d22cc6e4603dce691bfb90
 
 @
 
@@ -730,6 +762,7 @@ For each single-trait model above, we extracted the Population coefficient (fact
 
   ##### TEMPORARY VERSION FOR TALK #####
   # Plot latitude versus PC1
+<<<<<<< HEAD
   #pdf("~/Google Drive/Talks/JobTalk/3_Mimulus/Figure_PC1vLat.pdf", 5.5, 5, useDingbats = F)
   par(mai = c(1, 1.5, 0.25, 0.25))
   plot(focClim$Lat, focClim$PC1, xlim = c(32, 44), ylim = c(-4, 4), axes = F,
@@ -767,6 +800,45 @@ For each single-trait model above, we extracted the Population coefficient (fact
 	     labels = bquote(italic(P) == .(round(summary(fitLat)[[4]][2, 4], 3))))
 
  # dev.off()
+=======
+#   pdf("~/Google Drive/Talks/JobTalk/3_Mimulus/Figure_PC1vLat.pdf", 5.5, 5, useDingbats = F)
+#   par(mai = c(1, 1.5, 0.25, 0.25))
+#   plot(focClim$Lat, focClim$PC1, xlim = c(32, 44), ylim = c(-4, 4), axes = F,
+#     frame.plot = T, type = "n", xlab = "", ylab = "")
+#   title(xlab = "Latitude", cex.lab = 1.5)
+#   title(ylab = "TraitPC1", cex.lab = 2, line = 5)
+#   title(ylab = substitute(plain(Principal~Component~1)~group("(", x, ")"), 
+#     list(x = pve)))
+#   axis(1, at = seq(32, 44, 4), labels = c(expression(32*degree), 
+# 		expression(36*degree), expression(40*degree), expression(44*degree)), 
+# 		lwd = 0, lwd.ticks = 1) 
+#   axis(2, at = seq(-4, 4, 2), las = 1, lwd = 0, lwd.ticks = 1)    
+#   fitLat <- lm(PC1 ~ Latitude, data = focClim)
+#   
+# 	# Label y-axis from slow to fast growth
+# 	mtext(c("Slow\nGrowth", "Fast\nGrowth"), 2, at = c(-4, 4), cex = 1.25, 
+# 				font = 3, las = 1, line = 4, adj = 0.5)
+# 
+#   # polygon of confidence intervals
+#   x <- seq(min(focClim$Latitude), max(focClim$Latitude), l = 1e3)
+#   u <- predict(fitLat, new = data.frame(Latitude = x))
+#   s <- sqrt(sapply(x, function(X) t(c(1, X)) %*% vcov(fitLat) %*% c(1, X)))
+#   confInt <- data.frame(lowerCI = qnorm(0.025, u, s), 
+#   											upperCI = qnorm(0.975, u, s))
+#   polygon(c(x, rev(x)), c(confInt$lowerCI, rev(confInt$upperCI)), 
+#     col = "grey", border = NA)
+#   lines(x, confInt$lowerCI, lwd = 2, lty = 2)
+#   lines(x, confInt$upperCI, lwd = 2, lty = 2)
+#   lines(range(focClim$Lat), rev(range(predict(fitLat))), lwd = 2)
+#   points(focClim$Lat, focClim$PC1, pch = 21, col = "black", bg = primShade0, 
+#   			 cex = 1.5, lwd = 2)
+#   
+#   # P-value
+#   text(grconvertX(0.95, "npc"), grconvertY(0.95, "npc"), adj = c(1, 1),
+# 	     labels = bquote(italic(P) == .(round(summary(fitLat)[[4]][2, 4], 3))))
+# 
+#   dev.off()
+>>>>>>> 9c3904cfc8482e75f8d22cc6e4603dce691bfb90
 
 @
 
