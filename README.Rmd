@@ -9,6 +9,7 @@ More information about the study is available in a preprint which you can find o
 
 1. Download or clone this repository to your machine.
 2. Open `card-cline.Rproj` in [RStudio](https://www.rstudio.com/)
+3. Install R packages if necessary.
 
 ## Generating manuscript
 
