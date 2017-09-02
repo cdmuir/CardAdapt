@@ -487,7 +487,7 @@ We measured growth rate during two phases: leaf expansion and stem elongation. G
   mtext(side = 3, "A", font = 2, cex = 2, at = grconvertX(-0.1, "npc", "user"))
   dev.off()
   
-  # Confidence intervals on effect size (mean squared error)
+  # Function for bootstrapping effect sizes
   fn <- function(merMod) {
     x <- anova(merMod)
     ret <- x[c("PopID", "PopID:TempTrt", "PopID:WaterTrt"), "Mean Sq"]
@@ -617,8 +617,8 @@ During the week of 10 to 16 June (57 to 63 days after sowing), we measured dayti
                 na.rm = T)
   pdf(paste(pathFig, "/FigureS_PhotoRxnNorm.pdf", sep = ""), 4, 4, useDingbats = F)
   par(mai = c(0.5, 1, 0.5, 0.25))
-  plot(0, 0, type = "n", xlab = "", ylab = "", axes = F, frame.plot = T, xlim = c(1, 4), 
-       ylim = c(5, 16))
+  plot(0, 0, type = "n", xlab = "", ylab = "", axes = F, frame.plot = T, 
+       xlim = c(1, 4), ylim = c(5, 16))
   abline(v = 2.5)
   mtext(side = 3, c("Cool", "Hot"), at = c(1.625, 3.375))
   mtext(side = 1, c("Wet", "Dry", "Wet", "Dry"), at = c(1, 2.25, 2.75, 4))
@@ -630,7 +630,8 @@ During the week of 10 to 16 June (57 to 63 days after sowing), we measured dayti
 
   for(i in 1:dim(tab)[1]) {
     lines(c(1, 2.75), c(tab[i, "Wet", "Cool"], tab[i, "Wet", "Hot"]), col = "grey")
-    lines(c(2.25, 4), c(tab[i, "Dry", "Cool"], tab[i, "Dry", "Hot"]), col = "grey", lty = 2)
+    lines(c(2.25, 4), c(tab[i, "Dry", "Cool"], tab[i, "Dry", "Hot"]), col = "grey",
+          lty = 2)
   }
 
   for(i in 1:dim(tab)[1]) {
@@ -643,8 +644,8 @@ During the week of 10 to 16 June (57 to 63 days after sowing), we measured dayti
   dev.off()
   
   # Confidence intervals on effect size (mean squared error)
-  ciMerModPhoto <- confint(mm, method = "boot", FUN = fn, nsim = 1e3, seed = 12657909,
-                           parallel = "multicore", ncpus = 2L)
+  ciMerModPhoto <- confint(mm, method = "boot", FUN = fn, nsim = 1e3, 
+                           seed = 12657909, parallel = "multicore", ncpus = 2L)
   ciMerModPhoto <- as.data.frame(ciMerModPhoto)
   fit <- anova(mm)
   ciMerModPhoto$estimate <- c(fit[c("PopID", "PopID:TempTrt", "PopID:WaterTrt"), "Mean Sq"],
@@ -653,7 +654,6 @@ During the week of 10 to 16 June (57 to 63 days after sowing), we measured dayti
   rownames(ciMerModPhoto) <- c("PopID", "PopID:TempTrt", "PopID:WaterTrt", 
                                "PopID - PopID:TempTrt", "PopID - PopID:WaterTrt")
   rm(fit)
-  
   
 @
 
@@ -668,20 +668,40 @@ We assayed mortality during twice-weekly growth measurements. We analyzed the pr
   								 (1|Block), control = glmerControl(optimizer = "bobyqa"),
   								 data = subset(master, !is.na(master$DiedFromStress)), 
   								 family = "binomial")
-  # Anova(fitMort, type = 2)
+  fit <- Anova(fitMort, type = 2)
 
+  # Function for bootstrapping effect sizes
   fn <- function(merMod) {
     x <- Anova(merMod, type = 2)
-    ret <- x[c("PopID", "PopID:TempTrt", "PopID:WaterTrt"), "Chisq"]
+    ret <- x[c("PopID", "PopID:TempTrt", "PopID:WaterTrt", 
+               "PopID:TempTrt:WaterTrt"), "Chisq"]
     ret <- c(ret, x["PopID", "Chisq"] - x["PopID:TempTrt", "Chisq"],
-             x["PopID", "Chisq"] - x["PopID:WaterTrt", "Chisq"])
+             x["PopID", "Chisq"] - x["PopID:WaterTrt", "Chisq"],
+             x["PopID", "Chisq"] - x["PopID:TempTrt:WaterTrt", "Chisq"])
     ret
   }
 
   system.time(
-  ciMerModMort <- confint(fitMort, method = "boot", FUN = fn, nsim = 1e1, seed = 925200709,
-                          parallel = "multicore", ncpus = 2L)
+  ciMerModMort <- confint(fitMort, method = "boot", FUN = fn, nsim = 1e3, seed = 925200709,
+                          parallel = "multicore", ncpus = 4L)
 )
+  
+  # tmp  <- ciMerModMort
+  # ciMerModMort <- tmp
+  ciMerModMort <- as.data.frame(ciMerModMort)
+  ciMerModMort$estimate <- c(
+    fit[c("PopID", "PopID:TempTrt", "PopID:WaterTrt", "PopID:TempTrt:WaterTrt"),
+        "Chisq"],
+    fit["PopID", "Chisq"] - fit["PopID:TempTrt", "Chisq"],
+    fit["PopID", "Chisq"] - fit["PopID:WaterTrt", "Chisq"],
+    fit["PopID", "Chisq"] - fit["PopID:TempTrt:WaterTrt", "Chisq"])
+
+      rownames(ciMerModPhoto) <- c("PopID", "PopID:TempTrt", "PopID:WaterTrt", 
+                               "PopID - PopID:TempTrt", "PopID - PopID:WaterTrt")
+  rm(fit)
+
+  saveRDS(ciMerModMort, paste0(pathDat, "/ciMerModMort.rds"))
+  ciMerModMort <- readRDS(paste0(pathDat, "/ciMerModMort.rds"))
   # Figure of reaction norms
   d <- subset(master, !is.na(master$DiedFromStress))
   tab <- tapply(d$DiedFromStress, list(d$PopID, d$WaterTrt, d$TempTrt), 
