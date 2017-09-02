@@ -1,11 +1,17 @@
----
-title: "Readme for Muir and Angert"
-author: "Chris Muir and Amy Angert"
-output: html_document
----
+# card-cline
+Grow with the flow: a latitudinal cline in physiology is associated with more variable precipitation in *Erythranthe cardinalis*
 
-This repository contains the source for the paper Muir CD and Angert AL. Grow with the flow: a latitudinal cline in physiology is associated with more variable precipitation in *Mimulus cardinalis*.
+This project was developed by [Chris Muir](www.chrisdmuir.com) and [Amy Angert](http://angert.botany.ubc.ca/) .
 
-See the Sweave file 'ms/ms.Rnw' for code chunks. If you have R packages installed, you should be able to recreate the manuscript locally.
+More information about the study is available in a preprint which you can find on [biorxiv](https://doi.org/10.1101/080952) or on [github](https://github.com/cdmuir/card-cline/blob/master/ms/ms.pdf).
 
-A preprint of this paper is available on biorxiv: http://dx.doi.org/10.1101/080952
+## Downloading data and code 
+
+1. Download or clone this repository to your machine.
+2. Open `card-cline.Rproj` in [RStudio](https://www.rstudio.com/)
+
+## Generating manuscript
+
+Simply open `ms/ms.Rnw` and compile using RStudio.
+
+[![CC BY](http://i.creativecommons.org/l/by/3.0/88x31.png)](http://creativecommons.org/licenses/by/3.0/)
