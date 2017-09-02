@@ -5,7 +5,7 @@ This project was developed by [Chris Muir](www.chrisdmuir.com) and [Amy Angert](
 
 More information about the study is available in a preprint which you can find on [biorxiv](https://doi.org/10.1101/080952) or on [github](https://github.com/cdmuir/card-cline/blob/master/ms/ms.pdf).
 
-## Downloading data and code 
+## Downloading repository 
 
 1. Download or clone this repository to your machine.
 2. Open `card-cline.Rproj` in [RStudio](https://www.rstudio.com/)
