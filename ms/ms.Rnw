@@ -681,27 +681,27 @@ We assayed mortality during twice-weekly growth measurements. We analyzed the pr
     ret
   }
 
-  system.time(
-  ciMerModMort <- confint(fitMort, method = "boot", FUN = fn, nsim = 1e3, seed = 925200709,
-                          parallel = "multicore", ncpus = 4L)
-)
-  
-  # tmp  <- ciMerModMort
-  # ciMerModMort <- tmp
-  ciMerModMort <- as.data.frame(ciMerModMort)
-  ciMerModMort$estimate <- c(
-    fit[c("PopID", "PopID:TempTrt", "PopID:WaterTrt", "PopID:TempTrt:WaterTrt"),
-        "Chisq"],
-    fit["PopID", "Chisq"] - fit["PopID:TempTrt", "Chisq"],
-    fit["PopID", "Chisq"] - fit["PopID:WaterTrt", "Chisq"],
-    fit["PopID", "Chisq"] - fit["PopID:TempTrt:WaterTrt", "Chisq"])
-
-      rownames(ciMerModPhoto) <- c("PopID", "PopID:TempTrt", "PopID:WaterTrt", 
-                               "PopID - PopID:TempTrt", "PopID - PopID:WaterTrt")
-  rm(fit)
-
-  saveRDS(ciMerModMort, paste0(pathDat, "/ciMerModMort.rds"))
+  # Takes ~3 hours to run; use saved output
+  # ciMerModMort <- confint(fitMort, method = "boot", FUN = fn, nsim = 1e3, 
+  #                         seed = 925200709, parallel = "multicore", ncpus = 4L)
+  # 
+  # ciMerModMort <- as.data.frame(ciMerModMort)
+  # ciMerModMort$estimate <- c(
+  #   fit[c("PopID", "PopID:TempTrt", "PopID:WaterTrt", "PopID:TempTrt:WaterTrt"),
+  #       "Chisq"],
+  #   fit["PopID", "Chisq"] - fit["PopID:TempTrt", "Chisq"],
+  #   fit["PopID", "Chisq"] - fit["PopID:WaterTrt", "Chisq"],
+  #   fit["PopID", "Chisq"] - fit["PopID:TempTrt:WaterTrt", "Chisq"])
+  # 
+  # rownames(ciMerModMort) <- c("PopID", "PopID:TempTrt", "PopID:WaterTrt", 
+  #                             "PopID:TempTrt:WaterTrt", "PopID - PopID:TempTrt",
+  #                             "PopID - PopID:WaterTrt", 
+  #                             "PopID - PopID:TempTrt:WaterTrt")
+  # rm(fit)
+  # 
+  # saveRDS(ciMerModMort, paste0(pathDat, "/ciMerModMort.rds"))
   ciMerModMort <- readRDS(paste0(pathDat, "/ciMerModMort.rds"))
+  
   # Figure of reaction norms
   d <- subset(master, !is.na(master$DiedFromStress))
   tab <- tapply(d$DiedFromStress, list(d$PopID, d$WaterTrt, d$TempTrt), 
