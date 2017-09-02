@@ -146,6 +146,8 @@ We examined these questions in \textit{Erythranthe cardinalis} (formerly \textit
 
 \section*{Material and Methods}
 
+Data and annotated source code to reproduce these analyses and manuscript are available on GitHub (https://github.com/cdmuir/card-cline).
+
 <<Summary Statistics, echo = FALSE, results=hide, warning=FALSE>>=
 
   master <- read.csv(paste(pathDat, "/MasterDatasheet_out.csv", sep = ""), 
