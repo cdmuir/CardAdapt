@@ -746,47 +746,87 @@ We assayed mortality during twice-weekly growth measurements. We analyzed the pr
 
 @
 
-
-<<Effect size confidence intervals, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
-
-  # pathFig <- "/Users/cdmuir/Google Drive/CardAdapt/ms/Figures" # for debug
-  
-  pdf(paste0(pathFig, "/FigureS_EffectSizes.pdf"), 8, 8, useDingbats = F)
-  par(mai = c(1, 1, 0.5, 0.1), mfrow = c(2, 2))
-
-  mods <- list(ciMerModLER, ciMerModSER, ciMerModPhoto, ciMerModMort)
-  for (i in 1:length(mods)) {
-
-    mod <- mods[[i]]
-    main <- c("Leaf expansion", "Stem elongation", "Photosynthesis", "Mortality")[i]
-    plot(0, 0, type = "n", axes = FALSE, frame.plot = TRUE,
-         ylim = range(mod), xlim = c(1, 7),
-         xlab = "", ylab = "Effect size", cex.lab = 1.5,
-         main = main)
-
-    abline(h = 0, lty = 2, col = "grey50")
-    for (i in 1:7) {
-    lines(rep(i, 2), c(mod[i, "2.5 %"], mod[i, "97.5 %"]))
-      points(i, mod[i, "estimate"], pch = 19)
-    }
-
-    axis(2, las = 1, lwd = 0, lwd.ticks = 1)
-    clip(-100, 100, -100, 100)
-    text(x = 1:7, y = grconvertY(-0.025, "npc", "user"), srt = 45, pos = 2, 
-         labels = c("Pop", "Pop x Temp", "Pop x Water", "Pop x Temp x Water", 
-                    "Pop - Pop x Temp", "Pop - Pop x Water", "Pop - Pop x Temp x Water"))
-
-}
-
-dev.off()
-
-@
-
 \subsection*{Genetic variation in trait means and plasticity}
 
 For all traits (Table~\ref{table:Table_traits}) except germination (see above), we tested for Population, Treatment (Temperature, Water, and Temperature $\times$ Water), and Population $\times$ Treatment interactions (Population $\times$ Temperature, Population $\times$ Water, and Population $\times$ Temperature $\times$ Water). We interpreted significant Population effects to indicate genetic variation in trait means and Population $\times$ Treatment interactions to indicate genetic variation in plasticity. As mentioned above, we used survival and GLMM models for germination rate and mortality, respectively. For all other traits, we used mixed model ANOVAs with Family and Block included as random factors. We fit models using restricted maximum likelihood in lmer, a function in the R package \pkg{lme4} \citep{Bates_etal_2015}. We determined significant fixed effect terms using a step-wise backward elimination procedure implemented with the step function in the R package \pkg{lmerTest} version 2.0-32 \citep{Kuznetsova_etal_2016}. We used Satterthwaite's approximation to calculate denominator degrees of freedom for $F$-tests. We also included days to germination as a covariate in growth analyses. To ensure that Population and Treatment effects were specific to a particular growth phase, we included germination day as a covariate in leaf expansion and stem elongation analyses.
 
-Failure to detect a significant effect could be the result of Type-2 error, so we complemented the above analysis by comparing effect sizes in the full model. The full model contains all main effects, two-way interactions (Population $\times$ Temperature, Population $\times$ Water), a three-way interaction (Population $\times$ Temperature $\times$ Water), and random effects. We compared the effect sizes (mean squared error for LMM, ? for GLMM) of Population to Population $\times$ Treatment in 1000 parametric bootstrap samples simulated from fitted models. MARKER
+Failure to detect a significant effect could be the result of Type-2 error, so we complemented step-wise ANOVA (see above) by comparing effect sizes calculated in the full model. The full model contains all main effects, two-way interactions (Population $\times$ Temperature, Population $\times$ Water), a three-way interaction (Population $\times$ Temperature $\times$ Water), and random effects. For linear mixed-effects models (leaf expansion, stem elongation, and photosynthesis) we used mean-squared error as a measure of effect size; for GLMM (mortality) we used $\chi^2$ as a measure of effect size. We did not include germination rate because no Population $\times$ Treatment effects were estimated. The difference in effect size of Population versus Population $\times$ Treatment is:
+
+$$ \Delta \textrm{Effect Size}_{\textrm{Pop} - (\textrm{Pop} \times \textrm{Trt})} = \textrm{Effect Size}_\textrm{Pop} - \textrm{Effect Size}_{\textrm{Pop} \times \textrm{Trt}} $$
+
+We calculated $\Delta \textrm{Effect Size}_{\textrm{Pop} - (\textrm{Pop} \times \textrm{Trt})}$ for all two- and three-way Population $\times$ Treatment interactions for each trait. To determine whether $\Delta \textrm{Effect Size}_{\textrm{Pop} - (\textrm{Pop} \times \textrm{Trt})}$ was significantly different than 0, we calculated 95\% confidence intervals using 1000 parametric bootstrap samples simulated from fitted models. If the 95\% confidence interval for a given $\Delta \textrm{Effect Size}_{\textrm{Pop} - (\textrm{Pop} \times \textrm{Trt})}$, was greater than zero then we concluded that the Population effect size was significantly larger than the Population $\times$ Treatment effect size, and vice versa if the confidence internval was less than zero. If the confidence spanned zero, then the effect sizes are not significantly different.
+
+<<Effect sizes, echo=FALSE, results=hide, warning=FALSE, message=FALSE>>=
+
+  pdf(paste0(pathFig, "/FigureS_EffectSizes.pdf"), 8, 8, useDingbats = F)
+  par(mfrow = c(2, 2), oma = c(0, 2, 0, 0))
+
+  mods <- list(ciMerModLER, ciMerModSER, ciMerModPhoto, ciMerModMort)
+  for (i in 1:length(mods)) {
+
+    if (i %in% c(1, 3)) {
+      par(mar = c(5, 10, 5, 0))
+    } else {
+      par(mar = c(5, 0, 5, 10))
+    }
+    
+    mod <- mods[[i]]
+    main <- paste0(LETTERS[i], ". ", 
+                   c("Leaf expansion", "Stem elongation", "Photosynthesis", "Mortality")[i])
+    plot(0, 0, type = "n", axes = FALSE, frame.plot = TRUE,
+         xlim = range(mod), ylim = c(7.5, 0.5),
+         ylab = "", xlab = "Effect size", cex.lab = 1.5, main = main)
+
+    abline(v = 0, lty = 2, col = "grey50")
+    for (j in 1:7) {
+      lines(y = rep(j, 2), c(mod[j, "2.5 %"], mod[j, "97.5 %"]))
+      x = points(mod[j, "estimate"], j, pch = 19)
+    }
+
+    axis(1, las = 1, lwd = 0, lwd.ticks = 1)
+    clip(-100, 100, -100, 100)
+   if (i %in% c(1, 3)) {
+      text(y = 1:7, x = grconvertX(-0.025, "npc", "user"), srt = 0, pos = 2, 
+           labels = c("Pop", "Pop x Temp", "Pop x Water", "Pop x Temp x Water", 
+                      "Pop - (Pop x Temp)", "Pop - (Pop x Water)", 
+                      "Pop - (Pop x Temp x Water)"))
+    }
+  }
+
+  dev.off()
+
+  # Numbers for Results
+  comparisons <- c(
+    "PopID - PopID:TempTrt",
+    "PopID - PopID:WaterTrt",
+    "PopID - PopID:TempTrt:WaterTrt"
+  )
+
+  fn <- function(ciMerMod, comparisons) {
+    ret <- numeric(3)
+    
+    # Pop has larger effect than Pop x Trt
+    ret[1] <- length(which(ciMerMod[comparisons, "2.5 %"] > 0)) 
+
+    # Pop has smaller effect than Pop x Trt
+    ret[2] <- length(which(ciMerMod[comparisons, "97.5 %"] < 0))
+
+    # Pop and Pop x Trt have similar effect
+    ret[3] <- length(which(ciMerMod[comparisons, "2.5 %"] < 0 & 
+                             ciMerMod[comparisons, "97.5 %"] > 0))
+    
+    stopifnot(sum(ret) == length(comparisons))
+    
+    ret
+    
+  }
+  
+  effSize <- sapply(list(ciMerModLER, ciMerModSER, ciMerModPhoto, ciMerModMort),
+                    fn, comparisons = comparisons)
+  colnames(effSize) <- c("LER", "SER", "Photo", "Mort")
+  rownames(effSize) <- c("larger", "smaller", "same")
+
+@
 
 \subsection*{Principal components of germination, growth, and photosynthesis}
 For each single-trait model above, we extracted the Population coefficient (factoring out Treatment and other effects). The multivariate distribution of these coefficients was then summarized using principal components analysis. The first principal component of these traits (TraitPC1) loaded positively with germination, growth, and photostynthetic rate, therefore we define this as a phenotypic axis delineating fast to slow growth.
@@ -1789,7 +1829,9 @@ There are strong genetically-based trait differences in time to germination, gro
 
 \subsection*{Little evidence for variation in plasticity}
 
-In contrast to the genetic variation in trait means described above, we found little evidence of G$\times$E in \textit{E. cardinalis}. There were only two statistically significant Population $\times$ Treatment interactions (Table~\ref{table:Table_AnovaSummary}, Fig.~\ref{fig:FigS_RxnNorms}), but these were not strong compared to Population and Temperature effects. Otherwise, populations responded similarly to treatments: faster growth in the hot treatment, slower growth in the dry treatment, and high mortality in the hot, dry treatment (Table~\ref{table:Table_AnovaSummary}). Complete ANOVA tables are available in the Supporting Information (\Cref{table:TableS_fitLER,table:TableS_fitSER,table:TableS_fitPhoto,table:TableS_fitMort})
+In contrast to the genetic variation in trait means described above, we found little evidence of G$\times$E in \textit{E. cardinalis}. There were only two statistically significant Population $\times$ Treatment interactions (Table~\ref{table:Table_AnovaSummary}, Fig.~\ref{fig:FigS_RxnNorms}), but these were not strong compared to Population and Temperature effects. Otherwise, populations responded similarly to treatments: faster growth in the hot treatment, slower growth in the dry treatment, and high mortality in the hot, dry treatment (Table~\ref{table:Table_AnovaSummary}). Complete ANOVA tables are available in the Supporting Information (\Cref{table:TableS_fitLER,table:TableS_fitSER,table:TableS_fitPhoto,table:TableS_fitMort}). 
+
+The effect size of Population was significantly larger than that for Population $\times$ Treatment interactions (Fig.~\ref{fig:FigS_EffectSizes}) in most cases. For leaf expansion, Population had a signicantly larger effect size than Population $\times$ Treatment interactions in \Sexpr{effSize["larger", "LER"]} of \Sexpr{sum(effSize[, "LER"])} comparisons (Fig.~\ref{fig:FigS_EffectSizes}A). For stem elongation (Fig.~\ref{fig:FigS_EffectSizes}B) and mortality (Fig.~\ref{fig:FigS_EffectSizes}D), Population effect sizes were significantly larger than all Population $\times$ Treatment interactions. For Photosynthesis, Population and Population $\times$ Treatment effect sizes were not significantly different (Fig.~\ref{fig:FigS_EffectSizes}C), presumably because we had a smaller sample size.
 
 \subsection*{Neighborhood climatic variability best explains latitudinal cline}
 
@@ -2436,6 +2478,17 @@ In summary, we found evidence for a coordinated latitudinal cline in germination
     \end{subfigure}
 \caption[Reaction norms]{Reaction norms signify little Population $\times$ Treatment interactions. For all panels, black lines represent population-level reaction norms from Wet to Dry in the Cool temperature treatment (dashed black lines) and Hot temperature treatment (solid black lines); gray lines represent reaction norms from Cool to Hot in the Wet treatment (solid gray lines) and Dry treatment (dashed gray lines). The responses shown are (A) leaf expansion rate, (B) stem elongation rate, (C) photosynthesis, and (D) survivorship (= 1 - mortality).}
 	\label{fig:FigS_RxnNorms}
+\end{figure}
+
+% Effect sizes of LER, SER, Photo, and Mort
+
+\begin{figure}
+	\centerline{\includegraphics{Figures/FigureS_EffectSizes.pdf}}
+	\usefont{T1}{phv}{m}{n}
+	\fontsize{10}{12}
+	\selectfont
+	\caption[Effect sizes]{Population effect sizes are usually larger than Population $\times$ Treatment effect sizes. In each panel, we plot estimated effect size (points) and 95\% confidence intervals (lines) inferred using parametric bootstrap (see Materials and Methods). At the top, we plot the effect sizes of Population (`Pop'), two-way interactions between Population and Temperature (`Pop $\times$ Temp') or Water (`Pop $\times$ Water'), and the three-way interaction between Population, Temperature, and Water (`Pop $\times$ Temp $\times$ Water'). Below that we plot the difference in the Population minus the Population $\times$ Treatment effect size (e.g. `Pop - (Pop $\times$ Temp)'). When confidence intervals do no overlap zero (dashed line), this means that Population has a significantly greater effect size than the interaction. Effect sizes were measured using unstandarized mean square error for linear mixed-effects models (leaf expansion, stem elongation, and photosynthesis) and $\chi^2$ for GLMM (mortality). Hence, the effect size values are not comparable between different traits.}
+	\label{fig:FigS_EffectSizes}
 \end{figure}
 
 % Figure of bio11_cva_SA versus TraitPC1
