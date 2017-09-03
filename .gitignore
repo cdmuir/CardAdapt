@@ -9,13 +9,21 @@ GBS/*
 Methods/*
 ms/Data/UpdateClimateFiles.R
 ms/Comments/*
-ms/Revision1/*
-ms/Revision2/*
+ms/Revision1
+ms/Revision2
+ms/_Revision2
 ms/extra.txt
+.bst
+.sty
+.pages
+ms/*.docx
 
 # GIS files
 *.asc
 *.prj
+
+# DS_Store files
+.DS_Store
 
 # History files
 .Rhistory
