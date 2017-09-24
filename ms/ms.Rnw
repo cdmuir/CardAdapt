@@ -163,14 +163,14 @@ Data and annotated source code to reproduce these analyses and manuscript are av
 
 \subsection*{Population Selection}
 
-\textit{E. cardinalis} is a perennial forb native to the Western US (California and Oregon). It is predomintantly outcrossing, self-compatible, and pollinated primarily by hummingbirds. We used 16 populations from throughout the range of \textit{E. cardinalis} (Table~\ref{table:Table_FocalPops}). These populations were intentionally chosen to span much of the climatic range of the species based on all known occurrences (see below). Seeds were collected in the field from mature, undehisced fruit left open for 2-4 weeks to dry, then stored at room temperature. To control for maternal effects, we grew a large number of field-derived seeds in the greenhouse and generated seed families for this experiment by haphazardly crossing individuals from the same population. We selected seed families to maximize the number of field-derived individuals represented. Thus, we used seeds from \Sexpr{nlevels(master$Family)} greenhouse-derived seed families, \Sexpr{min(famTab)}--\Sexpr{max(famTab)} (mean = \Sexpr{round(mean(famTab), 1)}, median = \Sexpr{median(famTab)}) families per population.
-
 <<focClim, echo = FALSE, results=hide, warning=FALSE>>=
 
 # Read in climate data for 16 focal populations to use in making Table 1
 load(paste(pathDat, "/focClim.RData", sep = ""))
 
 @
+
+\textit{E. cardinalis} is a perennial forb native to the Western US (California and Oregon). It is predominantantly outcrossing, self-compatible, and pollinated primarily by hummingbirds. We used 16 populations from throughout the range of \textit{E. cardinalis} (Table~\ref{table:Table_FocalPops}). These populations were intentionally chosen to span much of the climatic range of the species based on all known occurrences (see below). Although the elevation range of \textit{E. cardinalis} compresses slightly from south to north, latitude is not strongly confounded by elevation among our focal populations. The correlation between Latitude and Elevation among the 16 focal populations was weak ($r = \Sexpr{round(cor(focClim$Latitude, focClim$Elevation), 2)}$, $P = \Sexpr{round(cor.test(focClim$Latitude, focClim$Elevation)$p.value, 2)}$). Seeds were collected in the field from mature, undehisced fruits left open for 2-4 weeks to dry, then stored at room temperature. To control for maternal effects, we grew a large number of field-derived seeds in the greenhouse and generated seed families for this experiment by haphazardly crossing individuals from the same population. We selected seed families to maximize the number of field-derived individuals represented. Thus, we used seeds from \Sexpr{nlevels(master$Family)} greenhouse-derived seed families, \Sexpr{min(famTab)}--\Sexpr{max(famTab)} (mean = \Sexpr{round(mean(famTab), 1)}, median = \Sexpr{median(famTab)}) families per population. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Table of focal population
@@ -222,7 +222,7 @@ load(paste(pathDat, "/focClim.RData", sep = ""))
 
 \subsection*{Plant propagation}
 
-On 14 April, 2014, 3-5 seeds per family were sown directly on sand (Quikrete Play Sand, Georgia, USA) watered to field capacity in RLC4 Ray Leach cone-tainers placed in RL98 98-well trays (Stuewe \& Sons, Inc., Oregon, USA). We used pure sand because \textit{E. cardinalis} typically grows in sandy, riparian soils (A. Angert, pers. obs.). Two jumbo-sized cotton balls at the bottom of cone-tainers prevented sand from washing out. Cone-tainers sat in medium-sized flow trays (FLOWTMD, Stuewe \& Sons, Inc., Oregon, USA) to continuously bottom-water plants during germination in greenhouses at the University British Columbia campus in Vancouver, Canada (49\degree 15' N, 123\degree 15' W). Misters thoroughly wetted the top of the sand every two hours during the day. Most seeds germinated between 1 and 2 weeks, but we allowed 3 weeks before transferring seedlings to growth chambers. We recorded germination daily between one to two weeks after sowing, and every 2-3 days thereafter. On 5 May (21 days after sowing), we transferred seedlings to one of two growth chambers (Model E-15 Conviron, Manitoba, Canada). We thinned seedlings to one plant per cone-tainer, leaving the center-most plant. \Sexpr{nrow(master)} of 768 (\Sexpr{round(100 * nrow(master) / 768, 1)}\%) had plants that could be used in the experiment. We allowed one week at constant, non stressful conditions (day: 20\celsius, night: 16\celsius) for plants to acclimate to growth chambers before starting treatments. The initial size of seedlings, measured as the length of the first true leaves, did not differ between populations, families, or treatments (Table~\ref{table:TableS_InitialSize}).
+On 14 April, 2014, 3-5 seeds per family were sown directly on sand (Quikrete Play Sand, Georgia, USA) watered to field capacity in RLC4 Ray Leach cone-tainers placed in RL98 98-well trays (Stuewe \& Sons, Inc., Oregon, USA). We used pure sand because \textit{E. cardinalis} typically grows in sandy, riparian soils (A. Angert, pers. obs.). Two jumbo-sized cotton balls at the bottom of cone-tainers prevented sand from washing out. Cone-tainers sat in medium-sized flow trays (FLOWTMD, Stuewe \& Sons, Inc., Oregon, USA) to continuously bottom-water plants during germination in greenhouses at the University British Columbia campus in Vancouver, Canada (49\degree 15' N, 123\degree 15' W). Misters thoroughly wetted the top of the sand every two hours during the day. Most seeds germinated between 1 and 2 weeks, but we allowed 3 weeks before transferring seedlings to growth chambers. We recorded germination daily between one to two weeks after sowing, and every 2-3 days thereafter. On 5 May (21 days after sowing), we transferred seedlings to one of two growth chambers (Model E-15 Conviron, Manitoba, Canada). We thinned seedlings to one plant per cone-tainer, leaving the center-most plant. \Sexpr{nrow(master)} of 768 (\Sexpr{round(100 * nrow(master) / 768, 1)}\%) cone-tainers had plants that could be used in the experiment. We allowed one week at constant, non stressful conditions (day: 20\celsius, night: 16\celsius) for plants to acclimate to growth chambers before starting treatments. The initial size of seedlings, measured as the length of the first true leaves, did not differ between populations, families, or treatments (Table~\ref{table:TableS_InitialSize}).
     
 \subsection*{Temperature and drought treatments}
 
@@ -1280,8 +1280,8 @@ We selected Climate-Latitude and Climate-TraitPC1 variables independently using 
   # Variable selection using random forests (VSURF)
 	# Climate variables that predict PC1 (point and spatially averaged)
   set.seed(69648)
-  vsurfPC1 <- VSURF(focClim[, climVars], focClim[, "PC1"], parallel = TRUE, ncores = 3, 
-                    ntree = 1e4)
+  vsurfPC1 <- VSURF(focClim[, climVars], focClim[, "PC1"], parallel = TRUE, 
+                    ncores = 3, ntree = 1e4)
 
   imp1 <- climVars[vsurfLat$varselect.pred]
   nImpLat <- length(imp1)
@@ -1316,7 +1316,8 @@ pdf(paste(pathFig, "/Figure_ClimVarImp.pdf", sep = ""),
        width = yLabWidth + panelWidth + 2 * panelGap, 
        height = heightA + heightB)
 par(mai = c(xLabHeight, yLabWidth, xLabHeight, 2 * panelGap), ann = F, yaxs = "i")
-layout(matrix(1:2, ncol = 1), widths = rep(1, 2), heights = lcm(2.54 * c(heightA, heightB)))
+layout(matrix(1:2, ncol = 1), widths = rep(1, 2), 
+       heights = lcm(2.54 * c(heightA, heightB)))
 
 # Panel A: Climate-Latitude
 plot(0, 0, type = "n", xlim = c(0, ceiling(vsurfLat$imp.mean.dec)[1]), 
@@ -1536,8 +1537,9 @@ dev.off()
 	     labels = bquote(italic(R)^2 == .(round(summary(fitBio15cva)$r.squared, 2))))
 
   # Panel C. bio15_cva_SA vs bio16_cva_SA
-  plot(focClim$bio16_cva_SA, focClim$bio15_cva_SA, xlim = c(0.25, 0.55), ylim = c(0.14, 0.24),
-       axes = F, frame.plot = T, type = "n", xlab = "", ylab = "")
+  plot(focClim$bio16_cva_SA, focClim$bio15_cva_SA, xlim = c(0.25, 0.55), 
+       ylim = c(0.14, 0.24), axes = F, frame.plot = T, type = "n", 
+       xlab = "", ylab = "")
   text(grconvertX(0.075, "npc", "user"), grconvertY(0.925, "npc", "user"),
        labels = "C", font = 2, cex = 2)
   title(xlab = "Precipitation of Wettest Quarter", cex.lab = 1.5)
@@ -1568,8 +1570,8 @@ dev.off()
 
   # Panel D. Latitude vs bio16_cva_SA
   plot(thinnedOccClimate$Latitude, thinnedOccClimate$bio16_cva_SA, 
-       xlim = c(32, 44), ylim = c(0.25, 0.55), axes = F, frame.plot = T, type = "n", 
-       xlab = "", ylab = "")
+       xlim = c(32, 44), ylim = c(0.25, 0.55), axes = F, frame.plot = T, 
+       type = "n", xlab = "", ylab = "")
   text(grconvertX(0.075, "npc", "user"), grconvertY(0.925, "npc", "user"),
        labels = "D", font = 2, cex = 2)
   title(xlab = "Latitude", cex.lab = 1.5)
@@ -1656,7 +1658,8 @@ close(tableS)
 
 ##### Figure of local versus neighborhood Climate-TraitPC1 and Climate-Latitude correlations #####
   
-  pdf(paste(pathFig, "/Figure_LocalvNeighCorr.pdf", sep = ""), w = 8, h = 4, useDingbats = F)
+  pdf(paste(pathFig, "/Figure_LocalvNeighCorr.pdf", sep = ""), w = 8, h = 4,
+      useDingbats = F)
   par(mai = c(1, 1, 0.2, 0.2), mfrow = c(1, 2))
 
   # Panel A. Local versus neighborhood Climate-TraitPC1 correlations
@@ -1670,21 +1673,24 @@ close(tableS)
     colnames(corTab) <- c("local", "neighborhood")
     corTab$type <- ifelse(grepl("_avg", rownames(corTab)), "avg", "cva")
 
-    plot(corTab[, "local"], corTab[, "neighborhood"], xlim = c(0, 1), ylim = c(0, 1),
-         xlab = "", ylab = "", type = "n", axes = F, frame.plot = T)
+    plot(corTab[, "local"], corTab[, "neighborhood"], xlim = c(0, 1), 
+         ylim = c(0, 1), xlab = "", ylab = "", type = "n", axes = F, frame.plot = T)
     abline(0, 1, lty = 2)
     axis(1, lwd = 0, lwd.ticks = 1)
     axis(2, lwd = 0, lwd.ticks = 1, las = 1)
-    title(xlab = expression(paste("local |", italic(r)[paste(climate-TraitPC1)], "|")),
-          ylab = expression(paste("neighborhood |", italic(r)[paste(climate-TraitPC1)], "|")),
+    title(xlab = expression(paste("local |", italic(r)[paste(climate-TraitPC1)], 
+                                  "|")),
+          ylab = expression(paste("neighborhood |", 
+                                  italic(r)[paste(climate-TraitPC1)], "|")),
           cex.lab = 1.5)
     points(corTab[, "local"], corTab[, "neighborhood"], pch = 21, col = "black",
            bg = ifelse(corTab$type == "avg", "black", "white"))
 
-    legend(1, 0, xjust = 1, yjust = 0, legend = c("Avg.", "Var."), pch = 21, col = "black", 
-           pt.bg = c("black", "white"))
+    legend(1, 0, xjust = 1, yjust = 0, legend = c("Avg.", "Var."), pch = 21, 
+           col = "black", pt.bg = c("black", "white"))
     text(0.975, 0.95, labels = "1:1", pos = 1)
-    text(0 + strwidth("A", cex = 2, font = 2) / 2, 1 - strheight("A", cex = 2, font = 2) / 2, 
+    text(0 + strwidth("A", cex = 2, font = 2) / 2, 1 - 
+           strheight("A", cex = 2, font = 2) / 2, 
          labels = "A", font = 2, cex = 2)
     
     # Is neighborhood greater than local |r|?  Paired t-test
@@ -1704,26 +1710,30 @@ close(tableS)
     r <- apply(thinnedOccClimate[, climVars], 2, cor, y = thinnedOccClimate$Latitude)
 
     # Matrix comparing correlation coefficients of local and neighborhood climate
-    corTab <- as.data.frame(cbind(r[!grepl("_SA", climVars)], r[grepl("_SA", climVars)]))
+    corTab <- as.data.frame(cbind(r[!grepl("_SA", climVars)], 
+                                  r[grepl("_SA", climVars)]))
     corTab <- abs(corTab)
     colnames(corTab) <- c("local", "neighborhood")
     corTab$type <- ifelse(grepl("_avg", rownames(corTab)), "avg", "cva")
 
-    plot(corTab[, "local"], corTab[, "neighborhood"], xlim = c(0, 1), ylim = c(0, 1),
-         xlab = "", ylab = "", type = "n", axes = F, frame.plot = T)
+    plot(corTab[, "local"], corTab[, "neighborhood"], xlim = c(0, 1), 
+         ylim = c(0, 1), xlab = "", ylab = "", type = "n", axes = F, frame.plot = T)
     abline(0, 1, lty = 2)
     axis(1, lwd = 0, lwd.ticks = 1)
     axis(2, lwd = 0, lwd.ticks = 1, las = 1)
-    title(xlab = expression(paste("local |", italic(r)[paste(climate-latitude)], "|")),
-          ylab = expression(paste("neighborhood |", italic(r)[paste(climate-latitude)], "|")),
+    title(xlab = expression(paste("local |", 
+                                  italic(r)[paste(climate-latitude)], "|")),
+          ylab = expression(paste("neighborhood |", 
+                                  italic(r)[paste(climate-latitude)], "|")),
           cex.lab = 1.5)
     points(corTab[, "local"], corTab[, "neighborhood"], pch = 21, col = "black",
            bg = ifelse(corTab$type == "avg", "black", "white"))
 
-    legend(1, 0, xjust = 1, yjust = 0, legend = c("Avg.", "Var."), pch = 21, col = "black", 
-           pt.bg = c("black", "white"))
+    legend(1, 0, xjust = 1, yjust = 0, legend = c("Avg.", "Var."), pch = 21, 
+           col = "black", pt.bg = c("black", "white"))
     text(0.975, 0.95, labels = "1:1", pos = 1)
-    text(0 + strwidth("B", cex = 2, font = 2) / 2, 1 - strheight("B", cex = 2, font = 2) / 2, 
+    text(0 + strwidth("B", cex = 2, font = 2) / 2, 1 - 
+           strheight("B", cex = 2, font = 2) / 2, 
          labels = "B", font = 2, cex = 2)
 
     # Is neighborhood greater than local |r|?  Paired t-test
@@ -1889,6 +1899,8 @@ We found evidence for one of two common signatures of local adaptation in the pe
 Evolutionary theory indicates that the shape of fitness tradeoffs, demography, and gene flow can constrain adaptation \citep{Levins_1968, Ronce_Kirkpatrick_2001, Lenormand_2002} and hence the type of variation maintained within species. Specifically, adaptive variation can be maintained by spatially varying selection if tradeoffs are not too strong, demography is symmetric, and/or maladaptive gene flow is low. Strong tradeoffs can prevent local adaptation in spatially variable environments because selection favors habitat specialists that track a specific habitat regardless of its frequency in the environment \citep{Levins_1968}. For example, a riparian specialist may experience similar selection in rivers of high rainfall regions and deserts, even though the habitat is much rarer in the latter. In \textit{E. cardinalis} we found substantial genetically based variation among populations along a phenotypic axis from fast to slow growth that varied over a large spatial scale (Fig.~\ref{fig:Fig_PC1vLat}). If this variation is adaptive, it suggests one of several possibilities to investigate in the future: the fitness tradeoff between low versus high latitude environments is not too strong nor swamped by demographic asymmetry or maladaptive gene flow. That is, alleles favoured at one latitude are not strongly selected against when they flow to another population, allowing locally adaptive genetic variation to be maintained by spatially heterogeneous selection. We also know from previous work that population size does not vary strongly with latitude (Angert, unpub. data). Gene flow appears to be high, but attenuates at broad spatial scales, especially between southern ($<35\degree$N) and northern portions of the range \citep{Paul_etal_2016}.  
 
 Nevertheless, local gene flow from similar environments may shape how selection varies with latitude. Theory predicts that populations will not be perfectly adapted to their immediate habitat when there is gene flow from surrounding populations with different optima \citep{Lenormand_2002}. With spatial heterogeneity and gene flow, traits will not covary perfectly with the local optimum \citep{Slatkin_1978, Paul_etal_2011, Hadfield_2016}, but should instead better match the average environment experienced by nearby populations connected through gene flow, which we refer to as the climatic neighborhood. Gene flow and spatial heterogeneity may therefore be important in maintaining genetic variation \citep{Yeaman_Jarvis_2006}. As this hypothesis predicts, climatic neighborhoods (62-km buffer around populations) correlated with traits and latitude of occurrences better than local climate (Fig.~\ref{fig:Fig_ClimVarImp}). We interpret this as suggestive evidence that gene flow between neighboring \textit{E. cardinalis} populations shapes selection -- populations are locally adapted to prevailing climate in their neighborhood, but perhaps not perfectly adapted to their local climate. This may not greatly constrain local adaptation because local and neighborhood climate values were generally similar in \textit{E. cardinalis} populations (Fig.~\ref{fig:Fig_LocalvNeighCorr}), at least at the resolution of ClimateWNA (90 m$^2$). Therefore, we would predict in reciprocal transplants that populations whose local climate is farther from their neighborhood average would be less well adapted than those close to their neighborhood average.
+
+An alternative, nonbiological, explanation for why neighborhood climate correlates better than local climate is that averaging climate over a wider area integrates out error in ClimateWNA values. ClimateWNA interpolates between weather stations using a fine-scale digital elevation model to accurately downscale climate data \citep{Wang_etal_2012}, but there is obviously some error. If the error were randomly distributed about the true climatic values, then averaging climate over a larger sample of points could give a more precise estimate, which might explain why traits and latitude correlate better with climatic neighbourhood. For this technical artefact to be important, the measurement error in local climate would have to be large relative to true variation in climate among locations within the climatic neighbourhoods. We do not know the relative magnitude of these factors, but future work should compare ClimateWNA-predicted local climate with actual plant-level measurements to estimate the magnitude of this error. 
 
 It is reasonable to predict that southern populations, which appear to experience more frequent drought years (see below), might have physiological adaptations to respond to drought stress to survive and grow in drier soil. We found little evidence for this type of drought tolerance; all populations responded to drought and temperature similarly (Table~\ref{table:Table_AnovaSummary}). Plants grew faster in the Hot treatment, but there was little effect of drought on growth. Rather, the effects of drought took longer to materialize but resulted in high mortality, especially in the Hot treatment. However, there was no differential mortality among populations in this treatment. Although our results indicate that this axis of the species niche may be constrained, plants have multiple ways to resist drought through both tolerance and escape \citep{Ludlow_1989, Kooyers_2015}. Next, we consider why drought tolerance may less important in local adaptation than a form of escape for this species.
 

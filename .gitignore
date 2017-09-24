@@ -1,21 +1,27 @@
 # Ignore everything except what is in ms folder
-ms/Cover*
-Data/*
 Analysis/*
+Data/*
 demography hobo data/*
+dryad/*
 Extraneous/*
 Field Data 2014/*
 GBS/*
+jeb/*
 Methods/*
+ms/*.docx
+ms/Cover*
 ms/Data/UpdateClimateFiles.R
-#ms/Comments/*
 ms/Revision1
 ms/Revision2
+ms/Revision3
+ms/Rplots.pdf
 ms/extra.txt
 .bst
 .sty
 .pages
-ms/*.docx
+dryad.tar.gz
+jeb.tar.gz
+make-tarballs.r
 
 # GIS files
 *.asc
