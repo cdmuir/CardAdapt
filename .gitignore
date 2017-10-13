@@ -1,4 +1,7 @@
 # Ignore everything except what is in ms folder
+*Rproj*
+PrintLicense*
+Untitled.pdf
 Analysis/*
 Data/*
 demography hobo data/*
