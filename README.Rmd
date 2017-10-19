@@ -14,5 +14,3 @@ More information about the study is available in a preprint which you can find o
 ## Generating manuscript
 
 Simply open `ms/ms.Rnw` and compile using RStudio.
-
-[![CC BY](http://i.creativecommons.org/l/by/3.0/88x31.png)](http://creativecommons.org/licenses/by/3.0/)
