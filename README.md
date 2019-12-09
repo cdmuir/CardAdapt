@@ -1,7 +1,7 @@
 # card-cline
 [Grow with the flow: a latitudinal cline in physiology is associated with more variable precipitation in *Erythranthe cardinalis*](https://dx.doi.org/10.1111/jeb.13184). *Journal of Evolutionary Biology*.
 
-This project was developed by [Chris Muir](www.chrisdmuir.com) and [Amy Angert](http://angert.botany.ubc.ca/) .
+This project was developed by [Chris Muir](cdmuir.netlify.com) and [Amy Angert](http://angert.botany.ubc.ca/) .
 
 More information about the study is available in a preprint which you can find on [biorxiv](https://doi.org/10.1101/080952) or on [github](https://github.com/cdmuir/card-cline/blob/master/ms/ms.pdf).
 
